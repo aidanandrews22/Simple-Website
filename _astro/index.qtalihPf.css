@@ -1,0 +1,861 @@
+html {
+    font-family: Menlo,Monaco,Lucida Console,Courier New,Courier,monospace;
+    background: #fff;
+    letter-spacing: -.025rem
+}
+
+/* body,figure {
+    margin: 0;
+    padding: 0
+} */
+
+body, figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+header, main, footer {
+    width: 100%;
+}
+
+a {
+    text-decoration: none
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+h1,h2,h3,h4 {
+    margin: 0;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue,sans-serif
+}
+
+p {
+    color: #666;
+    font-size: .9rem;
+    line-height: 1.5;
+    margin: 0;
+    text-wrap: pretty
+}
+
+.print {
+    display: none!important
+}
+
+@media print {
+    .no-print {
+        display: none!important
+    }
+
+    .print {
+        display: block!important
+    }
+
+    astro-dev-toolbar {
+        display: none!important
+    }
+
+    article {
+        break-inside: avoid
+    }
+}
+
+section[data-astro-cid-sh445jdo] {
+    max-width: 700px;
+    margin: 0 auto 48px
+}
+
+h2[data-astro-cid-sh445jdo] {
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: 1.5rem
+}
+
+@media (width <= 700px) {
+    section[data-astro-cid-sh445jdo] {
+        margin-bottom: 38px
+    }
+}
+
+ul[data-astro-cid-qtcj2w7e] {
+    display: flex;
+    flex-direction: column;
+    gap: 32px
+}
+
+article[data-astro-cid-qtcj2w7e] h3[data-astro-cid-qtcj2w7e] {
+    font-weight: 500;
+    color: #111
+}
+
+
+header[data-astro-cid-qtcj2w7e] {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px
+}
+
+time[data-astro-cid-qtcj2w7e] {
+    color: #555;
+    font-size: .85rem;
+    min-width: 102px
+}
+
+@media (width <= 700px) {
+    time[data-astro-cid-qtcj2w7e] {
+        text-align: right
+    }
+}
+
+ul[data-astro-cid-ghubstuj] {
+    display: flex;
+    flex-direction: column;
+    gap: 32px
+}
+
+article[data-astro-cid-ghubstuj] h3[data-astro-cid-ghubstuj] {
+    font-weight: 500;
+    color: #111
+}
+
+article[data-astro-cid-ghubstuj] a[data-astro-cid-ghubstuj] {
+    color: #111
+}
+
+article[data-astro-cid-ghubstuj] a[data-astro-cid-ghubstuj]:hover {
+    text-decoration: underline
+}
+
+article[data-astro-cid-ghubstuj] h4[data-astro-cid-ghubstuj] {
+    color: #222;
+    font-weight: 400
+}
+
+header[data-astro-cid-ghubstuj] {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px
+}
+
+time[data-astro-cid-ghubstuj] {
+    color: #555;
+    font-size: .85rem;
+    min-width: 102px;
+    cursor: default
+}
+
+[data-astro-cid-ghubstuj][data-title]:hover:after {
+    opacity: 1;
+    transition: all .1s ease-in-out .5s;
+    visibility: visible
+}
+
+[data-astro-cid-ghubstuj][data-title]:after {
+    content: attr(data-title);
+    background-color: #333;
+    color: #fff;
+    font-size: .75rem;
+    font-family: Menlo,Monaco,Lucida Console,Courier New,monospace;
+    position: absolute;
+    padding: .2rem .5rem;
+    bottom: -1.4rem;
+    left: 50%;
+    white-space: nowrap;
+    box-shadow: 1px 1px 1px #222;
+    opacity: 0;
+    border: 1px solid #111111;
+    z-index: 99999;
+    visibility: hidden;
+    border-radius: 6px
+}
+
+[data-astro-cid-ghubstuj][data-title] {
+    position: relative
+}
+
+@media (width <= 700px) {
+    time[data-astro-cid-ghubstuj] {
+        text-align: right
+    }
+}
+
+.container[data-astro-cid-anhloy43] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    margin: auto;
+}
+
+.info[data-astro-cid-anhloy43] {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding-right: 32px
+}
+
+h1[data-astro-cid-anhloy43] {
+    font-size: 2rem
+}
+
+h2[data-astro-cid-anhloy43] {
+    color: #444;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-wrap: balance
+}
+
+img[data-astro-cid-anhloy43] {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 128px;
+    border-radius: 16px
+}
+
+/* img[bookimg] a:hover {
+    color: #0056b3;
+} */
+
+li[book] {
+    padding-bottom: 5%;
+}
+
+img[bookimg] {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 125px;
+    border-radius: 16px;
+    position: relative;
+}
+
+h3[book] {
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+    color: #4183C4;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h3[subject] {
+    text-decoration: double;
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.book-info {
+    padding-bottom: 1%;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin: auto;
+}
+
+.book {
+    padding-bottom: 1%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    margin: auto;
+}
+
+span[data-astro-cid-anhloy43] {
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .85rem;
+    letter-spacing: -.05rem
+}
+
+footer[data-astro-cid-anhloy43] {
+    color: #555;
+    font-size: .65rem;
+    display: flex;
+    gap: 4px;
+    margin-top: 8px
+}
+
+footer[data-astro-cid-anhloy43] a[data-astro-cid-anhloy43] {
+    color: #777;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    padding: 4px;
+    height: 32px;
+    width: 32px;
+    border-radius: 6px;
+    transition: all .3s ease
+}
+
+footer[data-astro-cid-anhloy43] a[data-astro-cid-anhloy43]:hover {
+    background: #eee;
+    border: 1px solid #ddd
+}
+
+@media (width <= 700px) {
+    .container[data-astro-cid-anhloy43] {
+        flex-direction: column-reverse
+    }
+
+    .info[data-astro-cid-anhloy43] {
+        justify-content: center;
+        align-items: center;
+        padding-right: 0;
+        text-align: center
+    }
+
+    figure[data-astro-cid-anhloy43] {
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+
+    h2[data-astro-cid-anhloy43] {
+        text-wrap: balance
+    }
+
+    figure[data-astro-cid-anhloy43] {
+        margin: 0 auto
+    }
+}
+
+ul[data-astro-cid-44zkpkd5] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 1rem;
+    margin-inline:-16px}
+
+article[data-astro-cid-44zkpkd5] {
+    border-radius: 8px;
+    border: 1px solid #f2f2f2;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    height: 100%
+}
+
+article[data-astro-cid-44zkpkd5] header[data-astro-cid-44zkpkd5] {
+    flex: 1
+}
+
+article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] {
+    margin-bottom: 4px
+}
+
+article[data-astro-cid-44zkpkd5] a[data-astro-cid-44zkpkd5] {
+    color: #111
+}
+
+article[data-astro-cid-44zkpkd5] a[data-astro-cid-44zkpkd5]:hover {
+    text-decoration: underline
+}
+
+article[data-astro-cid-44zkpkd5] p[data-astro-cid-44zkpkd5] {
+    font-size: .75rem;
+    line-height: 1.2rem;
+    margin-bottom: 4px
+}
+
+article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] {
+    color: #00bc2f;
+    animation-name: flicker;
+    animation-duration: 3s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite
+}
+
+footer[data-astro-cid-44zkpkd5] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: .6rem
+}
+
+footer[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] {
+    border-radius: 6px;
+    background: #eee;
+    color: #444;
+    font-size: .6rem;
+    font-weight: 500;
+    padding: .2rem .6rem
+}
+
+.github-code-link[data-astro-cid-44zkpkd5] {
+    margin-left: 5px
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1
+    }
+
+    50% {
+        opacity: .25
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@media (width <= 700px) {
+    ul[data-astro-cid-44zkpkd5] {
+        margin-inline: 0px
+    }
+
+    article[data-astro-cid-44zkpkd5] {
+        border: none;
+        box-shadow: 0 1px 1px #f2f2f2;
+        padding: 0 0 16px
+    }
+}
+
+@media print {
+    article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] {
+        animation-name: none
+    }
+}
+
+ul[data-astro-cid-sye7xtqh] {
+    display: inline-flex;
+    gap: 8px;
+    flex-wrap: wrap
+}
+
+li[data-astro-cid-sye7xtqh] {
+    align-items: center;
+    background: #eee;
+    border-radius: 6px;
+    color: #000;
+    display: flex;
+    font-size: .8rem;
+    font-weight: 500;
+    gap: 4px;
+    padding: .2rem .6rem
+}
+
+*:where(:not(html,iframe,canvas,img,svg,video,audio):not(svg *,symbol *)) {
+    all: unset;
+    display: revert
+}
+
+*,*:before,*:after {
+    box-sizing: border-box
+}
+
+html {
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none
+}
+
+a,button {
+    cursor: revert
+}
+
+ol,ul,menu,summary {
+    list-style: none
+}
+
+img {
+    max-inline-size: 100%;
+    max-block-size: 100%
+}
+
+table {
+    border-collapse: collapse
+}
+
+input,textarea {
+    -webkit-user-select: auto
+}
+
+textarea {
+    white-space: revert
+}
+
+meter {
+    -webkit-appearance: revert;
+    appearance: revert
+}
+
+:where(pre) {
+    all: revert;
+    box-sizing: border-box
+}
+
+::placeholder {
+    color: unset
+}
+
+:where([hidden]) {
+    display: none
+}
+
+:where([contenteditable]:not([contenteditable=false])) {
+    -moz-user-modify: read-write;
+    -webkit-user-modify: read-write;
+    overflow-wrap: break-word;
+    -webkit-line-break: after-white-space;
+    -webkit-user-select: auto
+}
+
+:where([draggable=true]) {
+    -webkit-user-drag: element
+}
+
+:where(dialog:modal) {
+    all: revert;
+    box-sizing: border-box
+}
+
+::-webkit-details-marker {
+    display: none
+}
+
+#hotkeypad {
+    --hotkeypad-bg-kbd: #f9fafb;
+    --hotkeypad-bg-backdrop: #fff;
+    --hotkeypad-bg-container: #fff;
+    --hotkeypad-bg-item-hover: #f3f4f6;
+    --hotkeypad-border-container: #d1d5db;
+    --hotkeypad-border-container-hover: #9ca3af;
+    --hotkeypad-fg-muted: #4b5563;
+    --hotkeypad-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s,visibility .2s
+}
+
+#hotkeypad.dark {
+    --hotkeypad-bg-kbd: #1f2937;
+    --hotkeypad-bg-backdrop: #000;
+    --hotkeypad-bg-container: #1f2937;
+    --hotkeypad-bg-item-hover: #161e2e;
+    --hotkeypad-border-container: #374151;
+    --hotkeypad-border-container-hover: #9ca3af;
+    --hotkeypad-fg-muted: #d1d5db
+}
+
+#hotkeypad [data-backdrop] {
+    position: fixed;
+    inset: 0;
+    background-color: var(--hotkeypad-bg-backdrop);
+    opacity: 0;
+    z-index: 10
+}
+
+#hotkeypad [data-container] {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    max-width: 640px;
+    background: var(--hotkeypad-bg-container);
+    border: 1px solid var(--hotkeypad-border-container);
+    border-radius: .5rem;
+    filter: drop-shadow(0 35px 35px rgb(0 0 0 / .3));
+    z-index: 20
+}
+
+#hotkeypad [data-container] header {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1.25rem
+}
+
+#hotkeypad [data-container] header span {
+    margin-left: -2px;
+    padding-inline:6px;width: fit-content;
+    width: -moz-fit-content;
+    color: var(--hotkeypad-fg-muted);
+    background-color: var(--hotkeypad-bg-item-hover);
+    border-radius: .25rem;
+    font-size: .875rem
+}
+
+#hotkeypad [data-container] header input {
+    width: 100%;
+    color: var(--hotkeypad-fg-muted);
+    font-size: 1.25rem
+}
+
+#hotkeypad [data-container] header input::placeholder {
+    color: var(--hotkeypad-fg-muted);
+    opacity: .75
+}
+
+#hotkeypad [data-container] header input:focus {
+    outline: none
+}
+
+#hotkeypad [data-sections] {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .5rem 0;
+    border-block:1px solid var(--hotkeypad-border-container)}
+
+#hotkeypad [data-section] {
+    display: flex;
+    flex-direction: column
+}
+
+#hotkeypad [data-section] h4 {
+    padding-left: 1.25rem;
+    color: var(--hotkeypad-fg-muted);
+    font-size: .875rem;
+    text-transform: capitalize
+}
+
+#hotkeypad [data-hotkey] {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .75rem 1.25rem;
+    cursor: pointer;
+    transition: background-color .15s
+}
+
+#hotkeypad [data-hotkey][data-active] {
+    background-color: var(--hotkeypad-bg-item-hover);
+    outline: none
+}
+
+#hotkeypad [data-hotkey]:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color .15s
+}
+
+#hotkeypad [data-active]:before {
+    background-color: var(--hotkeypad-fg-muted)
+}
+
+#hotkeypad [data-hotkey] span {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--hotkeypad-fg-muted)
+}
+
+#hotkeypad [data-hotkey] span:has(img) img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain
+}
+
+#hotkeypad [data-hotkey] p {
+    flex-grow: 1;
+    color: var(--hotkeypad-fg-muted);
+    text-transform: capitalize
+}
+
+#hotkeypad [data-hotkey] div {
+    display: flex;
+    gap: .25rem
+}
+
+#hotkeypad [data-hotkey] div span {
+    padding-block:2px;padding-inline:6px;width: fit-content;
+    width: -moz-fit-content;
+    color: var(--hotkeypad-fg-muted);
+    background-color: var(--hotkeypad-bg-item-hover);
+    border: 1px solid var(--hotkeypad-border-container);
+    border-radius: .25rem;
+    font-size: .875rem;
+    font-family: var(--hotkeypad-font-mono);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    text-transform: capitalize
+}
+
+#hotkeypad [data-hotkey]:hover div span,#hotkeypad [data-active] div span {
+    background-color: var(--hotkeypad-border-container);
+    border-color: var(--hotkeypad-border-container-hover)
+}
+
+#hotkeypad [data-container] footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .4rem .8rem;
+    padding: .75rem 1.25rem
+}
+
+#hotkeypad [data-container] footer p {
+    display: flex;
+    gap: .25rem;
+    color: var(--hotkeypad-fg-muted);
+    font-size: .875rem
+}
+
+#hotkeypad [data-container] footer kbd {
+    padding-inline:6px;color: var(--hotkeypad-fg-muted);
+    background-color: var(--hotkeypad-bg-kbd);
+    border: 1px solid var(--hotkeypad-border-container-hover);
+    border-radius: .25rem;
+    font-size: .875rem;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none
+}
+
+@media screen and (min-width: 648px) {
+    #hotkeypad [data-container] footer {
+        justify-content:space-between
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@media (min-width: 601px) {
+    #normal-footer[data-astro-cid-5uazswxx] {
+        display:block
+    }
+
+    #footer-button[data-astro-cid-5uazswxx] {
+        display: none
+    }
+}
+
+@media (max-width: 600px) {
+    #normal-footer[data-astro-cid-5uazswxx] {
+        display:none
+    }
+
+    #footer-button[data-astro-cid-5uazswxx] {
+        background: #fff;
+        position: fixed;
+        border: 1px solid #eee;
+        right: 10px;
+        bottom: 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer
+    }
+}
+
+footer[data-astro-cid-5uazswxx] {
+    background: #fdfdfd;
+    border-top: 1px solid #eee;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-block:8px;text-align: center;
+    font-size: .85rem;
+    view-timeline-name: --revealing;
+    view-timeline-axis: block;
+    animation: linear .3s fadeIn;
+    animation-timeline: --revealing;
+    animation-range: entry 100% cover 10%
+}
+
+kbd[data-astro-cid-5uazswxx] {
+    background: #eee;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 12px
+}
+
+main[data-astro-cid-j7pv25f6] {
+    padding: 4rem;
+    margin: auto;
+    width: 100%
+}
+
+@media (width <= 700px) {
+    main[data-astro-cid-j7pv25f6] {
+        padding: 2rem
+    }
+}
+
+nav {
+    width: 100%;  
+    text-align: center;  
+    margin-bottom: 2%;
+}
+
+nav a {
+    margin: 0 15px;  
+    font-size: 1.1rem;  
+    color: #333;  
+    text-decoration: none;  
+}
+
+nav a:hover {
+    color: #0056b3;
+}
+
+nav a.active {
+    border-bottom: 2px solid #333;
+    font-weight: bold;
+}
+
+
+@media (max-width: 700px) {
+    nav {
+        padding: 10px 0;  
+    }
+
+    nav a {
+        margin: 0 10px;  
+    }
+}
+
+header[top] {
+    padding-top: 5%;
+}
+
+/* @media (max-width: 600px) {
+    header[top] {
+        padding-top: 10px;
+    } */
+/* } */
+
+ul[foot] {
+    padding-bottom: 10%;
+    display: inline-flex;
+    gap: 8px;
+    flex-wrap: wrap
+}
