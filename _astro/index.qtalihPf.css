@@ -240,6 +240,12 @@ img[bookimg] {
     position: relative;
 }
 
+h2[book] {
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: 1.5rem
+}
+
 h3[book] {
     font-weight: 500;
     display: flex;
@@ -255,6 +261,7 @@ h3[subject] {
     text-decoration: double;
     text-decoration: underline;
     font-weight: 700;
+    padding-bottom: 2%;
 }
 
 .book-info {
