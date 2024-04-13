@@ -442,10 +442,18 @@ img[data-astro-cid-44zkpkd5] {
         box-shadow: 0 1px 1px #f2f2f2;
         padding: 0 0 16px
     }
+    article[class] {
+        border: none;
+        box-shadow: 0 1px 1px #f2f2f2;
+        padding: 0 0 16px
+    }
 }
 
 @media print {
     article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] li[projSkills] {
+        animation-name: none
+    }
+    article[class] {
         animation-name: none
     }
 }
@@ -891,6 +899,10 @@ a[pres] {
     font-size: .75rem;
 }
 
+/* a[pres]:hover {
+    text-decoration: underline
+} */
+
 li[projSkills] {
     border-radius: 6px;
     background: #eee;
@@ -898,5 +910,55 @@ li[projSkills] {
     font-size: .6rem;
     font-weight: 500;
     padding: .2rem .6rem;
+    text-align: center;
+}
+
+a[proj] {
+    color: #111
+}
+
+a[proj]:hover {
+    color: #4183C4;
+    /* text-decoration: underline */
+}
+
+article[class] {
+    border-radius: 8px;
+    border: 1px solid #f2f2f2;
+    gap: 16px;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    height: 100%
+}
+
+article[class] header[class] {
+    flex: 1
+}
+
+article[class] h3[class] {
+    margin-bottom: 4px
+}
+
+article[class] a[class] {
+    color: #111
+}
+
+article[class] a[pres] a[class]:hover {
+    text-decoration: underline
+}
+
+article[class] p[class] {
+    font-size: .75rem;
+    line-height: 1.2rem;
+    margin-bottom: 4px
+}
+
+article[class] h3[class] span[class] {
+    color: #00bc2f;
+    animation-name: flicker;
+    animation-duration: 3s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
     text-align: center;
 }
