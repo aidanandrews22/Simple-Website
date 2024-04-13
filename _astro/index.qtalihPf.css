@@ -67,12 +67,12 @@ p {
     }
 }
 
-section[data-astro-cid-sh445jdo] {
+section[main] {
     max-width: 700px;
     margin: 0 auto 48px
 }
 
-h2[data-astro-cid-sh445jdo] {
+h2[main] {
     margin-bottom: 8px;
     font-weight: 700;
     line-height: 1.5;
@@ -80,87 +80,87 @@ h2[data-astro-cid-sh445jdo] {
 }
 
 @media (width <= 700px) {
-    section[data-astro-cid-sh445jdo] {
+    section[main] {
         margin-bottom: 38px
     }
 }
 
-ul[data-astro-cid-qtcj2w7e] {
+ul[education] {
     display: flex;
     flex-direction: column;
     gap: 32px
 }
 
-article[data-astro-cid-qtcj2w7e] h3[data-astro-cid-qtcj2w7e] {
+article[education] h3[education] {
     font-weight: 500;
     color: #111
 }
 
 
-header[data-astro-cid-qtcj2w7e] {
+header[education] {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 4px
 }
 
-time[data-astro-cid-qtcj2w7e] {
+time[education] {
     color: #555;
     font-size: .85rem;
     min-width: 102px
 }
 
 @media (width <= 700px) {
-    time[data-astro-cid-qtcj2w7e] {
+    time[education] {
         text-align: right
     }
 }
 
-ul[data-astro-cid-ghubstuj] {
+ul[work] {
     display: flex;
     flex-direction: column;
     gap: 32px
 }
 
-article[data-astro-cid-ghubstuj] h3[data-astro-cid-ghubstuj] {
+article[work] h3[work] {
     font-weight: 500;
     color: #111
 }
 
-article[data-astro-cid-ghubstuj] a[data-astro-cid-ghubstuj] {
+article[work] a[work] {
     color: #111
 }
 
-article[data-astro-cid-ghubstuj] a[data-astro-cid-ghubstuj]:hover {
+article[work] a[work]:hover {
     text-decoration: underline
 }
 
-article[data-astro-cid-ghubstuj] h4[data-astro-cid-ghubstuj] {
+article[work] h4[work] {
     color: #222;
     font-weight: 400
 }
 
-header[data-astro-cid-ghubstuj] {
+header[work] {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 4px
 }
 
-time[data-astro-cid-ghubstuj] {
+time[work] {
     color: #555;
     font-size: .85rem;
     min-width: 102px;
     cursor: default
 }
 
-[data-astro-cid-ghubstuj][data-title]:hover:after {
+[work][data-title]:hover:after {
     opacity: 1;
     transition: all .1s ease-in-out .5s;
     visibility: visible
 }
 
-[data-astro-cid-ghubstuj][data-title]:after {
+[work][data-title]:after {
     content: attr(data-title);
     background-color: #333;
     color: #fff;
@@ -179,17 +179,17 @@ time[data-astro-cid-ghubstuj] {
     border-radius: 6px
 }
 
-[data-astro-cid-ghubstuj][data-title] {
+[work][data-title] {
     position: relative
 }
 
 @media (width <= 700px) {
-    time[data-astro-cid-ghubstuj] {
+    time[work] {
         text-align: right
     }
 }
 
-.container[data-astro-cid-anhloy43] {
+.container[header] {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -199,25 +199,25 @@ time[data-astro-cid-ghubstuj] {
     margin: auto;
 }
 
-.info[data-astro-cid-anhloy43] {
+.info[header] {
     display: flex;
     flex-direction: column;
     gap: .5rem;
     padding-right: 32px
 }
 
-h1[data-astro-cid-anhloy43] {
+h1[header] {
     font-size: 2rem
 }
 
-h2[data-astro-cid-anhloy43] {
+h2[header] {
     color: #444;
     font-weight: 500;
     font-size: 1.1rem;
     text-wrap: balance
 }
 
-img[data-astro-cid-anhloy43] {
+img[header] {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     width: 128px;
@@ -284,7 +284,7 @@ h3[subject] {
     margin: auto;
 }
 
-span[data-astro-cid-anhloy43] {
+span[header] {
     color: #666;
     display: flex;
     align-items: center;
@@ -293,7 +293,7 @@ span[data-astro-cid-anhloy43] {
     letter-spacing: -.05rem
 }
 
-footer[data-astro-cid-anhloy43] {
+footer[header] {
     color: #555;
     font-size: .65rem;
     display: flex;
@@ -301,7 +301,7 @@ footer[data-astro-cid-anhloy43] {
     margin-top: 8px
 }
 
-footer[data-astro-cid-anhloy43] a[data-astro-cid-anhloy43] {
+footer[header] a[header] {
     color: #777;
     display: inline-flex;
     align-items: center;
@@ -314,45 +314,45 @@ footer[data-astro-cid-anhloy43] a[data-astro-cid-anhloy43] {
     transition: all .3s ease
 }
 
-footer[data-astro-cid-anhloy43] a[data-astro-cid-anhloy43]:hover {
+footer[header] a[header]:hover {
     background: #eee;
     border: 1px solid #ddd
 }
 
 @media (width <= 700px) {
-    .container[data-astro-cid-anhloy43] {
+    .container[header] {
         flex-direction: column-reverse
     }
 
-    .info[data-astro-cid-anhloy43] {
+    .info[header] {
         justify-content: center;
         align-items: center;
         padding-right: 0;
         text-align: center
     }
 
-    figure[data-astro-cid-anhloy43] {
+    figure[header] {
         display: flex;
         justify-content: center;
         align-items: center
     }
 
-    h2[data-astro-cid-anhloy43] {
+    h2[header] {
         text-wrap: balance
     }
 
-    figure[data-astro-cid-anhloy43] {
+    figure[header] {
         margin: 0 auto
     }
 }
 
-ul[data-astro-cid-44zkpkd5] {
+ul[project] {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
     gap: 1rem;
     margin-inline:-16px}
 
-article[data-astro-cid-44zkpkd5] {
+article[project] {
     border-radius: 8px;
     border: 1px solid #f2f2f2;
     gap: 16px;
@@ -362,29 +362,29 @@ article[data-astro-cid-44zkpkd5] {
     height: 100%
 }
 
-article[data-astro-cid-44zkpkd5] header[data-astro-cid-44zkpkd5] {
+article[project] header[project] {
     flex: 1
 }
 
-article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] {
+article[project] h3[project] {
     margin-bottom: 4px
 }
 
-article[data-astro-cid-44zkpkd5] a[data-astro-cid-44zkpkd5] {
+article[project] a[project] {
     color: #111
 }
 
-article[data-astro-cid-44zkpkd5] a[pres] a[data-astro-cid-44zkpkd5]:hover {
+article[project] a[pres] a[project]:hover {
     text-decoration: underline
 }
 
-article[data-astro-cid-44zkpkd5] p[data-astro-cid-44zkpkd5] {
+article[project] p[project] {
     font-size: .75rem;
     line-height: 1.2rem;
     margin-bottom: 4px
 }
 
-article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] {
+article[project] h3[project] span[project] {
     color: #00bc2f;
     animation-name: flicker;
     animation-duration: 3s;
@@ -393,14 +393,14 @@ article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] span[data-astro-cid
     text-align: center;
 }
 
-footer[data-astro-cid-44zkpkd5] {
+footer[project] {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
     font-size: .6rem
 }
 
-footer[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] {
+footer[project] span[project] {
     border-radius: 6px;
     background: #eee;
     color: #444;
@@ -410,11 +410,11 @@ footer[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] {
     text-align: center;
 }
 
-img[data-astro-cid-44zkpkd5] {
+img[project] {
     float: inline-start;
 }
 
-.github-code-link[data-astro-cid-44zkpkd5] {
+.github-code-link[project] {
     margin-left: 5px
 }
 
@@ -433,11 +433,11 @@ img[data-astro-cid-44zkpkd5] {
 }
 
 @media (width <= 700px) {
-    ul[data-astro-cid-44zkpkd5] {
+    ul[project] {
         margin-inline: 0px
     }
 
-    article[data-astro-cid-44zkpkd5] {
+    article[project] {
         border: none;
         box-shadow: 0 1px 1px #f2f2f2;
         padding: 0 0 16px
@@ -450,7 +450,7 @@ img[data-astro-cid-44zkpkd5] {
 }
 
 @media print {
-    article[data-astro-cid-44zkpkd5] h3[data-astro-cid-44zkpkd5] span[data-astro-cid-44zkpkd5] li[projSkills] {
+    article[project] h3[project] span[project] li[projSkills] {
         animation-name: none
     }
     article[class] {
@@ -458,13 +458,13 @@ img[data-astro-cid-44zkpkd5] {
     }
 }
 
-ul[data-astro-cid-sye7xtqh] {
+ul[skills] {
     display: inline-flex;
     gap: 8px;
     flex-wrap: wrap
 }
 
-li[data-astro-cid-sye7xtqh] {
+li[skills] {
     align-items: center;
     background: #eee;
     border-radius: 6px;
@@ -767,21 +767,21 @@ meter {
 }
 
 @media (min-width: 601px) {
-    #normal-footer[data-astro-cid-5uazswxx] {
+    #normal-footer[footer] {
         display:block
     }
 
-    #footer-button[data-astro-cid-5uazswxx] {
+    #footer-button[footer] {
         display: none
     }
 }
 
 @media (max-width: 600px) {
-    #normal-footer[data-astro-cid-5uazswxx] {
+    #normal-footer[footer] {
         display:none
     }
 
-    #footer-button[data-astro-cid-5uazswxx] {
+    #footer-button[footer] {
         background: #fff;
         position: fixed;
         border: 1px solid #eee;
@@ -797,36 +797,37 @@ meter {
     }
 }
 
-footer[data-astro-cid-5uazswxx] {
+footer[footer] {
     background: #fdfdfd;
     border-top: 1px solid #eee;
     position: fixed;
     bottom: 0;
     width: 100%;
-    padding-block:8px;text-align: center;
-    font-size: .85rem;
+    padding-block:8px;
+    text-align: center;
+    font-size: 1rem;
     view-timeline-name: --revealing;
     view-timeline-axis: block;
     animation: linear .3s fadeIn;
     animation-timeline: --revealing;
-    animation-range: entry 100% cover 10%
+    animation-range: entry 100% cover 10%;
 }
 
-kbd[data-astro-cid-5uazswxx] {
+kbd[footer] {
     background: #eee;
     border-radius: 4px;
     padding: 2px 4px;
     font-size: 12px
 }
 
-main[data-astro-cid-j7pv25f6] {
+main[tmp] {
     padding: 4rem;
     margin: auto;
     width: 100%
 }
 
 @media (width <= 700px) {
-    main[data-astro-cid-j7pv25f6] {
+    main[tmp] {
         padding: 2rem
     }
 }
@@ -919,6 +920,7 @@ a[proj] {
 
 a[proj]:hover {
     color: #4183C4;
+    cursor: pointer;
     /* text-decoration: underline */
 }
 
@@ -927,13 +929,32 @@ article[class] {
     border: 1px solid #f2f2f2;
     gap: 16px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 16px;
+    gap: 16px;
     height: 100%
 }
 
-article[class] header[class] {
-    flex: 1
+header[class] {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: content;
+    position: relative;
+}
+
+header[class]::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0; 
+    width: 1px;
+    background-color: #ccc;
+    margin-left: -4%;
+}
+
+header[class]:first-child::before {
+    content: none;
 }
 
 article[class] h3[class] {
@@ -961,4 +982,182 @@ article[class] h3[class] span[class] {
     animation-timing-function: ease-in;
     animation-iteration-count: infinite;
     text-align: center;
+    flex: 1;
 }
+
+footer[class] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: .6rem;
+    width: 100%;
+}
+
+footer[class] span[class] {
+    border-radius: 6px;
+    background: #eee;
+    color: #444;
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .2rem .6rem;
+    text-align: center;
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16px;
+}
+
+a[alt] {
+    color: #4183C4;
+}
+
+footer[tran] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: .6rem;
+}
+
+footer[tran] span[tran] {
+    border-radius: 6px;
+    background: #eee;
+    color: #444;
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .2rem .6rem;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+footer[tran] span[tran] a.transcriptLink {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+footer[tran] span[tran] a.transcriptLink:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    background-color: #eee;
+}
+
+footer[tran] span[tran] a.transcriptLink.active {
+    transform: scale(1.15);
+    background-color: #eee;
+    color: #444;
+}
+
+h2[title] {
+    font-weight: bolder;
+    font-size: xx-large;
+    text-decoration: underline;
+}
+
+a[blog] {
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1.5;
+    font-size: 1.5rem;
+}
+
+#post-title {
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1.5;
+    font-size: 1.5rem;
+}
+
+a[blog]:hover {
+    color: #4183C4;
+}
+
+p[blog] {
+    font-style: italic;
+    font-size: large;
+}
+
+hr {
+    display: block;
+    unicode-bidi: isolate;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 1px;
+}
+#blog-categories nav a {
+    margin-right: 10px;
+    color: #007BFF;
+    cursor: pointer;
+}
+
+p[post] {
+    text-align: left;
+    font-size: medium;
+}
+.post {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.post {
+    color: #333;
+}
+
+.post a[post] {
+    font-size: 24px;
+    color: #333;
+}
+
+.post a[read] {
+    color: #4183C4;
+    font-size: .75rem;
+}
+
+.post a[read]:hover {
+    text-decoration: underline
+}
+
+.post a[post]:hover {
+    color: #007BFF;
+    /* text-decoration: underline; */
+}
+
+
+.date {
+    font-size: 14px;
+    color: #667;
+    margin-bottom: 10px;
+}
+
+.entry p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.entry em {
+    font-style: italic;
+    color: #000;
+    font-size: large;
+}
+
+body[main] {
+    text-align: center;
+    color: #000;
+}
+
+button[main] {
+    color: #4183C4;
+    cursor: pointer;
+}
+
