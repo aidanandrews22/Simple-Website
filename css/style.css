@@ -54,7 +54,7 @@ h1,h2,h3,h4 {
 
 p {
     color: #666;
-    font-size: .9rem;
+    font-size: medium;
     line-height: 1.5;
     margin: 0;
     text-wrap: pretty
@@ -91,7 +91,7 @@ h2[main] {
     margin-bottom: 8px;
     font-weight: 700;
     line-height: 1.5;
-    font-size: 1.5rem
+    font-size: x-large;
 }
 
 @media (width <= 700px) {
@@ -121,7 +121,7 @@ header[education] {
 
 time[education] {
     color: #555;
-    font-size: .85rem;
+    font-size: medium;
     min-width: 102px
 }
 
@@ -164,7 +164,7 @@ header[work] {
 
 time[work] {
     color: #555;
-    font-size: .85rem;
+    font-size: medium;
     min-width: 102px;
     cursor: default
 }
@@ -179,7 +179,7 @@ time[work] {
     content: attr(data-title);
     background-color: #333;
     color: #fff;
-    font-size: .75rem;
+    font-size: medium;
     font-family: Menlo,Monaco,Lucida Console,Courier New,monospace;
     position: absolute;
     padding: .2rem .5rem;
@@ -222,13 +222,13 @@ time[work] {
 }
 
 h1[header] {
-    font-size: 2rem
+    font-size: xx-large;
 }
 
 h2[header] {
     color: #444;
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: large;
     text-wrap: balance
 }
 
@@ -254,7 +254,7 @@ img[bookimg] {
 h2[book] {
     font-weight: 700;
     line-height: 1.5;
-    font-size: 1.5rem
+    font-size: x-large;
 }
 
 h3[book] {
@@ -300,13 +300,13 @@ span[header] {
     display: flex;
     align-items: center;
     gap: .25rem;
-    font-size: .85rem;
+    font-size: small;
     letter-spacing: -.05rem
 }
 
 footer[header] {
     color: #555;
-    font-size: .65rem;
+    font-size: small;
     display: flex;
     gap: 4px;
     margin-top: 8px
@@ -390,7 +390,7 @@ article[project] a[pres] a[project]:hover {
 }
 
 article[project] p[project] {
-    font-size: .75rem;
+    font-size: medium;
     line-height: 1.2rem;
     margin-bottom: 4px
 }
@@ -408,14 +408,14 @@ footer[project] {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    font-size: .6rem
+    font-size: small;
 }
 
 footer[project] span[project] {
     border-radius: 6px;
     background: #eee;
     color: #444;
-    font-size: .6rem;
+    font-size: small;
     font-weight: 500;
     padding: .2rem .6rem;
     text-align: center;
@@ -481,7 +481,7 @@ li[skills] {
     border-radius: 6px;
     color: #000;
     display: flex;
-    font-size: .8rem;
+    font-size: smaller;
     font-weight: 500;
     gap: 4px;
     padding: .2rem .6rem
@@ -537,7 +537,6 @@ footer[footer] {
     width: 100%;
     padding-block:8px;
     text-align: center;
-    font-size: 1rem;
     view-timeline-name: --revealing;
     view-timeline-axis: block;
     animation: linear .3s fadeIn;
@@ -546,7 +545,6 @@ footer[footer] {
 }
 
 a[footer] {
-    font-size: small;
     text-decoration: underline;
     color: #4183C4;
 }
@@ -557,13 +555,6 @@ a[footer]:hover {
 
 h1[footer] {
     font-size: small;
-}
-
-kbd[footer] {
-    background: #eee;
-    border-radius: 4px;
-    padding: 2px 4px;
-    font-size: 12px
 }
 
 main[tmp] {
@@ -586,7 +577,7 @@ nav {
 
 nav a {
     margin: 0 15px;  
-    font-size: 1.1rem;  
+    font-size: large;  
     color: #333;  
     text-decoration: none;  
 }
@@ -629,7 +620,7 @@ ul[foot] {
 }
 
 p[click] {
-    font-size: .75rem;
+    font-size: small;
     line-height: 1.2rem;
     margin-bottom: 2%;
 }
@@ -637,13 +628,13 @@ p[click] {
 h2[proj] {
     font-weight: 700;
     line-height: 1.5;
-    font-size: 1.5rem
+    font-size: x-large;
 }
 
 a[pres] {
     margin-left: 2%;
     color: #4183C4;
-    font-size: .75rem;
+    font-size: medium;
 }
 
 /* a[pres]:hover {
@@ -654,14 +645,14 @@ li[projSkills] {
     border-radius: 6px;
     background: #eee;
     color: #444;
-    font-size: .6rem;
-    font-weight: 500;
     padding: .2rem .6rem;
     text-align: center;
 }
 
 a[proj] {
-    color: #111
+    color: #111;
+    font-size: large;
+    font-weight: 500;
 }
 
 a[proj]:hover {
@@ -675,7 +666,7 @@ article[class] {
     border: 1px solid #f2f2f2;
     gap: 16px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 16px;
     gap: 16px;
     height: 100%
@@ -688,7 +679,7 @@ header[class] {
     position: relative;
 }
 
-header[class]::before {
+/* header[class]::before {
     content: '';
     position: absolute;
     left: 0;
@@ -701,10 +692,14 @@ header[class]::before {
 
 header[class]:first-child::before {
     content: none;
+} */
+
+article[class] {
+    margin-bottom: 4px
 }
 
-article[class] h3[class] {
-    margin-bottom: 4px
+h3[class] {
+    font-weight: 500;
 }
 
 article[class] a[class] {
@@ -715,27 +710,21 @@ article[class] a[pres] a[class]:hover {
     text-decoration: underline
 }
 
-article[class] p[class] {
-    font-size: .75rem;
-    line-height: 1.2rem;
-    margin-bottom: 4px
+p[class] {
+    font-size: medium;
+    margin-bottom: 5px
 }
 
-article[class] h3[class] span[class] {
-    color: #00bc2f;
-    animation-name: flicker;
-    animation-duration: 3s;
-    animation-timing-function: ease-in;
-    animation-iteration-count: infinite;
-    text-align: center;
-    flex: 1;
+article[class] p[class] {
+    font-size: medium;
+    margin-bottom: 4px
 }
 
 footer[class] {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    font-size: .6rem;
+    font-size: small;
     width: 100%;
 }
 
@@ -743,7 +732,7 @@ footer[class] span[class] {
     border-radius: 6px;
     background: #eee;
     color: #444;
-    font-size: .8rem;
+    font-size: small;
     font-weight: 500;
     padding: .2rem .6rem;
     text-align: center;
@@ -752,8 +741,8 @@ footer[class] span[class] {
 
 .content {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     width: 100%;
     gap: 16px;
 }
@@ -766,14 +755,14 @@ footer[tran] {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    font-size: .6rem;
+    font-size: small;
 }
 
 footer[tran] span[tran] {
     border-radius: 6px;
     background: #eee;
     color: #444;
-    font-size: .8rem;
+    font-size: small;
     font-weight: 500;
     padding: .2rem .6rem;
     text-align: center;
@@ -799,35 +788,6 @@ footer[tran] span[tran] a.transcriptLink.active {
     color: #444;
 }
 
-h2[title] {
-    font-weight: bolder;
-    font-size: xx-large;
-    text-decoration: underline;
-}
-
-a[blog] {
-    margin-bottom: 8px;
-    font-weight: 600;
-    line-height: 1.5;
-    font-size: 1.5rem;
-}
-
-#post-title {
-    margin-bottom: 8px;
-    font-weight: 600;
-    line-height: 1.5;
-    font-size: 1.5rem;
-}
-
-a[blog]:hover {
-    color: #4183C4;
-}
-
-p[blog] {
-    font-style: italic;
-    font-size: large;
-}
-
 hr {
     display: block;
     unicode-bidi: isolate;
@@ -838,63 +798,6 @@ hr {
     overflow: hidden;
     border-style: inset;
     border-width: 1px;
-}
-#blog-categories nav a {
-    margin-right: 10px;
-    color: #007BFF;
-    cursor: pointer;
-}
-
-p[post] {
-    text-align: left;
-    font-size: medium;
-}
-.post {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.post {
-    color: #333;
-}
-
-.post a[post] {
-    font-size: 24px;
-    color: #333;
-}
-
-.post a[read] {
-    color: #4183C4;
-    font-size: .75rem;
-}
-
-.post a[read]:hover {
-    text-decoration: underline
-}
-
-.post a[post]:hover {
-    color: #007BFF;
-    /* text-decoration: underline; */
-}
-
-
-.date {
-    font-size: 14px;
-    color: #667;
-    margin-bottom: 10px;
-}
-
-.entry p {
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.entry em {
-    font-style: italic;
-    color: #000;
-    font-size: large;
 }
 
 body[main] {
@@ -907,3 +810,110 @@ button[main] {
     cursor: pointer;
 }
 
+/* ------------------------Blog------------------------ */
+
+article[blog] {
+    border-radius: 8px;
+    border: 1px solid #f2f2f2;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+    height: 100%
+}
+
+header[blog] {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: content;
+    position: relative;
+}
+
+article[blog] {
+    margin-bottom: 4px
+}
+
+h3[blog] {
+    font-weight: 500;
+}
+
+article[blog] a[blog] {
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1.5;
+    font-size: x-large;
+    width: fit-content;
+}
+
+article[blog] a[blog]:hover {
+    color: #4183C4;
+}
+
+p[blog] {
+    font-size: medium;
+    margin-bottom: 5px
+}
+
+article[blog] p[blog] {
+    font-size: medium;
+    margin-bottom: 4px
+}
+
+a[read] {
+    color: #4183C4;
+    font-size: medium;
+    width: fit-content;
+}
+
+#blog-categories nav a {
+    margin-right: 10px;
+    color: #007BFF;
+    cursor: pointer;
+}
+
+.entry p {
+    font-size: large;
+    line-height: 1.6;
+    color: #000;
+}
+
+h2[blog] {
+    font-weight: bolder;
+    font-size: xx-large;
+    text-decoration: underline;
+}
+
+h2[template] {
+    margin-top: 2%;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+p[topic_date] {
+    margin-top: 2%;
+    font-size: medium;
+    color: #000;
+}
+
+p[template] {
+    font-size: medium;
+    margin-top: 10%;
+    margin-bottom: 2%;
+}
+
+h1[template] {
+    padding-top: 5%;
+    font-size: large;
+}
+
+section[template] {
+    max-width: 700px;
+    margin: 0 auto 48px
+}
+
+@media (width <= 700px) {
+    section[template] {
+        margin-bottom: 38px
+    }
+}

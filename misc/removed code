@@ -267,3 +267,10 @@ meter {
 /* img[bookimg] a:hover {
     color: #0056b3;
 } */
+
+/* kbd[footer] {
+    background: #eee;
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 12px;
+} */
