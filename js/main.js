@@ -1,4 +1,29 @@
 
+function topicPosts(category) {
+    backToBlog();
+    filterPosts(category);
+}
+function filterPosts(category) {
+    const buttons = document.querySelectorAll('nav[blog] button');
+    buttons.forEach(button => {
+        if (button.textContent.toLowerCase() === category) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+    localStorage.setItem('currentCategory', category);
+    const categories = ['misc', 'bio', 'ml', 'physics']; // List all categories here
+    const allDivs = document.querySelectorAll('.post-container'); // Targets all category divs
+
+    if (category === 'all') {
+        allDivs.forEach(div => div.style.display = ''); // Show all
+    } else {
+        allDivs.forEach(div => {
+            div.style.display = div.classList.contains(category) ? '' : 'none'; // Show selected category only
+        });
+    }
+}
 
 function loadPost(postId) {
     fetch(`/external/blogs/${postId}.html`)
@@ -65,10 +90,12 @@ function updateActiveLink(activeSectionId) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const currentCategory = localStorage.getItem('currentCategory') || 'all';
     const savedSection = localStorage.getItem('activeSection') || 'about';
     const currentPost = localStorage.getItem('currentPost');
     // console.log('Current Post:', currentPost);
     // console.log('Saved Section:', savedSection);
+    filterPosts(currentCategory);
     if (currentPost) {
         loadPost(currentPost);
     }

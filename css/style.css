@@ -917,3 +917,34 @@ section[template] {
         margin-bottom: 38px
     }
 }
+
+nav[blog] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: small;
+}
+
+[blog] button, [topic_date] button {
+    border-radius: 6px;
+    background: #eee;
+    color: #444;
+    font-size: small;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+[blog] button:hover, [topic_date] button:hover,
+[blog] button.active, [topic_date] button.active {
+    transform: scale(1.1);
+}
+
+[blog] button.active, [topic_date] button.active {
+    transform: scale(1.1);
+    background-color: #d8d8d8;
+}

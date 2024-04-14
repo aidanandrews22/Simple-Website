@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<svg data-name="Layer 1" id="Layer_1" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <style>.cls-1,.cls-2{fill:none;stroke:#535353;stroke-width:2px;}.cls-1{stroke-miterlimit:10;}.cls-2{stroke-linecap:round;stroke-linejoin:round;}</style>
+    </defs>
+    <title/>
+    <path class="cls-1" d="M53,38.23A8.78,8.78,0,0,1,44.26,47H14.74A8.78,8.78,0,0,1,6,38.23V21.77A8.79,8.79,0,0,1,14.74,13H44.26A8.79,8.79,0,0,1,53,21.77V38.23Z"/>
+    <polygon class="cls-2" points="24 22.39 37.85 30.5 24 38.62 24 22.39"/>
+</svg>
