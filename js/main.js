@@ -1,4 +1,11 @@
 
+function formSubmit() {
+    const savedSection = localStorage.getItem('activeSection') || 'about';
+    alert('Thank you for your report!');
+    setTimeout(() => {
+        showSection(savedSection);
+    }, 5000);
+}
 function topicPosts(category) {
     backToBlog();
     filterPosts(category);
@@ -72,7 +79,7 @@ function showSection(sectionId) {
     } else {
         console.error('Section with ID ' + sectionId + ' not found.');
     }
-    localStorage.setItem('activeSection', sectionId);
+    if (sectionId != 'report') localStorage.setItem('activeSection', sectionId);
     updateActiveLink(sectionId);
 }
 
@@ -89,17 +96,28 @@ function updateActiveLink(activeSectionId) {
     });
 }
 
+function loadBugReportForm() {
+    fetch('/external/report.php')
+    .then(response => response.text())
+    .then(html => {
+        document.getElementById('modal-content').innerHTML = html;
+        document.getElementById('modal').style.display = 'block';
+    })
+    .catch(error => console.error('Failed to load form:', error));
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const currentCategory = localStorage.getItem('currentCategory') || 'all';
     const savedSection = localStorage.getItem('activeSection') || 'about';
     const currentPost = localStorage.getItem('currentPost');
     // console.log('Current Post:', currentPost);
     // console.log('Saved Section:', savedSection);
-    filterPosts(currentCategory);
     if (currentPost) {
         loadPost(currentPost);
     }
     showSection(savedSection);
+    filterPosts(currentCategory);
 
     const navLinks = document.querySelectorAll('nav a');
     navLinks.forEach(link => {

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="/js/main.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <section report>
+        <h2 report>Report a Bug</h2>
+        <p>Help me improve my website, please tell me how you stumbled upon this error/bug. You don't have to go into crazy detail; just explain when, where and how. My goal is to try to recreate and debug this issue. Thank you for your help!</p>
+        <form action="https://formsubmit.co/9e1d1c4cde4d50dab6574cb569a13e60" method="POST">
+            <!-- Honeypot -->
+            <input type="text" name="_honey" style="display: none;">
+
+            <!-- No captcha -->
+            <input type="hidden" name="_captcha" value="false">
+
+            <input type="hidden" name="_next" value="https://www.aidanandrews.info/">
+
+            <label for="name" class="form-label">Where was the issue?</label>
+            <input type="text" name="name" id="name" class="input-field" required>
+            
+            <label for="email" class="form-label" style="display: none;">Email (Optional)</label>
+            <input type="email" name="email" id="email" class="input-field" value="" style="display: none;">
+
+            <label for="issue" class="form-label">Describe the Issue</label>
+            <textarea name="issue" id="issue" class="textarea-field" required></textarea>
+
+            <button type="submit" class="submit-button" onclick="formSubmit()">Send Report</button>
+        </form>
+    </section>
+</body>
+</html>

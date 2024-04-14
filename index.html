@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="/css/style.css"/>
         <script type="module" src="/js/old.js"></script>
         <script src="/js/main.js"></script>
+        <link rel="icon" href="assets\profile-pic.webp">
     </head>
     <body>
         <header top>
@@ -493,10 +494,22 @@
                     <div id="postContent"></div>
                 </section>
 
+                <section id="report" style="display:none;">
+                    <div id="report-container"></div>
+                    <script>
+                        fetch('/external/report.html')
+                            .then(response => response.text())
+                            .then(html => {
+                                document.getElementById('report-container').innerHTML = html;
+                            })
+                            .catch(error => console.error('Failed to load report:', error));
+                    </script>
+                </section>
+
             </div>
         </main>
         <footer footer>
-            <h1 footer>If you encounter any issues or bugs please report them <a href="#" target="_blank" title="View the project on old website" footer>here</a></h1>
+            <h1 footer>If you encounter any issues or bugs please report them <a href="javascript:void(0);" onclick="showSection('report')" footer>here</a></h1>
         </footer>
         <footer class="site-footer">
             <div class="footer-content">

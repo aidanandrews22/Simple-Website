@@ -868,7 +868,7 @@ a[read] {
 
 #blog-categories nav a {
     margin-right: 10px;
-    color: #007BFF;
+    color: #4183C4;
     cursor: pointer;
 }
 
@@ -947,4 +947,72 @@ nav[blog] {
 [blog] button.active, [topic_date] button.active {
     transform: scale(1.1);
     background-color: #d8d8d8;
+}
+
+/* ------------------------Report------------------------ */
+
+[report] button {
+    border-radius: 6px;
+    background: #eee;
+    color: #4183C4;
+    font-size: medium;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+[report] button:hover,
+[report] button.active {
+    transform: scale(1.1);
+}
+
+[report] button.active {
+    background-color: #d8d8d8;
+}
+
+section[report] {
+    max-width: 700px;
+    margin: 0 auto 48px;
+}
+
+[report] input,
+[report] textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #eee;
+    border-radius: 4px;
+    text-align: left;
+}
+
+[report] textarea {
+    height: 150px;
+    vertical-align: top;
+    resize: vertical;
+}
+
+[report] input:focus,
+[report] textarea:focus {
+    border: 3px solid #d8d8d8;
+}
+
+h2[report] {
+    margin-bottom: 8px;
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: x-large;
+}
+
+[report] p {
+    padding-bottom: 2%;
+}
+
+@media (max-width: 700px) {
+    section[report] {
+        margin-bottom: 38px;
+    }
 }
