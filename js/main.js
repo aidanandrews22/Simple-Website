@@ -19,19 +19,44 @@ function filterPosts(category) {
             button.classList.remove('active');
         }
     });
-    localStorage.setItem('currentCategory', category);
-    const categories = ['misc', 'bio', 'ml', 'physics']; // List all categories here
-    const allDivs = document.querySelectorAll('.post-container'); // Targets all category divs
 
-    if (category === 'all') {
-        allDivs.forEach(div => div.style.display = ''); // Show all
-    } else {
-        allDivs.forEach(div => {
-            div.style.display = div.classList.contains(category) ? '' : 'none'; // Show selected category only
-        });
-    }
+    const allPosts = document.querySelectorAll('#postsContainer > div[id]');
+    const postsArray = Array.from(allPosts);
+    postsArray.forEach(post => {
+        if (category === 'all') {
+            post.style.display = '';
+        } else if (post.id.startsWith(category)) {
+            post.style.display = '';
+        } else {
+            post.style.display = 'none';
+        }
+    });
+
+    // Sort all visible posts by date regardless of category
+    sortPosts(postsArray.filter(post => post.style.display !== 'none'));
 }
 
+function sortPosts(visiblePosts) {
+    visiblePosts.sort((a, b) => {
+        let dateA = parseDateFromId(a.id);
+        let dateB = parseDateFromId(b.id);
+
+        return new Date(dateB.year, dateB.month - 1, dateB.day) - new Date(dateA.year, dateA.month - 1, dateA.day);
+    });
+
+    // Re-append posts in sorted order to the specific container
+    const postsContainer = document.querySelector('#postsContainer');
+    visiblePosts.forEach(post => postsContainer.appendChild(post));
+}
+
+function parseDateFromId(id) {
+    const dateStr = id.slice(-6); // Get the last 6 characters
+    return {
+        day: parseInt(dateStr.substr(0, 2), 10),
+        month: parseInt(dateStr.substr(2, 2), 10),
+        year: parseInt("20" + dateStr.substr(4, 2), 10) // Assuming 2000s
+    };
+}
 function loadPost(postId) {
     fetch(`/external/blogs/${postId}.html`)
     .then(response => response.text())
