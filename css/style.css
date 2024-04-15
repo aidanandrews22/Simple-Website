@@ -121,6 +121,11 @@ h2[main] {
         max-width: fit-content;
         padding: 1rem 5%;
     }
+    [main] iframe {
+        max-width: fit-content;
+        max-height: fit-content;
+        padding: 1rem 5%;
+    }
 }
 
 ul[education] {
