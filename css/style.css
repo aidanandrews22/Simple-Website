@@ -114,9 +114,8 @@ h2[main] {
 
     iframe {
         width: 100%;
-        height: auto;
+        height: 400px;
         aspect-ratio: 16 / 9;
-        border: none;
     }
 }
 
@@ -1083,5 +1082,28 @@ h2[report] {
 @media (max-width: 700px) {
     section[report] {
         margin-bottom: 38px;
+    }
+}
+
+.mobile-only {
+    display: none; /* Hide mobile links by default */
+}
+
+.desktop-only {
+    display: block; /* Show iframes by default */
+}
+
+@media (max-width: 700px) {
+    .mobile-only {
+        display: block; /* Show mobile links on small screens */
+        padding: 10px;
+        margin: 5px;
+        border-radius: 6px;
+        background: #eee;
+        color: #444;
+        text-align: center;
+    }
+    .desktop-only {
+        display: none; /* Hide iframes on small screens */
     }
 }

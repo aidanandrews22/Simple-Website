@@ -418,25 +418,27 @@
 
                 <!-- ///////////////////////////////////////////////////////////////////////////// Transcripts /////////////////////////////////////////////////////////////////////////////-->
                 <!-- Transcripts Section -->
-                <section id="transcripts" style="display:none;" main>
-                    <footer tran>
-                        <span tran><a href="javascript:void(0);" id="unofficialTranscriptLink" class="transcriptLink" onclick="changeTranscript('unofficial')">Unofficial</a></span>
-                        <span tran><a href="javascript:void(0);" id="officialTranscriptLink" class="transcriptLink" onclick="changeTranscript('official')">Official</a></span>
-                    </footer>
-                    <iframe id="transcriptFrame" src="/assets/PDF/Aidan Andrews Unofficial Transcript.pdf" width="100%" height="1000"></iframe>
-                </section>
+                <section id="transcripts" main>
 
-                <!-- ///////////////////////////////////////////////////////////////////////////// Cover Letter /////////////////////////////////////////////////////////////////////////////-->
-                <section id="cover-letter" style="display:none;" main>
-                    <!-- Cover Letter content goes here -->
-                    <iframe src="/assets/PDF/cover-letter.pdf" width="100%" height="1000"></iframe>
+                    <a href="/assets/PDF/Aidan Andrews Unofficial Transcript.pdf" target="_blank" class="pdfLink mobile-only" work>View Unofficial</a>
+                    <a href="/assets/PDF/Aidan Andrews Official Transcript.pdf" target="_blank" class="pdfLink mobile-only" work>View Official</a>
+                    <nav blog>
+                        <button class="desktop-only" onclick="changeTranscript('unofficial')">Unofficial</button>
+                        <button class="desktop-only" onclick="changeTranscript('official')">Official</button>
+                    </nav>
+                    <iframe id="transcriptFrame" class="desktop-only" src="/assets/PDF/Aidan Andrews Unofficial Transcript.pdf" width="100%" height="1000"></iframe>
                 </section>
-
-                <!-- ///////////////////////////////////////////////////////////////////////////// Resume /////////////////////////////////////////////////////////////////////////////-->
-                <section id="resume" style="display:none;" main>
-                    <!-- Resume content goes here -->                        <!-- <embed src="/assets/PDF/Aidan Andrews Resume.pdf" type="application/pdf" width="800" height="600"></embed> -->
-                    <iframe src="/assets/PDF/Aidan Andrews Resume.pdf" width="100%" height="1000"></iframe>
+                
+                <section id="cover-letter" main>
+                    <a href="/assets/PDF/cover-letter.pdf" target="_blank" class="pdfLink mobile-only" work>View Cover Letter</a>
+                    <iframe class="desktop-only" src="/assets/PDF/cover-letter.pdf" width="100%" height="1000"></iframe>
                 </section>
+                
+                <section id="resume" main>
+                    <a href="/assets/PDF/Aidan Andrews Resume.pdf" target="_blank" class="pdfLink mobile-only" work>View Resume</a>
+                    <iframe class="desktop-only" src="/assets/PDF/Aidan Andrews Resume.pdf" width="100%" height="1000"></iframe>
+                </section>
+                
 
                 <!-- ///////////////////////////////////////////////////////////////////////////// Blog /////////////////////////////////////////////////////////////////////////////-->
                 <section id="blog" style="display:block;">
