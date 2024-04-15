@@ -104,29 +104,22 @@ h2[main] {
 }
 
 @media (max-width: 700px) {
-    section[main] {
+    section[main], .site-footer, section[template], h1[cite], p[caption] {
         padding: 1rem 5%;
     }
-    .site-footer {
-        padding: 1rem 5%;
-    }
-    section[template] {
-        padding: 1rem 5%;
-    }
-    h1[cite] {
-        padding: 1rem 5%;
+
+    h1[cite], p[caption] {
         max-width: fit-content;
     }
-    p[caption] {
-        max-width: fit-content;
-        padding: 1rem 5%;
-    }
-    [main] iframe {
-        max-width: fit-content;
-        max-height: max-content;
-        padding: 1rem 5%;
+
+    iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        border: none;
     }
 }
+
 
 ul[education] {
     display: flex;
