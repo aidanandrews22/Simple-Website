@@ -123,7 +123,7 @@ h2[main] {
     }
     [main] iframe {
         max-width: fit-content;
-        max-height: fit-content;
+        max-height: max-content;
         padding: 1rem 5%;
     }
 }
