@@ -517,15 +517,17 @@
                 </section>
 
                 <section id="report" style="display:none;">
-                    <div id="report-container"></div>
-                    <script>
-                        fetch('/external/report.html')
-                            .then(response => response.text())
-                            .then(html => {
-                                document.getElementById('report-container').innerHTML = html;
-                            })
-                            .catch(error => console.error('Failed to load report:', error));
-                    </script>
+                    <section main>
+                        <div id="report-container"></div>
+                        <script>
+                            fetch('/external/report.html')
+                                .then(response => response.text())
+                                .then(html => {
+                                    document.getElementById('report-container').innerHTML = html;
+                                })
+                                .catch(error => console.error('Failed to load report:', error));
+                        </script>
+                    </section>
                 </section>
 
             </div>

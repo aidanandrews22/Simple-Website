@@ -98,6 +98,29 @@ h2[main] {
     section[main] {
         margin-bottom: 38px
     }
+    section[template] {
+        margin-bottom: 38px
+    }
+}
+
+@media (max-width: 700px) {
+    section[main] {
+        padding: 1rem 5%;
+    }
+    .site-footer {
+        padding: 1rem 5%;
+    }
+    section[template] {
+        padding: 1rem 5%;
+    }
+    h1[cite] {
+        padding: 1rem 5%;
+        max-width: fit-content;
+    }
+    p[caption] {
+        max-width: fit-content;
+        padding: 1rem 5%;
+    }
 }
 
 ul[education] {
