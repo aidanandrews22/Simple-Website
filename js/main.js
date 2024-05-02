@@ -131,8 +131,15 @@ function loadBugReportForm() {
     .catch(error => console.error('Failed to load form:', error));
 }
 
+function clearLocalStorageAfterDelay() {
+    setTimeout(() => {
+        localStorage.clear();
+        alert('Local storage has been cleared due to inactivity.');
+    }, 36000000);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+    clearLocalStorageAfterDelay(); 
     const currentCategory = localStorage.getItem('currentCategory') || 'all';
     const savedSection = localStorage.getItem('activeSection') || 'about';
     const currentPost = localStorage.getItem('currentPost');
