@@ -57,6 +57,31 @@ function parseDateFromId(id) {
         year: parseInt("20" + dateStr.substr(4, 2), 10) // Assuming 2000s
     };
 }
+
+function updateURL(sectionId) {
+    const currentURL = window.location.pathname.split('/')[1];
+    const newURL = `/${sectionId}`;
+    history.pushState({section: sectionId}, '', newURL);
+}
+
+
+function showSection(sectionId) {
+    localStorage.removeItem('currentPost');
+    var sections = document.querySelectorAll('#content > section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+    var activeSection = document.getElementById(sectionId);
+    if (activeSection) {
+        activeSection.style.display = 'block';
+    } else {
+        console.error('Section with ID ' + sectionId + ' not found.');
+    }
+    if (sectionId != 'report') localStorage.setItem('activeSection', sectionId);
+    updateActiveLink(sectionId);
+    updateURL(sectionId);
+}
+
 function loadPost(postId) {
     fetch(`/external/blogs/${postId}.html`)
     .then(response => response.text())
@@ -66,15 +91,19 @@ function loadPost(postId) {
         document.getElementById('blogPost').style.display = 'block';
         localStorage.setItem('currentPost', postId);
         localStorage.setItem('activeSection', 'blogPost');
+        updateURL(`blogPost&post=${postId}`);
     })
     .catch(error => console.error('Failed to load the post:', error));
 }
+
 function backToBlog() {
     document.getElementById('blog').style.display = 'block';
     document.getElementById('blogPost').style.display = 'none';
     localStorage.removeItem('currentPost');
     localStorage.setItem('activeSection', 'blog');
+    updateURL('blog');
 }
+
 
 
 function changeTranscript(type) {
@@ -91,21 +120,6 @@ function changeTranscript(type) {
         unofficialLink.classList.remove('active');
         officialLink.classList.add('active');
     }
-}
-function showSection(sectionId) {
-    localStorage.removeItem('currentPost');
-    var sections = document.querySelectorAll('#content > section');
-    sections.forEach(section => {
-        section.style.display = 'none';
-    });
-    var activeSection = document.getElementById(sectionId);
-    if (activeSection) {
-        activeSection.style.display = 'block';
-    } else {
-        console.error('Section with ID ' + sectionId + ' not found.');
-    }
-    if (sectionId != 'report') localStorage.setItem('activeSection', sectionId);
-    updateActiveLink(sectionId);
 }
 
 function updateActiveLink(activeSectionId) {
@@ -139,16 +153,21 @@ function clearLocalStorageAfterDelay() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    clearLocalStorageAfterDelay(); 
-    const currentCategory = localStorage.getItem('currentCategory') || 'all';
-    const savedSection = localStorage.getItem('activeSection') || 'about';
-    const currentPost = localStorage.getItem('currentPost');
-    // console.log('Current Post:', currentPost);
-    // console.log('Saved Section:', savedSection);
-    if (currentPost) {
-        loadPost(currentPost);
+    clearLocalStorageAfterDelay();
+    const params = new URLSearchParams(window.location.search);
+    const sectionId = params.get('section');
+    const postId = params.get('post');
+    
+    if (postId) {
+        loadPost(postId);
+    } else if (sectionId) {
+        showSection(sectionId);
+    } else {
+        const savedSection = localStorage.getItem('activeSection') || 'about';
+        showSection(savedSection);
     }
-    showSection(savedSection);
+
+    const currentCategory = localStorage.getItem('currentCategory') || 'all';
     filterPosts(currentCategory);
 
     const navLinks = document.querySelectorAll('nav a');
@@ -160,3 +179,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
