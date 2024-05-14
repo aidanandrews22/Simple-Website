@@ -100,11 +100,12 @@
         </header top>
         <main>
             <nav>
-                <a href="javascript:void(0);" onclick="showSection('blog')">Blog</a>
-                <a href="javascript:void(0);" onclick="showSection('categories')">Categories</a>
-                <a href="javascript:void(0);" onclick="showSection('bookshelf')">Bookshelf</a>
-                <a href="javascript:void(0);" onclick="showSection('about')">About</a>
+                <a href="/blog" onclick="showSection('blog'); event.preventDefault();">Blog</a>
+                <a href="/categories" onclick="showSection('categories'); event.preventDefault();">Categories</a>
+                <a href="/bookshelf" onclick="showSection('bookshelf'); event.preventDefault();">Bookshelf</a>
+                <a href="/about" onclick="showSection('about'); event.preventDefault();">About</a>
             </nav>
+
             <div id="content">
                 
                 <!-- ///////////////////////////////////////////////////////////////////////////// About /////////////////////////////////////////////////////////////////////////////-->

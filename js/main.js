@@ -59,25 +59,23 @@ function parseDateFromId(id) {
 }
 
 function updateURL(sectionId) {
-    const currentURL = window.location.pathname.split('/')[1];
     const newURL = `/${sectionId}`;
-    history.pushState({section: sectionId}, '', newURL);
+    history.pushState({ section: sectionId }, '', newURL);
 }
-
 
 function showSection(sectionId) {
     localStorage.removeItem('currentPost');
-    var sections = document.querySelectorAll('#content > section');
+    const sections = document.querySelectorAll('#content > section');
     sections.forEach(section => {
         section.style.display = 'none';
     });
-    var activeSection = document.getElementById(sectionId);
+    const activeSection = document.getElementById(sectionId);
     if (activeSection) {
         activeSection.style.display = 'block';
     } else {
         console.error('Section with ID ' + sectionId + ' not found.');
     }
-    if (sectionId != 'report') localStorage.setItem('activeSection', sectionId);
+    if (sectionId !== 'report') localStorage.setItem('activeSection', sectionId);
     updateActiveLink(sectionId);
     updateURL(sectionId);
 }
@@ -91,7 +89,7 @@ function loadPost(postId) {
         document.getElementById('blogPost').style.display = 'block';
         localStorage.setItem('currentPost', postId);
         localStorage.setItem('activeSection', 'blogPost');
-        updateURL(`blogPost&post=${postId}`);
+        updateURL(`blogPost/${postId}`);
     })
     .catch(error => console.error('Failed to load the post:', error));
 }
@@ -103,7 +101,6 @@ function backToBlog() {
     localStorage.setItem('activeSection', 'blog');
     updateURL('blog');
 }
-
 
 
 function changeTranscript(type) {
@@ -154,21 +151,7 @@ function clearLocalStorageAfterDelay() {
 
 document.addEventListener('DOMContentLoaded', () => {
     clearLocalStorageAfterDelay();
-    const params = new URLSearchParams(window.location.search);
-    const sectionId = params.get('section');
-    const postId = params.get('post');
-    
-    if (postId) {
-        loadPost(postId);
-    } else if (sectionId) {
-        showSection(sectionId);
-    } else {
-        const savedSection = localStorage.getItem('activeSection') || 'about';
-        showSection(savedSection);
-    }
-
-    const currentCategory = localStorage.getItem('currentCategory') || 'all';
-    filterPosts(currentCategory);
+    handleNavigation();
 
     const navLinks = document.querySelectorAll('nav a');
     navLinks.forEach(link => {
@@ -179,4 +162,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+window.addEventListener('popstate', (event) => {
+    handleNavigation();
+});
+
+function handleNavigation() {
+    const pathSegments = window.location.pathname.split('/').filter(segment => segment);
+    const sectionId = pathSegments[0];
+    const postId = pathSegments[1];
+
+    if (sectionId === 'blogPost' && postId) {
+        loadPost(postId);
+    } else if (sectionId) {
+        showSection(sectionId);
+    } else {
+        const savedSection = localStorage.getItem('activeSection') || 'about';
+        showSection(savedSection);
+    }
+
+    const currentCategory = localStorage.getItem('currentCategory') || 'all';
+    filterPosts(currentCategory);
+}
+
 
