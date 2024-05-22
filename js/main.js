@@ -113,7 +113,7 @@ function changeTranscript(type) {
         unofficialLink.classList.add('active');
         officialLink.classList.remove('active');
     } else if (type === 'official') {
-        iframe.src = 'assets/PDF/Aidan Andrews Winter Transcript.pdf';
+        iframe.src = 'assets/PDF/Aidan Andrews Official Transcript.pdf';
         unofficialLink.classList.remove('active');
         officialLink.classList.add('active');
     }
