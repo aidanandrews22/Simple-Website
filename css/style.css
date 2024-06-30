@@ -40,7 +40,8 @@ header, main, footer {
 }
 
 a {
-    text-decoration: none
+  text-decoration: none;
+  cursor: pointer;
 }
 
 ul {
@@ -58,7 +59,7 @@ p {
     color: #666;
     font-size: medium;
     line-height: 1.5;
-    margin: 0;
+    margin: 15px;
     text-wrap: pretty
 }
 
@@ -1107,4 +1108,45 @@ h2[report] {
     .desktop-only {
         display: none; /* Hide iframes on small screens */
     }
+}
+
+.post-title {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+.post-date {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 1.5em;
+}
+
+.centered-image {
+  text-align: center;
+  margin: 2em 0;
+}
+
+.centered-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.centered-image figcaption {
+  margin-top: 0.5em;
+  font-style: italic;
+  color: #666;
+}
+
+blockquote {
+  background-color: #f9f9f9;
+  border-left: 5px solid #ccc;
+  margin: 1.5em 0;
+  padding: 1em;
+  font-style: italic;
+}
+
+hr {
+  margin: 2em 0;
+  border: none;
+  border-top: 1px solid #ccc;
 }

@@ -1,61 +1,9 @@
-
 function formSubmit() {
     const savedSection = localStorage.getItem('activeSection') || 'about';
     alert('Thank you for your report!');
     setTimeout(() => {
         showSection(savedSection);
     }, 5000);
-}
-function topicPosts(category) {
-    backToBlog();
-    filterPosts(category);
-}
-function filterPosts(category) {
-    const buttons = document.querySelectorAll('nav[blog] button');
-    buttons.forEach(button => {
-        if (button.textContent.toLowerCase() === category) {
-            button.classList.add('active');
-        } else {
-            button.classList.remove('active');
-        }
-    });
-
-    const allPosts = document.querySelectorAll('#postsContainer > div[id]');
-    const postsArray = Array.from(allPosts);
-    postsArray.forEach(post => {
-        if (category === 'all') {
-            post.style.display = '';
-        } else if (post.id.startsWith(category)) {
-            post.style.display = '';
-        } else {
-            post.style.display = 'none';
-        }
-    });
-
-    // Sort all visible posts by date regardless of category
-    sortPosts(postsArray.filter(post => post.style.display !== 'none'));
-}
-
-function sortPosts(visiblePosts) {
-    visiblePosts.sort((a, b) => {
-        let dateA = parseDateFromId(a.id);
-        let dateB = parseDateFromId(b.id);
-
-        return new Date(dateB.year, dateB.month - 1, dateB.day) - new Date(dateA.year, dateA.month - 1, dateA.day);
-    });
-
-    // Re-append posts in sorted order to the specific container
-    const postsContainer = document.querySelector('#postsContainer');
-    visiblePosts.forEach(post => postsContainer.appendChild(post));
-}
-
-function parseDateFromId(id) {
-    const dateStr = id.slice(-6); // Get the last 6 characters
-    return {
-        day: parseInt(dateStr.substr(0, 2), 10),
-        month: parseInt(dateStr.substr(2, 2), 10),
-        year: parseInt("20" + dateStr.substr(4, 2), 10) // Assuming 2000s
-    };
 }
 
 function updateURL(sectionId) {
@@ -79,29 +27,6 @@ function showSection(sectionId) {
     updateActiveLink(sectionId);
     updateURL(sectionId);
 }
-
-function loadPost(postId) {
-    fetch(`/external/blogs/${postId}.html`)
-    .then(response => response.text())
-    .then(html => {
-        document.getElementById('postContent').innerHTML = html;
-        document.getElementById('blog').style.display = 'none';
-        document.getElementById('blogPost').style.display = 'block';
-        localStorage.setItem('currentPost', postId);
-        localStorage.setItem('activeSection', 'blogPost');
-        updateURL(`blogPost/${postId}`);
-    })
-    .catch(error => console.error('Failed to load the post:', error));
-}
-
-function backToBlog() {
-    document.getElementById('blog').style.display = 'block';
-    document.getElementById('blogPost').style.display = 'none';
-    localStorage.removeItem('currentPost');
-    localStorage.setItem('activeSection', 'blog');
-    updateURL('blog');
-}
-
 
 function changeTranscript(type) {
     var iframe = document.getElementById('transcriptFrame');
@@ -161,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
         });
     });
+  loadBlogPosts();
 });
 
 window.addEventListener('popstate', (event) => {
@@ -186,3 +112,153 @@ function handleNavigation() {
 }
 
 
+
+//////////// Blog ///////////////////////
+
+function topicPosts(category) {
+    backToBlog();
+    filterPosts(category);
+}
+
+function backToBlog() {
+    document.getElementById('blog').style.display = 'block';
+    document.getElementById('blogPost').style.display = 'none';
+    localStorage.removeItem('currentPost');
+    localStorage.setItem('activeSection', 'blog');
+    updateURL('blog');
+}
+
+function loadBlogPosts() {
+  fetch('/blog-posts.json')
+    .then(response => response.json())
+    .then(posts => {
+      const postsContainer = document.getElementById('postsContainer');
+      postsContainer.innerHTML = '';
+      posts.forEach(post => {
+        const postElement = createPostElement(post);
+        postsContainer.appendChild(postElement);
+      });
+    })
+    .catch(error => console.error('Error loading blog posts:', error));
+}
+
+function createPostElement(post) {
+  const article = document.createElement('article');
+  article.setAttribute('blog', 'post');
+  article.id = post.id;
+
+  article.innerHTML = `
+    <a href="javascript:void(0);" onclick="loadPost('${post.id}')" blog>${post.title}</a>
+    <div class="date">Written on ${formatDate(post.date)}</div>
+    <div class="entry">
+      <p>${post.summary}</p>
+    </div>
+    <a href="javascript:void(0);" onclick="loadPost('${post.id}')" read>read more</a>
+  `;
+
+  return article;
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function loadPost(postId) {
+    fetch('/blog-posts.json')
+      .then(response => response.json())
+      .then(posts => {
+              const post = posts.find(p => p.id === postId);
+              if (post) {
+                        fetch(post.content)
+                          .then(response => response.text())
+                          .then(content => {
+                                        document.getElementById('postContent').innerHTML = `
+                                          <h1 class="post-title">${post.title}</h1>
+                                            <p class="post-date">${formatDate(post.date)}</p>
+                                                          ${parseMarkdown(content)}
+                                                                      `;
+                                                                                  document.getElementById('blog').style.display = 'none';
+                                                                                              document.getElementById('blogPost').style.display = 'block';
+                                        localStorage.setItem('currentPost', postId);
+                                        localStorage.setItem('activeSection', 'blogPost');
+                                        updateURL(`blogPost/${postId}`);
+                                      })
+                          .catch(error => console.error('Error loading post content:', error));
+                      }
+            })
+      .catch(error => console.error('Error loading blog posts:', error));
+}
+
+function loadPost(postId) {
+  fetch('/blog-posts.json')
+    .then(response => response.json())
+    .then(posts => {
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        fetch(post.content)
+          .then(response => response.text())
+          .then(content => {
+            document.getElementById('postContent').innerHTML = `
+              <h1 class="post-title">${post.title}</h1>
+              <p class="post-date">${formatDate(post.date)}</p>
+              ${parseMarkdown(content)}
+            `;
+            document.getElementById('blog').style.display = 'none';
+            document.getElementById('blogPost').style.display = 'block';
+            localStorage.setItem('currentPost', postId);
+            localStorage.setItem('activeSection', 'blogPost');
+            updateURL(`blogPost/${postId}`);
+          })
+          .catch(error => console.error('Error loading post content:', error));
+      }
+    })
+    .catch(error => console.error('Error loading blog posts:', error));
+}
+
+function filterPosts(category) {
+  fetch('/blog-posts.json')
+    .then(response => response.json())
+    .then(posts => {
+      const filteredPosts = category === 'all' ? posts : posts.filter(post => post.category === category);
+      const postsContainer = document.getElementById('postsContainer');
+      postsContainer.innerHTML = '';
+      filteredPosts.forEach(post => {
+        const postElement = createPostElement(post);
+        postsContainer.appendChild(postElement);
+      });
+    })
+    .catch(error => console.error('Error filtering posts:', error));
+
+  const buttons = document.querySelectorAll('nav[blog] button');
+  buttons.forEach(button => {
+    if (button.textContent.toLowerCase() === category) {
+      button.classList.add('active');
+    } else {
+      button.classList.remove('active');
+    }
+  });
+}
+
+function parseMarkdown(markdown) {
+  let html = markdown
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.*)\*\*/gm, '<strong>$1</strong>')
+    .replace(/\*(.*)\*/gm, '<em>$1</em>')
+    .replace(/\[(.*?)\]\((.*?)\)/gm, '<a href="$2" target="_blank" rel="noopener noreferrer" alt>$1</a>')
+    .replace(/^---$/gm, '<hr>')
+    .replace(/^> (.*$)/gm, '<blockquote><p>$1</p></blockquote>');
+
+  html = html.replace(/<div align="center">\s*<img src="(.*?)" alt="(.*?)" \/>\s*<br \/>\s*<em>(.*?)<\/em>\s*<\/div>/gm, 
+    '<figure class="centered-image">' +
+    '<img src="$1" alt="$2" />' +
+    '<figcaption>$3</figcaption>' +
+    '</figure>'
+  );
+
+  html = html.replace(/^(?!<[a-z])(.*$)/gm, '<p>$1</p>');
+
+  return html;
+}

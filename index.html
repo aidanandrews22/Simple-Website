@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="/css/style.css"/>
         <script type="module" src="/js/old.js"></script>
         <script src="/js/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <!-- <link rel="icon" href="assets\header.png"> -->
     </head>
     <body>
@@ -472,102 +473,31 @@
                     <iframe class="desktop-only" src="/assets/PDF/Aidan Andrews Resume.pdf" width="100%" height="1000"></iframe>
                 </section>
                 
-
-                <!-- ///////////////////////////////////////////////////////////////////////////// Blog /////////////////////////////////////////////////////////////////////////////-->
-                <section id="blog" style="display:block;">
-                    <section main>
-                        <h2 main>Blogs</h2>
-                        <nav blog>
-                            <button onclick="filterPosts('all')">All</button>
-                            <button onclick="filterPosts('misc')">Misc</button>
-                            <button onclick="filterPosts('neur')">Bio</button>
-                            <button onclick="filterPosts('mlcs')">ML</button>
-                            <button onclick="filterPosts('phys')">Physics</button>
-                        </nav>
-                        <div id="postsContainer">
-                            <!-- Misc posts here -->
-                            <div id="misc040424">
-                                <article blog="post">
-                                    <a href="javascript:void(0);" onclick="loadPost('misc040424')" blog>
-                                        Research Based Paper For RHET 105
-                                    </a>
-                                    <div class="date">Written on 04 April 2024</div>
-                                    <div class="entry">
-                                        <p>I would have never thought that I would take pride in a paper written for a general education requirement class...</p>
-                                    </div>
-                                    <a href="javascript:void(0);" onclick="loadPost('misc040424')" read>read more</a>
-                                </article>
-                            </div>                                
-                            <!-- Neuroscience posts here -->
-                            <div id="neur013105">
-                                <article blog="post">
-                                    <a href="javascript:void(0);" onclick="loadPost('template')" blog>
-                                        My next blog post...
-                                    </a>
-                                    <div class="date">Written on 13 April 2024</div>
-                                    <div class="entry">
-                                        <p>my next blog post will go here</p>
-                                    </div>
-                                    <a href="javascript:void(0);" onclick="loadPost('template')" read>read more</a>
-                                </article>
-                            </div>
-                            <!-- ML posts here -->
-                            <div id="mlcs012905">
-                                <article blog="post">
-                                    <a href="javascript:void(0);" onclick="loadPost('template')" blog>
-                                        My next blog post...
-                                    </a>
-                                    <div class="date">Written on 13 April 2024</div>
-                                    <div class="entry">
-                                        <p>my next blog post will go here</p>
-                                    </div>
-                                    <a href="javascript:void(0);" onclick="loadPost('template')" read>read more</a>
-                                </article>
-                            </div>
-                            <!-- Physics posts here -->
-                            <div id="phys041424">
-                                <article blog="post">
-                                    <a href="javascript:void(0);" onclick="loadPost('phys140424')" blog>
-                                        What happened to the study of physics?
-                                    </a>
-                                    <div class="date">Written on 14 April 2024</div>
-                                    <div class="entry">
-                                        <p>I am writing about not only the decline of physics but the decline in overall quality and quantity of research. It seems like no undergraduate students are interested in pursuing graduate degrees.</p>
-                                    </div>
-                                    <a href="javascript:void(0);" onclick="loadPost('phys140424')" read>read more</a>
-                                </article>
-                            </div>
-                        </div>
-                    </section>
-                </section>                
-
-                <!-- ///////////////////////////////////////////////////////////////////////////// Blogs /////////////////////////////////////////////////////////////////////////////-->
-                <!-- Blog Categories -->
-
-                <!-- Individual Blog Posts Displayed Here -->
-                <!-- Blog Posts Template -->
-                <section id="blogPost" style="display: none;" main>
-                    <button onclick="backToBlog()" main>Back to Blog</button>
-                    <div id="postContent"></div>
+            <!-- ///////////////////////////////////////////////////////////////////////////// Blog /////////////////////////////////////////////////////////////////////////////-->
+            <section id="blog" style="display:block;">
+                <section main>
+                    <h2 main>Blogs</h2>
+                    <nav blog>
+                        <button onclick="filterPosts('all')">All</button>
+                        <button onclick="filterPosts('misc')">Misc</button>
+                        <button onclick="filterPosts('neur')">Bio</button>
+                        <button onclick="filterPosts('mlcs')">ML</button>
+                        <button onclick="filterPosts('phys')">Physics</button>
+                    </nav>
+                    <div id="postsContainer">
+                        <!-- Blog posts will be dynamically loaded here -->
+                    </div>
                 </section>
+            </section>
 
-                <section id="report" style="display:none;">
-                    <section main>
-                        <div id="report-container"></div>
-                        <script>
-                            fetch('/external/report.html')
-                                .then(response => response.text())
-                                .then(html => {
-                                    document.getElementById('report-container').innerHTML = html;
-                                })
-                                .catch(error => console.error('Failed to load report:', error));
-                        </script>
-                    </section>
-                </section>
-
-            </div>
+            <!-- Individual Blog Post Section -->
+            <section id="blogPost" style="display: none;" main>
+                <button onclick="backToBlog()" main>Back to Blog</button>
+                <div id="postContent"></div>
+            </section>
         </main>
-        <footer footer>
+
+      <footer footer>
             <h1 footer>If you encounter any issues or bugs please report them <a href="javascript:void(0);" onclick="showSection('report')" footer>here</a></h1>
         </footer>
         <footer class="site-footer">
