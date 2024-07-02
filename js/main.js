@@ -507,3 +507,5 @@ async function saveNote() {
         alert(`Failed to save note. Error: ${error.message}`);
     }
 }
+
+// Hello
