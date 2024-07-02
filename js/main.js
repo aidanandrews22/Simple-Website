@@ -492,7 +492,6 @@ async function saveNote() {
         if (result.statusCode === 200) {
             loadNotes();
             alert('Note saved successfully!');
-            // Clear the password field after successful save
             document.getElementById('notePassword').value = '';
         } else if (result.statusCode === 401) {
             alert('Incorrect password. Note not saved.');
