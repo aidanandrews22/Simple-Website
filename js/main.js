@@ -1,5 +1,12 @@
 const API_GATEWAY_URL = 'https://hgz2zgyata.execute-api.us-east-2.amazonaws.com/saveNote';
 window.saveNote = saveNote;
+window.toggleSection = toggleSection;
+window.showSection = showSection;
+window.changeTranscript = changeTranscript;
+window.filterPosts = filterPosts;
+window.createNewNote = createNewNote;
+window.backToBlog = backToBlog;
+window.toggleGraphView = toggleGraphView;
 
 document.addEventListener('DOMContentLoaded', () => {
     clearLocalStorageAfterDelay();
