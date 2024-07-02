@@ -1,3 +1,5 @@
+let API_GATEWAY_URL;
+
 document.addEventListener('DOMContentLoaded', () => {
     clearLocalStorageAfterDelay();
     handleNavigation();
@@ -505,7 +507,7 @@ async function saveNote() {
   const title = content.split('\n')[0].replace('#', '').trim(); // Use first line as title
 
   try {
-      const response = await fetch('https://hgz2zgyata.execute-api.us-east-2.amazonaws.com/default', {
+      const response = await fetch(API_GATEWAY_URL, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
