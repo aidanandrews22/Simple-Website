@@ -446,33 +446,6 @@ function toggleSection(section) {
   }
 }
 
-function loadNotes() {
-  fetch('/notes.json')
-      .then(response => response.json())
-      .then(notes => {
-          const noteDirectory = document.getElementById('noteDirectory');
-          noteDirectory.innerHTML = '';
-          notes.forEach(note => {
-              const noteElement = document.createElement('div');
-              noteElement.textContent = note.title;
-              noteElement.onclick = () => loadNote(note.id);
-              noteDirectory.appendChild(noteElement);
-          });
-      })
-      .catch(error => console.error('Error loading notes:', error));
-}
-
-function loadNote(noteId) {
-  fetch(`/content/notes/${noteId}.md`)
-      .then(response => response.text())
-      .then(content => {
-          document.getElementById('noteContent').value = content;
-      })
-      .catch(error => console.error('Error loading note:', error));
-}
-
-const https = require('https');
-
 exports.handler = async (event) => {
     const { content, title } = JSON.parse(event.body);
     const noteId = 'note' + Date.now();
@@ -504,6 +477,10 @@ exports.handler = async (event) => {
     }
 };
 
+function createNewNote() {
+  document.getElementById('noteContent').value = '# New Note\n\nEnter your note content here...';
+}
+
 async function saveNote() {
   const content = document.getElementById('noteContent').value;
   const title = content.split('\n')[0].replace('#', '').trim(); // Use first line as title
@@ -527,4 +504,29 @@ async function saveNote() {
   } catch (error) {
       console.error('Error saving note:', error);
   }
+}
+
+function loadNotes() {
+  fetch('/notes.json')
+      .then(response => response.json())
+      .then(notes => {
+          const noteDirectory = document.getElementById('noteDirectory');
+          noteDirectory.innerHTML = '';
+          notes.forEach(note => {
+              const noteElement = document.createElement('div');
+              noteElement.textContent = note.title;
+              noteElement.onclick = () => loadNote(note.id);
+              noteDirectory.appendChild(noteElement);
+          });
+      })
+      .catch(error => console.error('Error loading notes:', error));
+}
+
+function loadNote(noteId) {
+  fetch(`/content/notes/${noteId}.md`)
+      .then(response => response.text())
+      .then(content => {
+          document.getElementById('noteContent').value = content;
+      })
+      .catch(error => console.error('Error loading note:', error));
 }
