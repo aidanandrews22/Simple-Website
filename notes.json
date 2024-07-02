@@ -1,14 +1,20 @@
 [
-    {
-      "id": "note1",
-      "title": "My First Note",
-      "date": "2024-07-01",
-      "category": "General"
-    },
-    {
-      "id": "note2",
-      "title": "Ideas for Future Projects",
-      "date": "2024-07-02",
-      "category": "Projects"
-    }
-  ]
+  {
+    "id": "note1",
+    "title": "My First Note",
+    "date": "2024-07-01",
+    "category": "General"
+  },
+  {
+    "id": "note2",
+    "title": "Ideas for Future Projects",
+    "date": "2024-07-02",
+    "category": "Projects"
+  },
+  {
+    "id": "note1719936552033",
+    "title": "New Note",
+    "date": "2024-07-02",
+    "category": "General"
+  }
+]
