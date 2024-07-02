@@ -492,7 +492,8 @@ async function saveNote() {
             loadNotes();
             alert('Note saved successfully!');
         } else {
-            throw new Error(`Lambda invocation failed: ${result.body}`);
+            const errorBody = JSON.parse(result.body);
+            throw new Error(`Lambda invocation failed: ${errorBody.error}\nDetails: ${errorBody.details}\nStack: ${errorBody.stack}`);
         }
     } catch (error) {
         console.error('Error saving note:', error);
