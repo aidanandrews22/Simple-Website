@@ -465,16 +465,26 @@ exports.handler = async (event) => {
         await createOrUpdateFile('notes.json', JSON.stringify(notesJson, null, 2), `Update notes.json for new note: ${title}`);
 
         return {
-            statusCode: 200,
-            body: JSON.stringify({ message: "Note saved successfully" }),
-        };
-    } catch (error) {
-        console.error('Error saving note:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Failed to save note" }),
-        };
-    }
+          statusCode: 200,
+          headers: {
+              "Access-Control-Allow-Origin": "*", // Or your specific domain
+              "Access-Control-Allow-Headers": "Content-Type",
+              "Access-Control-Allow-Methods": "POST, OPTIONS"
+          },
+          body: JSON.stringify({ message: "Note saved successfully" }),
+      };
+  } catch (error) {
+      console.error('Error saving note:', error);
+      return {
+          statusCode: 500,
+          headers: {
+              "Access-Control-Allow-Origin": "*", // Or your specific domain
+              "Access-Control-Allow-Headers": "Content-Type",
+              "Access-Control-Allow-Methods": "POST, OPTIONS"
+          },
+          body: JSON.stringify({ error: "Failed to save note" }),
+      };
+  }
 };
 
 function createNewNote() {
