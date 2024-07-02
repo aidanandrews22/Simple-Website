@@ -6,20 +6,23 @@ window.changeTranscript = changeTranscript;
 window.filterPosts = filterPosts;
 window.createNewNote = createNewNote;
 window.backToBlog = backToBlog;
+window.loadPost = loadPost;
 window.toggleGraphView = toggleGraphView;
+window.toggleEditMode = toggleEditMode;
 
 document.addEventListener('DOMContentLoaded', () => {
-    clearLocalStorageAfterDelay();
-    handleNavigation();
+  initializeMarked();
+  clearLocalStorageAfterDelay();
+  handleNavigation();
 
-    const navLinks = document.querySelectorAll('nav a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            const sectionId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-            showSection(sectionId);
-            event.preventDefault();
-        });
-    });
+  const navLinks = document.querySelectorAll('nav a');
+  navLinks.forEach(link => {
+      link.addEventListener('click', function(event) {
+          const sectionId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+          showSection(sectionId);
+          event.preventDefault();
+      });
+  });
   loadBlogPosts();
   handleGraphViewState();
   loadNotes();
@@ -232,29 +235,6 @@ function filterPosts(category) {
   });
 }
 
-function parseMarkdown(markdown) {
-  let html = markdown
-    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-    .replace(/\*\*(.*)\*\*/gm, '<strong>$1</strong>')
-    .replace(/\*(.*)\*/gm, '<em>$1</em>')
-    .replace(/\[(.*?)\]\((.*?)\)/gm, '<a href="$2" target="_blank" rel="noopener noreferrer" alt>$1</a>')
-    .replace(/^---$/gm, '<hr>')
-    .replace(/^> (.*$)/gm, '<blockquote><p>$1</p></blockquote>');
-
-  html = html.replace(/<div align="center">\s*<img src="(.*?)" alt="(.*?)" \/>\s*<br \/>\s*<em>(.*?)<\/em>\s*<\/div>/gm, 
-    '<figure class="centered-image">' +
-    '<img src="$1" alt="$2" />' +
-    '<figcaption>$3</figcaption>' +
-    '</figure>'
-  );
-
-  html = html.replace(/^(?!<[a-z])(.*$)/gm, '<p>$1</p>');
-
-  return html;
-}
-
 ////////// Graph //////////////////
 
 let graph;
@@ -403,8 +383,23 @@ function updateGraphFilter(category) {
   graph.graphData({ nodes, links });
 }
 
+///////////// AWS //////////////////////
+
+const IDENTITY_POOL_ID = 'us-east-2:c920fd61-bcd8-43c9-b214-f713ed6539ca';
+const REGION = 'us-east-2';
+const LAMBDA_FUNCTION_NAME = 'saveNoteFunction';
+
+AWS.config.region = REGION;
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: IDENTITY_POOL_ID
+});
+
+const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
 
 ///////////// Notes //////////////////////
+
+let currentNoteId = null;
+let markedInstance = null;
 
 function toggleSection(section) {
   const blogToggle = document.getElementById('blogToggle');
@@ -426,81 +421,124 @@ function toggleSection(section) {
   }
 }
 
-function createNewNote() {
-  document.getElementById('noteContent').value = '# New Note\n\nEnter your note content here...';
+function initializeMarked() {
+    if (typeof marked !== 'undefined') {
+        markedInstance = new marked.Marked();
+        console.log('Marked initialized successfully');
+    } else {
+        console.error('Marked library not found');
+    }
 }
 
-function loadNotes() {
-  fetch('/notes.json')
-      .then(response => response.json())
-      .then(notes => {
-          const noteDirectory = document.getElementById('noteDirectory');
-          noteDirectory.innerHTML = '';
-          notes.forEach(note => {
-              const noteElement = document.createElement('div');
-              noteElement.textContent = note.title;
-              noteElement.onclick = () => loadNote(note.id);
-              noteDirectory.appendChild(noteElement);
-          });
-      })
-      .catch(error => console.error('Error loading notes:', error));
+
+function parseMarkdown(content) {
+  if (markedInstance) {
+      return markedInstance.parse(content);
+  } else {
+      console.error('Marked not initialized, returning raw content');
+      return content;
+  }
+}
+
+function toggleEditMode() {
+  const viewMode = document.getElementById('noteViewMode');
+  const editMode = document.getElementById('noteEditMode');
+  const textarea = document.getElementById('noteTextarea');
+  const content = document.getElementById('noteContent');
+  const password = document.getElementById('password');
+
+  if (viewMode.style.display !== 'none') {
+      // Switching to edit mode
+      textarea.value = textarea.value || content.innerText; // Use textarea value if it exists, otherwise use content
+      viewMode.style.display = 'none';
+      editMode.style.display = 'block';
+      password.style.display = 'block';
+  } else {
+      // Switching to view mode
+      content.innerHTML = parseMarkdown(textarea.value);
+      password.style.display = 'none';
+      showViewMode();
+  }
+}
+
+function showViewMode() {
+  document.getElementById('noteViewMode').style.display = 'block';
+  document.getElementById('noteEditMode').style.display = 'none';
+}
+
+function createNewNote() {
+  currentNoteId = null; // Reset current note ID
+  document.getElementById('noteTextarea').value = '# New Note\n\nEnter your note content here...';
+  toggleEditMode(); // Switch to edit mode
 }
 
 function loadNote(noteId) {
   fetch(`/content/notes/${noteId}.md`)
       .then(response => response.text())
       .then(content => {
-          document.getElementById('noteContent').value = content;
+          currentNoteId = noteId;
+          document.getElementById('noteTextarea').value = content;
+          document.getElementById('noteContent').innerHTML = parseMarkdown(content);
+          showViewMode();
       })
       .catch(error => console.error('Error loading note:', error));
 }
-const IDENTITY_POOL_ID = 'us-east-2:c920fd61-bcd8-43c9-b214-f713ed6539ca';
-const REGION = 'us-east-2';
-const LAMBDA_FUNCTION_NAME = 'saveNoteFunction';
 
-AWS.config.region = REGION;
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IDENTITY_POOL_ID
-});
-
-const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
+function loadNotes() {
+    fetch('/notes.json')
+        .then(response => response.json())
+        .then(notes => {
+            const noteDirectory = document.getElementById('noteDirectory');
+            noteDirectory.innerHTML = '';
+            notes.forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.textContent = note.title;
+                noteElement.onclick = () => loadNote(note.id);
+                noteDirectory.appendChild(noteElement);
+            });
+        })
+        .catch(error => console.error('Error loading notes:', error));
+}
 
 async function saveNote() {
-    const content = document.getElementById('noteContent').value;
-    const title = content.split('\n')[0].replace('#', '').trim();
-    const password = document.getElementById('notePassword').value;
+  const content = document.getElementById('noteTextarea').value;
+  const title = content.split('\n')[0].replace('#', '').trim();
+  const password = document.getElementById('notePassword').value;
 
-    console.log('Attempting to save note:', { title, contentLength: content.length });
+  console.log('Attempting to save note:', { title, contentLength: content.length });
 
-    const params = {
-        FunctionName: LAMBDA_FUNCTION_NAME,
-        InvocationType: "RequestResponse",
-        Payload: JSON.stringify({ content, title, password }),
-    };
+  const params = {
+      FunctionName: LAMBDA_FUNCTION_NAME,
+      InvocationType: "RequestResponse",
+      Payload: JSON.stringify({ content, title, password, noteId: currentNoteId }),
+  };
 
-    try {
-        const response = await new Promise((resolve, reject) => {
-            lambda.invoke(params, (err, data) => {
-                if (err) reject(err);
-                else resolve(data);
-            });
-        });
+  try {
+      const response = await new Promise((resolve, reject) => {
+          lambda.invoke(params, (err, data) => {
+              if (err) reject(err);
+              else resolve(data);
+          });
+      });
 
-        const result = JSON.parse(response.Payload);
-        console.log('Lambda invocation result:', result);
+      const result = JSON.parse(response.Payload);
+      console.log('Lambda invocation result:', result);
 
-        if (result.statusCode === 200) {
-            loadNotes();
-            alert('Note saved successfully!');
-            document.getElementById('notePassword').value = '';
-        } else if (result.statusCode === 401) {
-            alert('Incorrect password. Note not saved.');
-        } else {
-            const errorBody = JSON.parse(result.body);
-            throw new Error(`Lambda invocation failed: ${errorBody.error}\nDetails: ${errorBody.details}\nStack: ${errorBody.stack}`);
-        }
-    } catch (error) {
-        console.error('Error saving note:', error);
-        alert(`Failed to save note. Error: ${error.message}`);
-    }
+      if (result.statusCode === 200) {
+          loadNotes(); // Refresh the note list
+          document.getElementById('noteContent').innerHTML = parseMarkdown(content);
+          showViewMode();
+          alert('Note saved successfully!');
+          document.getElementById('notePassword').value = '';
+      } else if (result.statusCode === 401) {
+          alert('Incorrect password. Note not saved.');
+      } else {
+          const errorBody = JSON.parse(result.body);
+          console.error('Detailed error:', errorBody);
+          throw new Error(`Lambda invocation failed: ${errorBody.error}\nDetails: ${errorBody.details}\nStack: ${errorBody.stack}\nEvent: ${errorBody.event}`);
+      }
+  } catch (error) {
+      console.error('Error saving note:', error);
+      alert(`Failed to save note. Error: ${error.message}\n\nPlease check the console for more details.`);
+  }
 }

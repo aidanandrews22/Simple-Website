@@ -1225,50 +1225,141 @@ hr {
     cursor: pointer;
     margin-right: 20px;
     color: #000;
+    transition: color 0.3s ease;
 }
 
 .section-toggle.active {
-    border-bottom: 2px solid #333;
+    text-decoration: underline;
 }
 
 #noteDirectory {
     width: 30%;
     float: left;
     border-right: 1px solid #eee;
-    height: 400px;
+    height: 600px;
     overflow-y: auto;
+    background-color: #f9f9f9;
 }
 
 #noteDirectory div {
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
 }
 
 #noteDirectory div:hover {
-    background-color: #f5f5f5;
+    background-color: #f0f0f0;
 }
 
 #noteEditor {
     width: 70%;
     float: right;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#noteEditor button {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 6px;
+    background: #eee;
+    color: #444;
+    font-size: small;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+#noteViewMode, #noteEditMode {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    overflow-y: auto;
 }
 
 #noteContent {
     width: 100%;
-    height: 350px;
-    border: 1px solid #eee;
-    padding: 10px;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    line-height: 1.6;
+    font-size: 16px;
 }
 
-button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #4183C4;
-    color: white;
+#noteTextarea {
+    width: 100%;
+    height: 450px;
+    padding: 20px;
+    box-sizing: border-box;
     border: none;
-    cursor: pointer;
+    resize: vertical;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
-button:hover {
-    background-color: #3a74ae;
+#notePassword {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+/* Markdown Styles */
+#noteContent h1, #noteContent h2, #noteContent h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#noteContent p {
+    margin-bottom: 15px;
+}
+
+#noteContent ul, #noteContent ol {
+    margin-bottom: 15px;
+    padding-left: 30px;
+}
+
+#noteContent code {
+    background-color: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+#noteContent pre {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+#noteContent blockquote {
+    border-left: 4px solid #4183C4;
+    padding-left: 15px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #noteDirectory, #noteEditor {
+        width: 100%;
+        float: none;
+    }
+
+    #noteDirectory {
+        height: 200px;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    #noteViewMode, #noteEditMode, #noteTextarea {
+        height: 400px;
+    }
 }
