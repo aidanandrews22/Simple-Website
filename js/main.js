@@ -1,5 +1,6 @@
 let API_GATEWAY_URL;
 /* global API_GATEWAY_URL */
+// Hello
 
 document.addEventListener('DOMContentLoaded', () => {
     clearLocalStorageAfterDelay();
