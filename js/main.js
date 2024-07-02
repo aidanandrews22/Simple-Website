@@ -170,32 +170,6 @@ function formatDate(dateString) {
 }
 
 function loadPost(postId) {
-    fetch('/blog-posts.json')
-      .then(response => response.json())
-      .then(posts => {
-              const post = posts.find(p => p.id === postId);
-              if (post) {
-                        fetch(post.content)
-                          .then(response => response.text())
-                          .then(content => {
-                                        document.getElementById('postContent').innerHTML = `
-                                          <h1 class="post-title">${post.title}</h1>
-                                            <p class="post-date">${formatDate(post.date)}</p>
-                                                          ${parseMarkdown(content)}
-                                                                      `;
-                                                                                  document.getElementById('blog').style.display = 'none';
-                                                                                              document.getElementById('blogPost').style.display = 'block';
-                                        localStorage.setItem('currentPost', postId);
-                                        localStorage.setItem('activeSection', 'blogPost');
-                                        updateURL(`blogPost/${postId}`);
-                                      })
-                          .catch(error => console.error('Error loading post content:', error));
-                      }
-            })
-      .catch(error => console.error('Error loading blog posts:', error));
-}
-
-function loadPost(postId) {
   fetch('/blog-posts.json')
     .then(response => response.json())
     .then(posts => {
