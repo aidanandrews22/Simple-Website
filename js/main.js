@@ -468,6 +468,12 @@ const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
 async function saveNote() {
     const content = document.getElementById('noteContent').value;
     const title = content.split('\n')[0].replace('#', '').trim();
+    const password = document.getElementById('notePassword').value;
+
+    if (password !== 'your_secret_password') {
+        alert('Incorrect password. Note not saved.');
+        return;
+    }
 
     console.log('Attempting to save note:', { title, contentLength: content.length });
 
@@ -491,6 +497,7 @@ async function saveNote() {
         if (result.statusCode === 200) {
             loadNotes();
             alert('Note saved successfully!');
+            document.getElementById('notePassword').value = '';
         } else {
             const errorBody = JSON.parse(result.body);
             throw new Error(`Lambda invocation failed: ${errorBody.error}\nDetails: ${errorBody.details}\nStack: ${errorBody.stack}`);
