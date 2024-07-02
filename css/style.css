@@ -957,10 +957,16 @@ section[template] {
 
 nav[blog] {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 4px;
-    font-size: small;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+nav[blog] button {
+    margin-right: 10px;
+    white-space: nowrap;
 }
 
 [blog] button, [topic_date] button {
@@ -971,7 +977,6 @@ nav[blog] {
     font-weight: 500;
     padding: 0.2rem 0.6rem;
     text-align: center;
-    margin-bottom: 10px;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
@@ -1149,4 +1154,121 @@ hr {
   margin: 2em 0;
   border: none;
   border-top: 1px solid #ccc;
+}
+
+/* ------------------------Graph------------------------ */
+
+
+#graphView {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ddd;
+}
+
+.toggle-container {
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+#graphViewToggle {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.toggle-container label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 50px;  /* Adjusted for better fit in the nav */
+    height: 24px; /* Adjusted for better fit in the nav */
+    background: #eee;
+    display: block;
+    border-radius: 30px;
+    position: relative;
+}
+
+.toggle-container label:after {
+    content: '';
+    position: absolute;
+    top: 2.5px; /* Adjusted for better fit */
+    left: 2.5px; /* Adjusted for better fit */
+    width: 18px; /* Adjusted for better fit */
+    height: 18px; /* Adjusted for better fit */
+    background: #fff;
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+#graphViewToggle:checked + label {
+    background: #d8d8d8;
+}
+
+#graphViewToggle:checked + label:after {
+    left: calc(100% - 2.5px);
+    transform: translateX(-100%);
+}
+
+.toggle-container label:active:after {
+    width: 24px; /* Adjusted for better fit */
+}
+
+/* ------------------------Notes------------------------ */
+
+.section-toggle {
+    background: none;
+    border: none;
+    font-size: x-large;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 20px;
+    color: #000;
+}
+
+.section-toggle.active {
+    border-bottom: 2px solid #333;
+}
+
+#noteDirectory {
+    width: 30%;
+    float: left;
+    border-right: 1px solid #eee;
+    height: 400px;
+    overflow-y: auto;
+}
+
+#noteDirectory div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#noteDirectory div:hover {
+    background-color: #f5f5f5;
+}
+
+#noteEditor {
+    width: 70%;
+    float: right;
+}
+
+#noteContent {
+    width: 100%;
+    height: 350px;
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4183C4;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3a74ae;
 }

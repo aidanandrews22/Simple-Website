@@ -22,6 +22,9 @@
         <script type="module" src="/js/old.js"></script>
         <script src="/js/main.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://unpkg.com/3d-force-graph"></script>
+        <script src="https://unpkg.com/force-graph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@octokit/rest@18.5.3/dist/index.min.js"></script>
         <!-- <link rel="icon" href="assets\header.png"> -->
     </head>
     <body>
@@ -476,20 +479,40 @@
             <!-- ///////////////////////////////////////////////////////////////////////////// Blog /////////////////////////////////////////////////////////////////////////////-->
             <section id="blog" style="display:block;">
                 <section main>
-                    <h2 main>Blogs</h2>
+                    <h2 main>
+                        <button id="blogToggle" class="section-toggle active" onclick="toggleSection('blog')">Blogs</button>
+                        <button id="notesToggle" class="section-toggle" onclick="toggleSection('notes')">Notes</button>
+                    </h2>
                     <nav blog>
-                        <button onclick="filterPosts('all')">All</button>
-                        <button onclick="filterPosts('misc')">Misc</button>
-                        <button onclick="filterPosts('neur')">Bio</button>
-                        <button onclick="filterPosts('mlcs')">ML</button>
-                        <button onclick="filterPosts('phys')">Physics</button>
+                        <div class="blog-buttons">
+                            <button onclick="filterPosts('all')">All</button>
+                            <button onclick="filterPosts('Misc')">Misc</button>
+                            <button onclick="filterPosts('CS')">Bio</button>
+                            <button onclick="filterPosts('ML')">ML</button>
+                            <button onclick="filterPosts('Physics')">Physics</button>
+                        </div>
+                        <div class="toggle-container">
+                            <input type="checkbox" id="graphViewToggle" onchange="toggleGraphView()">
+                            <label for="graphViewToggle">Toggle Graph View</label>
+                            <span class="toggle-label">Graph View</span>
+                        </div>
                     </nav>
                     <div id="postsContainer">
                         <!-- Blog posts will be dynamically loaded here -->
                     </div>
+                    <div id="notesContainer" style="display:none;">
+                        <!-- Notes will be dynamically loaded here -->
+                        <div id="noteDirectory"></div>
+                        <div id="noteEditor">
+                            <textarea id="noteContent"></textarea>
+                            <button onclick="saveNote()">Save Note</button>
+                        </div>
+                    </div>
+                    <div id="graphView" style="display: none;">
+                        <!-- Graph will be rendered here -->
+                    </div>
                 </section>
             </section>
-
             <!-- Individual Blog Post Section -->
             <section id="blogPost" style="display: none;" main>
                 <button onclick="backToBlog()" main>Back to Blog</button>
