@@ -444,74 +444,8 @@ function toggleSection(section) {
   }
 }
 
-exports.handler = async (event) => {
-    const { content, title } = JSON.parse(event.body);
-    const noteId = 'note' + Date.now();
-
-    try {
-        // Save the note content
-        await createOrUpdateFile(`content/notes/${noteId}.md`, content, `Add new note: ${title}`);
-
-        // Update notes.json
-        const notesJson = await getFileContent('notes.json');
-        notesJson.push({
-            id: noteId,
-            title: title,
-            date: new Date().toISOString().split('T')[0],
-            category: 'General'
-        });
-        await createOrUpdateFile('notes.json', JSON.stringify(notesJson, null, 2), `Update notes.json for new note: ${title}`);
-
-        return {
-          statusCode: 200,
-          headers: {
-              "Access-Control-Allow-Origin": "*", // Or your specific domain
-              "Access-Control-Allow-Headers": "Content-Type",
-              "Access-Control-Allow-Methods": "POST, OPTIONS"
-          },
-          body: JSON.stringify({ message: "Note saved successfully" }),
-      };
-  } catch (error) {
-      console.error('Error saving note:', error);
-      return {
-          statusCode: 500,
-          headers: {
-              "Access-Control-Allow-Origin": "*", // Or your specific domain
-              "Access-Control-Allow-Headers": "Content-Type",
-              "Access-Control-Allow-Methods": "POST, OPTIONS"
-          },
-          body: JSON.stringify({ error: "Failed to save note" }),
-      };
-  }
-};
-
 function createNewNote() {
   document.getElementById('noteContent').value = '# New Note\n\nEnter your note content here...';
-}
-
-async function saveNote() {
-  const content = document.getElementById('noteContent').value;
-  const title = content.split('\n')[0].replace('#', '').trim(); // Use first line as title
-
-  try {
-      const response = await fetch(API_GATEWAY_URL, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ content, title }),
-      });
-
-      if (!response.ok) {
-          throw new Error('Failed to save note');
-      }
-
-      const result = await response.json();
-      console.log(result.message);
-      loadNotes(); // Reload the notes list
-  } catch (error) {
-      console.error('Error saving note:', error);
-  }
 }
 
 function loadNotes() {
@@ -537,4 +471,31 @@ function loadNote(noteId) {
           document.getElementById('noteContent').value = content;
       })
       .catch(error => console.error('Error loading note:', error));
+}
+
+async function saveNote() {
+  const content = document.getElementById('noteContent').value;
+  const title = content.split('\n')[0].replace('#', '').trim(); // Use first line as title
+
+  try {
+      const response = await fetch(API_GATEWAY_URL, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ content, title }),
+          credentials: 'include' // This line is added
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log(result.message);
+      loadNotes(); // Reload the notes list
+  } catch (error) {
+      console.error('Error saving note:', error);
+      alert('Failed to save note. Please try again.');
+  }
 }
