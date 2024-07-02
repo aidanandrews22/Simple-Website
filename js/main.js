@@ -488,11 +488,11 @@ async function saveNote() {
         const result = JSON.parse(response.Payload);
         console.log('Lambda invocation result:', result);
 
-        if (response.StatusCode === 200) {
+        if (result.statusCode === 200) {
             loadNotes();
             alert('Note saved successfully!');
         } else {
-            throw new Error(`Lambda invocation failed: ${result.errorMessage || 'Unknown error'}`);
+            throw new Error(`Lambda invocation failed: ${result.body}`);
         }
     } catch (error) {
         console.error('Error saving note:', error);
