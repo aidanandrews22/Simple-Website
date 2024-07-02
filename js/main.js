@@ -1,6 +1,4 @@
-let API_GATEWAY_URL;
-/* global API_GATEWAY_URL */
-// Hello
+const API_GATEWAY_URL = 'https://hgz2zgyata.execute-api.us-east-2.amazonaws.com/default';
 
 document.addEventListener('DOMContentLoaded', () => {
     clearLocalStorageAfterDelay();
