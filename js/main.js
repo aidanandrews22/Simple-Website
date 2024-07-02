@@ -473,27 +473,53 @@ function loadNote(noteId) {
       .catch(error => console.error('Error loading note:', error));
 }
 
+import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
+import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
+import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
+
+const IDENTITY_POOL_ID = 'us-east-2:c920fd61-bcd8-43c9-b214-f713ed6539ca';
+const REGION = 'us-east-2';
+const LAMBDA_FUNCTION_NAME = 'saveNoteFunction';
+
+const cognitoIdentityClient = new CognitoIdentityClient({ region: REGION });
+
+const credentials = fromCognitoIdentityPool({
+    client: cognitoIdentityClient,
+    identityPoolId: IDENTITY_POOL_ID
+});
+
+const lambdaClient = new LambdaClient({ 
+    region: REGION,
+    credentials: credentials
+});
+
 async function saveNote() {
-  const content = document.getElementById('noteContent').value;
-  const title = content.split('\n')[0].replace('#', '').trim(); // Use first line as title
+    const content = document.getElementById('noteContent').value;
+    const title = content.split('\n')[0].replace('#', '').trim();
 
-  try {
-      const response = await fetch(API_GATEWAY_URL, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ content, title }),
-          mode: 'no-cors' // This line disables CORS checks
-      });
+    console.log('Attempting to save note:', { title, contentLength: content.length });
 
-      // Note: With 'no-cors', we can't access the response content
-      // so we'll just assume it was successful if we get here
-      console.log('Note presumably saved successfully');
-      loadNotes(); // Reload the notes list
-      alert('Note saved successfully!');
-  } catch (error) {
-      console.error('Error saving note:', error);
-      alert(`Failed to save note. Error: ${error.message}`);
-  }
+    const params = {
+        FunctionName: LAMBDA_FUNCTION_NAME,
+        InvocationType: "RequestResponse",
+        Payload: JSON.stringify({ content, title }),
+    };
+
+    try {
+        const command = new InvokeCommand(params);
+        const response = await lambdaClient.send(command);
+
+        const result = JSON.parse(new TextDecoder().decode(response.Payload));
+        console.log('Lambda invocation result:', result);
+
+        if (response.StatusCode === 200) {
+            loadNotes();
+            alert('Note saved successfully!');
+        } else {
+            throw new Error(`Lambda invocation failed: ${result.errorMessage || 'Unknown error'}`);
+        }
+    } catch (error) {
+        console.error('Error saving note:', error);
+        alert(`Failed to save note. Error: ${error.message}`);
+    }
 }
