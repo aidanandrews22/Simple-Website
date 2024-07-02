@@ -1,4 +1,5 @@
 const API_GATEWAY_URL = 'https://hgz2zgyata.execute-api.us-east-2.amazonaws.com/saveNote';
+window.saveNote = saveNote;
 
 document.addEventListener('DOMContentLoaded', () => {
     clearLocalStorageAfterDelay();
@@ -446,26 +447,16 @@ function loadNote(noteId) {
       })
       .catch(error => console.error('Error loading note:', error));
 }
-
-import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
-import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
-import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
-
 const IDENTITY_POOL_ID = 'us-east-2:c920fd61-bcd8-43c9-b214-f713ed6539ca';
 const REGION = 'us-east-2';
 const LAMBDA_FUNCTION_NAME = 'saveNoteFunction';
 
-const cognitoIdentityClient = new CognitoIdentityClient({ region: REGION });
-
-const credentials = fromCognitoIdentityPool({
-    client: cognitoIdentityClient,
-    identityPoolId: IDENTITY_POOL_ID
+AWS.config.region = REGION;
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: IDENTITY_POOL_ID
 });
 
-const lambdaClient = new LambdaClient({ 
-    region: REGION,
-    credentials: credentials
-});
+const lambda = new AWS.Lambda({apiVersion: '2015-03-31'});
 
 async function saveNote() {
     const content = document.getElementById('noteContent').value;
@@ -480,10 +471,14 @@ async function saveNote() {
     };
 
     try {
-        const command = new InvokeCommand(params);
-        const response = await lambdaClient.send(command);
+        const response = await new Promise((resolve, reject) => {
+            lambda.invoke(params, (err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
 
-        const result = JSON.parse(new TextDecoder().decode(response.Payload));
+        const result = JSON.parse(response.Payload);
         console.log('Lambda invocation result:', result);
 
         if (response.StatusCode === 200) {
