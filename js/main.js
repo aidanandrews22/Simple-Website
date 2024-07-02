@@ -1,13 +1,21 @@
 const API_GATEWAY_URL = 'https://hgz2zgyata.execute-api.us-east-2.amazonaws.com/default';
 
-function verifyApiGatewayUrl() {
-    console.log('Current API Gateway URL:', API_GATEWAY_URL);
-    fetch(API_GATEWAY_URL, { method: 'GET' })
-        .then(response => console.log('API Gateway response status:', response.status))
-        .catch(error => console.error('Error accessing API Gateway:', error));
-}
+document.addEventListener('DOMContentLoaded', () => {
+    clearLocalStorageAfterDelay();
+    handleNavigation();
 
-document.addEventListener('DOMContentLoaded', verifyApiGatewayUrl);
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            const sectionId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            showSection(sectionId);
+            event.preventDefault();
+        });
+    });
+  loadBlogPosts();
+  handleGraphViewState();
+  loadNotes();
+});
 
 function formSubmit() {
     const savedSection = localStorage.getItem('activeSection') || 'about';
