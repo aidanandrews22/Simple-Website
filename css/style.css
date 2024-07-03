@@ -1248,6 +1248,27 @@ hr {
     transition: background-color 0.3s ease;
 }
 
+#noteDirectory summary {
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+#noteDirectory summary:hover {
+    background-color: #eee;
+}
+
+#noteDirectory li {
+    padding: 5px;
+    cursor: pointer;
+    font-size: small;
+    border-bottom: 1px solid #eee;
+}
+
+#noteDirectory li:hover {
+    background-color: #eee;
+}
+
 #noteDirectory div:hover {
     background-color: #f0f0f0;
 }
@@ -1362,4 +1383,58 @@ hr {
     #noteViewMode, #noteEditMode, #noteTextarea {
         height: 400px;
     }
+}
+
+.category > summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.category > summary::before {
+    content: '▶';
+    display: inline-block;
+    width: 20px;
+    transition: transform 0.3s;
+}
+
+.category[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.category ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.note-title {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    padding-left: 15px;
+}
+
+.note-title::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+}
+
+.note-title.selected {
+    text-decoration: underline;
+}
+
+.toggle-container {
+    margin: 10px 10px;
+}
+
+.toggle-container h2[main] {
+    margin: 0;
+}
+
+.section-toggle.active {
+    text-decoration: underline;
+}
+
+.section-toggle:hover:not(.active) {
+    color: #4183C4;
 }

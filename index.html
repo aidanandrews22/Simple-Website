@@ -108,7 +108,7 @@
         </header top>
         <main>
             <nav>
-                <a href="/blog" onclick="showSection('blog'); event.preventDefault();">Blog</a>
+                <a href="/blog" onclick="showSection('blog'); event.preventDefault();">Blog/Notes</a>
                 <a href="/categories" onclick="showSection('categories'); event.preventDefault();">Categories</a>
                 <a href="/bookshelf" onclick="showSection('bookshelf'); event.preventDefault();">Bookshelf</a>
                 <a href="/about" onclick="showSection('about'); event.preventDefault();">About</a>
@@ -483,10 +483,12 @@
             <!-- ///////////////////////////////////////////////////////////////////////////// Blog /////////////////////////////////////////////////////////////////////////////-->
             <section id="blog" style="display:block;">
                 <section main>
-                    <h2 main>
-                        <button id="blogToggle" class="section-toggle active" onclick="toggleSection('blog')">Blogs</button>
-                        <button id="notesToggle" class="section-toggle" onclick="toggleSection('notes')">Notes</button>
-                    </h2>
+                    <div class="toggle-container">
+                        <h2>
+                            <button id="blogToggle" class="section-toggle active" onclick="toggleSection('blog')">Blogs</button>
+                            <button id="notesToggle" class="section-toggle" onclick="toggleSection('notes')">Notes</button>
+                        </h2>
+                    </div>
                     <nav blog>
                         <div class="blog-buttons">
                             <button onclick="filterPosts('all')">All</button>
@@ -514,6 +516,7 @@
                             <button onclick="toggleEditMode()">Edit</button>
                             <div id="noteEditMode" style="display: none;">
                                 <textarea id="noteTextarea"></textarea>
+                                <input type="text" id="noteCategory" placeholder="Category">
                             </div>
                             <div id="password" style="display: none;">
                                 <input type="password" id="notePassword" placeholder="Enter password to save">

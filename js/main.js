@@ -467,8 +467,15 @@ function showViewMode() {
 }
 
 function createNewNote() {
+  const title = prompt("Enter a title for your new note:");
+  if (!title) return; // Cancel if no title is entered
+
+  const category = prompt("Enter a category for your note:");
+  if (!category) return; // Cancel if no category is entered
+
   currentNoteId = null; // Reset current note ID
-  document.getElementById('noteTextarea').value = '# New Note\n\nEnter your note content here...';
+  document.getElementById('noteTextarea').value = `# ${title}\n\nEnter your note content here...`;
+  document.getElementById('noteCategory').value = category;
   toggleEditMode(); // Switch to edit mode
 }
 
@@ -485,32 +492,56 @@ function loadNote(noteId) {
 }
 
 function loadNotes() {
-    fetch('/notes.json')
-        .then(response => response.json())
-        .then(notes => {
-            const noteDirectory = document.getElementById('noteDirectory');
-            noteDirectory.innerHTML = '';
-            notes.forEach(note => {
-                const noteElement = document.createElement('div');
-                noteElement.textContent = note.title;
-                noteElement.onclick = () => loadNote(note.id);
-                noteDirectory.appendChild(noteElement);
-            });
-        })
-        .catch(error => console.error('Error loading notes:', error));
+  fetch('/notes.json')
+    .then(response => response.json())
+    .then(notes => {
+      const noteDirectory = document.getElementById('noteDirectory');
+      noteDirectory.innerHTML = '';
+      
+      const categories = {};
+      notes.forEach(note => {
+        if (!categories[note.category]) {
+          categories[note.category] = [];
+        }
+        categories[note.category].push(note);
+      });
+
+      for (const [category, categoryNotes] of Object.entries(categories)) {
+        const categoryElement = document.createElement('details');
+        categoryElement.className = 'category';
+        categoryElement.innerHTML = `<summary>${category}</summary>`;
+        
+        const notesList = document.createElement('ul');
+        categoryNotes.forEach(note => {
+          const noteElement = document.createElement('li');
+          noteElement.innerHTML = `<span class="note-title">${note.title}</span>`;
+          noteElement.onclick = () => {
+            loadNote(note.id);
+            document.querySelectorAll('.note-title').forEach(el => el.classList.remove('selected'));
+            noteElement.querySelector('.note-title').classList.add('selected');
+          };
+          notesList.appendChild(noteElement);
+        });
+        
+        categoryElement.appendChild(notesList);
+        noteDirectory.appendChild(categoryElement);
+      }
+    })
+    .catch(error => console.error('Error loading notes:', error));
 }
 
 async function saveNote() {
   const content = document.getElementById('noteTextarea').value;
   const title = content.split('\n')[0].replace('#', '').trim();
+  const category = document.getElementById('noteCategory').value;
   const password = document.getElementById('notePassword').value;
 
-  console.log('Attempting to save note:', { title, contentLength: content.length });
+  console.log('Attempting to save note:', { title, category, contentLength: content.length });
 
   const params = {
-      FunctionName: LAMBDA_FUNCTION_NAME,
-      InvocationType: "RequestResponse",
-      Payload: JSON.stringify({ content, title, password, noteId: currentNoteId }),
+    FunctionName: LAMBDA_FUNCTION_NAME,
+    InvocationType: "RequestResponse",
+    Payload: JSON.stringify({ content, title, category, password, noteId: currentNoteId }),
   };
 
   try {
