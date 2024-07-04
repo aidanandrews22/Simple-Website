@@ -108,11 +108,11 @@
         </header top>
         <main>
             <nav>
-                <a href="/blog" onclick="showSection('blog'); event.preventDefault();">Blog</a>
-                <a href="/notes" onclick="showSection('notes'); event.preventDefault();">Notes</a>
-                <a href="/categories" onclick="showSection('categories'); event.preventDefault();">Categories</a>
-                <a href="/bookshelf" onclick="showSection('bookshelf'); event.preventDefault();">Bookshelf</a>
-                <a href="/about" onclick="showSection('about'); event.preventDefault();">About</a>
+                <a href="#blog">Blog</a>
+                <a href="#notes">Notes</a>
+                <a href="#categories">Categories</a>
+                <a href="#bookshelf">Bookshelf</a>
+                <a href="#about">About</a>
             </nav>
 
             <div id="content">
@@ -484,7 +484,7 @@
             <!-- Blog Section -->
             <section id="blog" class="content-section">
                 <h2>Blog Posts</h2>
-                <nav class="content-nav">
+                <nav class="content-nav" data-type="blog">
                     <div class="filter-buttons">
                         <button onclick="filterPosts('all', 'blog')">All</button>
                         <button onclick="filterPosts('Misc', 'blog')">Misc</button>
@@ -498,7 +498,7 @@
                         <span class="toggle-label">Graph View</span>
                     </div>
                 </nav>
-                <div id="blogPostsContainer" class="posts-container">
+                <div id="blogContainer" class="posts-container">
                     <!-- Blog posts will be dynamically loaded here -->
                 </div>
                 <div id="blogGraphView" class="graph-view">
@@ -509,7 +509,7 @@
             <!-- Notes Section -->
             <section id="notes" class="content-section" style="display:none;">
                 <h2>Notes</h2>
-                <nav class="content-nav">
+                <nav class="content-nav" data-type="notes">
                     <div class="filter-buttons">
                         <button onclick="filterPosts('all', 'notes')">All</button>
                         <button onclick="filterPosts('Misc', 'notes')">Misc</button>
@@ -530,7 +530,6 @@
                     <!-- Notes graph will be rendered here -->
                 </div>
             </section>
-
             <!-- Individual Post/Note View Section -->
             <section id="postView" class="post-view" style="display: none;">
                 <button onclick="backToList()" class="back-button">Back</button>
