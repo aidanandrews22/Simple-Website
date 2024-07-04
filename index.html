@@ -108,7 +108,8 @@
         </header top>
         <main>
             <nav>
-                <a href="/blog" onclick="showSection('blog'); event.preventDefault();">Blog/Notes</a>
+                <a href="/blog" onclick="showSection('blog'); event.preventDefault();">Blog</a>
+                <a href="/notes" onclick="showSection('notes'); event.preventDefault();">Notes</a>
                 <a href="/categories" onclick="showSection('categories'); event.preventDefault();">Categories</a>
                 <a href="/bookshelf" onclick="showSection('bookshelf'); event.preventDefault();">Bookshelf</a>
                 <a href="/about" onclick="showSection('about'); event.preventDefault();">About</a>
@@ -480,59 +481,66 @@
                     <iframe class="desktop-only" src="/assets/PDF/Aidan Andrews Resume.pdf" width="100%" height="1000"></iframe>
                 </section>
                 
-            <!-- ///////////////////////////////////////////////////////////////////////////// Blog /////////////////////////////////////////////////////////////////////////////-->
-            <section id="blog" style="display:block;">
-                <section main>
-                    <div class="toggle-container">
-                        <h2>
-                            <button id="blogToggle" class="section-toggle active" onclick="toggleSection('blog')">Blogs</button>
-                            <button id="notesToggle" class="section-toggle" onclick="toggleSection('notes')">Notes</button>
-                        </h2>
+            <!-- Blog Section -->
+            <section id="blog" class="content-section">
+                <h2>Blog Posts</h2>
+                <nav class="content-nav">
+                    <div class="filter-buttons">
+                        <button onclick="filterPosts('all', 'blog')">All</button>
+                        <button onclick="filterPosts('Misc', 'blog')">Misc</button>
+                        <button onclick="filterPosts('CS', 'blog')">Bio</button>
+                        <button onclick="filterPosts('ML', 'blog')">ML</button>
+                        <button onclick="filterPosts('Physics', 'blog')">Physics</button>
                     </div>
-                    <nav blog>
-                        <div class="blog-buttons">
-                            <button onclick="filterPosts('all')">All</button>
-                            <button onclick="filterPosts('Misc')">Misc</button>
-                            <button onclick="filterPosts('CS')">Bio</button>
-                            <button onclick="filterPosts('ML')">ML</button>
-                            <button onclick="filterPosts('Physics')">Physics</button>
-                        </div>
-                        <div class="toggle-container">
-                            <input type="checkbox" id="graphViewToggle" onchange="toggleGraphView()">
-                            <label for="graphViewToggle">Toggle Graph View</label>
-                            <span class="toggle-label">Graph View</span>
-                        </div>
-                    </nav>
-                    <div id="postsContainer">
-                        <!-- Blog posts will be dynamically loaded here -->
+                    <div class="toggle-container" id="blogToggleContainer">
+                        <input type="checkbox" id="blogGraphViewToggle" onchange="toggleGraphView('blog')">
+                        <label for="blogGraphViewToggle">Toggle Graph View</label>
+                        <span class="toggle-label">Graph View</span>
                     </div>
-                    <div id="notesContainer" style="display:none;">
-                        <div id="noteDirectory"></div>
-                        <div id="noteEditor">
-                            <button onclick="createNewNote()" >New Note</button>
-                            <div id="noteViewMode">
-                                <div id="noteContent"></div>
-                            </div>
-                            <button onclick="toggleEditMode()">Edit</button>
-                            <div id="noteEditMode" style="display: none;">
-                                <textarea id="noteTextarea"></textarea>
-                                <input type="text" id="noteCategory" placeholder="Category">
-                            </div>
-                            <div id="password" style="display: none;">
-                                <input type="password" id="notePassword" placeholder="Enter password to save">
-                                <button onclick="saveNote()">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="graphView" style="display: none;">
-                        <!-- Graph will be rendered here -->
-                    </div>
-                </section>
+                </nav>
+                <div id="blogPostsContainer" class="posts-container">
+                    <!-- Blog posts will be dynamically loaded here -->
+                </div>
+                <div id="blogGraphView" class="graph-view">
+                    <!-- Blog graph will be rendered here -->
+                </div>
             </section>
-            <!-- Individual Blog Post Section -->
-            <section id="blogPost" style="display: none;" main>
-                <button onclick="backToBlog()" main>Back to Blog</button>
-                <div id="postContent"></div>
+
+            <!-- Notes Section -->
+            <section id="notes" class="content-section" style="display:none;">
+                <h2>Notes</h2>
+                <nav class="content-nav">
+                    <div class="filter-buttons">
+                        <button onclick="filterPosts('all', 'notes')">All</button>
+                        <button onclick="filterPosts('Misc', 'notes')">Misc</button>
+                        <button onclick="filterPosts('CS', 'notes')">Bio</button>
+                        <button onclick="filterPosts('ML', 'notes')">ML</button>
+                        <button onclick="filterPosts('Physics', 'notes')">Physics</button>
+                    </div>
+                    <div class="toggle-container" id="notesToggleContainer">
+                        <input type="checkbox" id="notesGraphViewToggle" onchange="toggleGraphView('notes')">
+                        <label for="notesGraphViewToggle">Toggle Graph View</label>
+                        <span class="toggle-label">Graph View</span>
+                    </div>
+                </nav>
+                <div id="notesContainer" class="posts-container">
+                    <!-- Notes will be dynamically loaded here -->
+                </div>
+                <div id="notesGraphView" class="graph-view">
+                    <!-- Notes graph will be rendered here -->
+                </div>
+            </section>
+
+            <!-- Individual Post/Note View Section -->
+            <section id="postView" class="post-view" style="display: none;">
+                <button onclick="backToList()" class="back-button">Back</button>
+                <div id="postContent" class="post-content"></div>
+                <button id="editButton" onclick="toggleEditMode()" class="edit-button" style="display: none;">Edit</button>
+                <div id="editMode" class="edit-mode">
+                    <textarea id="editTextarea"></textarea>
+                    <input type="password" id="editPassword" placeholder="Enter password to save">
+                    <button onclick="saveEdit()" class="save-button">Save</button>
+                </div>
             </section>
         </main>
 

@@ -3,18 +3,18 @@
     "id": "note1",
     "title": "My First Note",
     "date": "2024-07-01",
-    "category": "General"
+    "category": "Work"
   },
   {
     "id": "note2",
     "title": "Ideas for Future Projects",
     "date": "2024-07-02",
-    "category": "Projects"
+    "category": "School"
   },
   {
     "id": "note1719955756284",
     "title": "## Actionable Plan for Today",
     "date": "2024-07-02",
-    "category": "General"
+    "category": "Misc"
   }
 ]

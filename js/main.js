@@ -9,6 +9,7 @@ window.backToBlog = backToBlog;
 window.loadPost = loadPost;
 window.toggleGraphView = toggleGraphView;
 window.toggleEditMode = toggleEditMode;
+window.backToList = backToList;
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeMarked();
@@ -23,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
           event.preventDefault();
       });
   });
-  loadBlogPosts();
-  handleGraphViewState();
-  loadNotes();
+  loadPosts('blog');
+  loadPosts('notes');
 });
 
 function formSubmit() {
@@ -158,18 +158,21 @@ function loadBlogPosts() {
     .catch(error => console.error('Error loading blog posts:', error));
 }
 
-function createPostElement(post) {
+function createPostElement(post, type) {
   const article = document.createElement('article');
-  article.setAttribute('blog', 'post');
+  article.className = 'post-item';
   article.id = post.id;
 
+  let summaryHTML = '';
+  if (type === 'blog' && post.summary) {
+      summaryHTML = `<p class="post-summary">${post.summary}</p>`;
+  }
+
   article.innerHTML = `
-    <a href="javascript:void(0);" onclick="loadPost('${post.id}')" blog>${post.title}</a>
-    <div class="date">Written on ${formatDate(post.date)}</div>
-    <div class="entry">
-      <p>${post.summary}</p>
-    </div>
-    <a href="javascript:void(0);" onclick="loadPost('${post.id}')" read>read more</a>
+      <a href="javascript:void(0);" onclick="loadPost('${post.id}', '${type}')" class="post-title">${post.title}</a>
+      <div class="post-date">Written on ${formatDate(post.date)}</div>
+      ${summaryHTML}
+      <a href="javascript:void(0);" onclick="loadPost('${post.id}', '${type}')" class="read-more">Read more</a>
   `;
 
   return article;
@@ -180,190 +183,335 @@ function formatDate(dateString) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-function loadPost(postId) {
-  fetch('/blog-posts.json')
-    .then(response => response.json())
-    .then(posts => {
-      const post = posts.find(p => p.id === postId);
-      if (post) {
-        fetch(post.content)
-          .then(response => response.text())
-          .then(content => {
-            document.getElementById('postContent').innerHTML = `
-              <h1 class="post-title">${post.title}</h1>
-              <p class="post-date">${formatDate(post.date)}</p>
-              ${parseMarkdown(content)}
-            `;
-            document.getElementById('blog').style.display = 'none';
-            document.getElementById('blogPost').style.display = 'block';
-            localStorage.setItem('currentPost', postId);
-            localStorage.setItem('activeSection', 'blogPost');
-            updateURL(`blogPost/${postId}`);
-          })
-          .catch(error => console.error('Error loading post content:', error));
+function loadPosts(type) {
+  const blogUrl = '/blog-posts.json';
+  const notesUrl = '/notes.json';
+  
+  Promise.all([
+    fetch(blogUrl).then(response => response.json()),
+    fetch(notesUrl).then(response => response.json())
+  ])
+  .then(([blogPosts, notes]) => {
+    const container = document.getElementById(type === 'blog' ? 'blogPostsContainer' : 'notesContainer');
+    if (container) {
+      container.innerHTML = '';
+      if (type === 'blog') {
+        blogPosts.forEach(post => {
+          const postElement = createPostElement(post, 'blog');
+          container.appendChild(postElement);
+        });
+      } else {
+        notes.forEach(note => {
+          const noteElement = createPostElement(note, 'note');
+          container.appendChild(noteElement);
+        });
       }
-    })
-    .catch(error => console.error('Error loading blog posts:', error));
+      initGraph(type, blogPosts, notes);
+    } else {
+      console.error(`Container for ${type} not found`);
+    }
+  })
+  .catch(error => console.error(`Error loading ${type}:`, error));
 }
 
-function filterPosts(category) {
-  fetch('/blog-posts.json')
-    .then(response => response.json())
-    .then(posts => {
-      const filteredPosts = category === 'all' ? posts : posts.filter(post => post.category === category);
-      const postsContainer = document.getElementById('postsContainer');
-      postsContainer.innerHTML = '';
-      filteredPosts.forEach(post => {
-        const postElement = createPostElement(post);
-        postsContainer.appendChild(postElement);
-      });
+function loadPost(postId, type) {
+  if (!postId) {
+      console.error('No post ID provided');
+      return;
+  }
 
-      // Update graph if it exists
-      if (graph) {
-        updateGraphFilter(category);
-      }
-    })
-    .catch(error => console.error('Error filtering posts:', error));
+  const url = type === 'blog' ? '/blog-posts.json' : '/notes.json';
+  fetch(url)
+      .then(response => response.json())
+      .then(posts => {
+          const post = posts.find(p => p.id === postId);
+          if (post) {
+              console.log('Found post:', post);  // Debug log
+              let contentPromise;
+              if (type === 'blog') {
+                  contentPromise = fetch(post.content).then(response => response.text());
+              } else {
+                  // For notes, fetch the content from a separate file
+                  contentPromise = fetch(`/content/notes/${post.id}.md`).then(response => response.text());
+              }
 
-  const buttons = document.querySelectorAll('nav[blog] button');
+              contentPromise.then(content => {
+                  console.log('Raw content:', content);  // Debug log
+                  const parsedContent = parseMarkdown(content);
+                  console.log('Parsed content:', parsedContent);  // Debug log
+                  const postContent = document.getElementById('postContent');
+                  if (postContent) {
+                      postContent.innerHTML = `
+                          <h1 class="post-title">${post.title.replace(/^#+\s/, '')}</h1>
+                          <p class="post-date">${formatDate(post.date)}</p>
+                          <div class="parsed-content">${parsedContent}</div>
+                      `;
+                      
+                      // Hide the appropriate container based on the type
+                      const containerToHide = document.getElementById(type === 'blog' ? 'blogPostsContainer' : 'notesContainer');
+                      if (containerToHide) {
+                          containerToHide.style.display = 'none';
+                      } else {
+                          console.warn(`Container for ${type} not found`);
+                      }
+
+                      const postView = document.getElementById('postView');
+                      if (postView) {
+                          postView.style.display = 'block';
+                      } else {
+                          console.error('Post view container not found');
+                      }
+
+                      const editButton = document.getElementById('editButton');
+                      if (editButton) {
+                          editButton.style.display = type === 'note' ? 'block' : 'none';
+                      }
+
+                      const toggleContainerId = type === 'blog' ? 'blogToggleContainer' : 'notesToggleContainer';
+                      const toggleContainer = document.getElementById(toggleContainerId);
+                      if (toggleContainer) {
+                          toggleContainer.style.display = 'none';
+                      }
+
+                      localStorage.setItem('currentPost', postId);
+                      localStorage.setItem('activeSection', 'postView');
+                      localStorage.setItem('currentType', type);
+                      updateURL(`${type}/${postId}`);
+                  } else {
+                      console.error('Post content container not found');
+                  }
+              })
+              .catch(error => {
+                  console.error('Error loading or parsing post content:', error);
+                  const postContent = document.getElementById('postContent');
+                  if (postContent) {
+                      postContent.innerHTML = `<p>Error loading content: ${error.message}</p>`;
+                  }
+              });
+          } else {
+              console.error(`Post with ID ${postId} not found`);
+          }
+      })
+      .catch(error => console.error(`Error loading ${type}:`, error));
+}
+
+function filterPosts(category, type) {
+  const url = type === 'blog' ? '/blog-posts.json' : '/notes.json';
+  fetch(url)
+      .then(response => response.json())
+      .then(posts => {
+          const filteredPosts = category === 'all' ? posts : posts.filter(post => post.category === category);
+          const container = document.getElementById(type === 'blog' ? 'blogPostsContainer' : 'notesContainer');
+          container.innerHTML = '';
+          filteredPosts.forEach(post => {
+              const postElement = createPostElement(post, type);
+              container.appendChild(postElement);
+          });
+
+          // Update graph if it exists
+          if (type === 'blog' && blogGraph) {
+              updateGraphFilter(category, 'blog');
+          } else if (type === 'notes' && notesGraph) {
+              updateGraphFilter(category, 'notes');
+          }
+      })
+      .catch(error => console.error('Error filtering posts:', error));
+
+  const buttons = document.querySelectorAll(`nav[${type}] button`);
   buttons.forEach(button => {
-    if (button.textContent.toLowerCase() === category) {
-      button.classList.add('active');
-    } else {
-      button.classList.remove('active');
-    }
+      if (button.textContent.toLowerCase() === category.toLowerCase()) {
+          button.classList.add('active');
+      } else {
+          button.classList.remove('active');
+      }
   });
 }
 
 ////////// Graph //////////////////
 
-let graph;
+let blogGraph;
+let notesGraph;
 
 
-function initGraph() {
-    fetch('/blog-posts.json')
-        .then(response => response.json())
-        .then(posts => {
-            const nodes = [];
-            const links = [];
-            
-            // Add category nodes
-            const categories = ['Misc', 'CS', 'ML', 'Physics'];
-            categories.forEach(category => {
-                nodes.push({ id: category, name: category, val: 30, group: category, isCategory: true });
-            });
-            
-            // Add links between all category nodes
-            for (let i = 0; i < categories.length; i++) {
-                for (let j = i + 1; j < categories.length; j++) {
-                    links.push({ 
-                        source: categories[i], 
-                        target: categories[j],
-                        isCategoryLink: true
-                    });
-                }
-            }
-            
-            // Add post nodes and links
-            posts.forEach(post => {
-                nodes.push({ id: post.id, name: post.title, val: 10, group: post.category, isCategory: false });
-                links.push({ 
-                    source: post.category, 
-                    target: post.id,
-                    isCategoryLink: false
-                });
-            });
+function initGraph(type, posts, notes) {
+  const graphContainer = document.getElementById(`${type}GraphView`);
+  if (!graphContainer) {
+      console.error(`Graph container for ${type} not found`);
+      return;
+  }
 
-            const graphContainer = document.getElementById('graphView');
-            const width = graphContainer.clientWidth;
-            const height = graphContainer.clientHeight;
+  const width = graphContainer.clientWidth;
+  const height = graphContainer.clientHeight;
 
-            graph = ForceGraph3D()
-                (graphContainer)
-                .width(width)
-                .height(height)
-                .backgroundColor('#ffffff')
-                .graphData({ nodes, links })
-                .nodeId('id')
-                .nodeVal(node => node.isCategory ? 30 : 10)
-                .nodeLabel('name')
-                .nodeColor(node => getNodeColor(node.group))
-                .linkColor(link => link.isCategoryLink ? '#000000' : '#999999')
-                .linkWidth(link => link.isCategoryLink ? 2 : 1)
-                .linkOpacity(0.5)
-                .onNodeClick(node => {
-                    if (categories.includes(node.id)) {
-                        filterPosts(node.id);
-                    } else {
-                        loadPost(node.id);
-                    }
-                    toggleGraphView();
-                })
-                .nodeVisibility(node => !node.hidden)
-                .linkVisibility(link => !link.hidden)
-                .enableNodeDrag(true)
-                .enableNavigationControls(true)
-                .showNavInfo(true);
+  const nodes = [];
+  const links = [];
+  
+  // Add category nodes for blog posts
+  const blogCategories = ['Misc', 'CS', 'ML', 'Physics'];
+  blogCategories.forEach(category => {
+      nodes.push({ id: `blog-${category}`, name: category, val: 30, group: category, isCategory: true, type: 'blog' });
+  });
+  
+  // Add category nodes for notes
+  const noteCategories = ['School', 'Work', 'Misc', 'Personal'];
+  noteCategories.forEach(category => {
+      nodes.push({ id: `note-${category}`, name: category, val: 30, group: category, isCategory: true, type: 'note' });
+  });
+  
+  // Add links between all blog category nodes
+  for (let i = 0; i < blogCategories.length; i++) {
+      for (let j = i + 1; j < blogCategories.length; j++) {
+          links.push({ 
+              source: `blog-${blogCategories[i]}`, 
+              target: `blog-${blogCategories[j]}`,
+              isCategoryLink: true,
+              type: 'blog'
+          });
+      }
+  }
+  
+  // Add links between all note category nodes
+  for (let i = 0; i < noteCategories.length; i++) {
+      for (let j = i + 1; j < noteCategories.length; j++) {
+          links.push({ 
+              source: `note-${noteCategories[i]}`, 
+              target: `note-${noteCategories[j]}`,
+              isCategoryLink: true,
+              type: 'note'
+          });
+      }
+  }
+  
+  // Add blog post nodes and links
+  posts.forEach(post => {
+      if (post.category && blogCategories.includes(post.category)) {
+          nodes.push({ id: `blog-${post.id}`, name: post.title, val: 10, group: post.category, isCategory: false, type: 'blog' });
+          links.push({ 
+              source: `blog-${post.category}`, 
+              target: `blog-${post.id}`,
+              isCategoryLink: false,
+              type: 'blog'
+          });
+      }
+  });
 
-            updateGraphFilter('all');  
-            window.addEventListener('resize', handleGraphViewState);
-        });
+  // Add note nodes and links
+  notes.forEach(note => {
+      if (note.category && noteCategories.includes(note.category)) {
+          nodes.push({ id: `note-${note.id}`, name: note.title, val: 10, group: note.category, isCategory: false, type: 'note' });
+          links.push({ 
+              source: `note-${note.category}`, 
+              target: `note-${note.id}`,
+              isCategoryLink: false,
+              type: 'note'
+          });
+      }
+  });
+
+  const graph = ForceGraph3D()
+      (graphContainer)
+      .width(width)
+      .height(height)
+      .backgroundColor('#ffffff')
+      .graphData({ nodes, links })
+      .nodeId('id')
+      .nodeVal(node => node.isCategory ? 30 : 10)
+      .nodeLabel('name')
+      .nodeColor(node => getNodeColor(node.group, node.type))
+      .linkColor(link => link.isCategoryLink ? '#000000' : '#999999')
+      .linkWidth(link => link.isCategoryLink ? 2 : 1)
+      .linkOpacity(0.5)
+      .onNodeClick(node => {
+          if (node.isCategory) {
+              filterPosts(node.name, node.type);
+          } else {
+              loadPost(node.id.split('-')[1], node.type);
+          }
+          toggleGraphView(node.type);
+      })
+      .nodeVisibility(node => !node.hidden)
+      .linkVisibility(link => !link.hidden)
+      .enableNodeDrag(true)
+      .enableNavigationControls(true)
+      .showNavInfo(true);
+
+    console.log(`${type} graph controls:`, graph.controls());
+
+  if (type === 'blog') {
+      blogGraph = graph;
+  } else {
+      notesGraph = graph;
+  }
+
+  updateGraphFilter('all', type);
 }
 
-function toggleGraphView() {
-    const postsContainer = document.getElementById('postsContainer');
-    const graphView = document.getElementById('graphView');
-    const graphViewToggle = document.getElementById('graphViewToggle');
-    
-    if (graphViewToggle.checked) {
-        postsContainer.style.display = 'none';
-        graphView.style.display = 'block';
-        if (!graph) {
-            initGraph();
-        } else {
-            // Update graph size when toggling view
-            const width = graphView.clientWidth;
-            const height = graphView.clientHeight;
-            graph.width(width).height(height);
-        }
-    } else {
-        postsContainer.style.display = 'block';
-        graphView.style.display = 'none';
-    }
+function getNodeColor(group, type) {
+  const blogColors = {
+      Misc: '#ff7f0e',
+      CS: '#2ca02c',
+      ML: '#d62728',
+      Physics: '#9467bd'
+  };
+  const noteColors = {
+      School: '#1f77b4',
+      Work: '#ff7f0e',
+      Misc: '#2ca02c',
+      Personal: '#d62728'
+  };
+  return type === 'blog' ? (blogColors[group] || '#1f77b4') : (noteColors[group] || '#1f77b4');
 }
 
-function handleGraphViewState() {
-    const graphViewToggle = document.getElementById('graphViewToggle');
-    const graphView = document.getElementById('graphView');
-    
-    if (graphViewToggle.checked && graph) {
-        const width = graphView.clientWidth;
-        const height = graphView.clientHeight;
-        graph.width(width).height(height);
-    }
+function toggleGraphView(type) {
+  const postsContainer = document.getElementById(type === 'blog' ? 'blogPostsContainer' : 'notesContainer');
+  const graphView = document.getElementById(`${type}GraphView`);
+  const graphViewToggle = document.getElementById(`${type}GraphViewToggle`);
+  
+  if (graphViewToggle && graphView && postsContainer) {
+      if (graphViewToggle.checked) {
+          postsContainer.style.display = 'none';
+          graphView.style.display = 'block';
+          const graph = type === 'blog' ? blogGraph : notesGraph;
+          if (graph) {
+              const width = graphView.clientWidth;
+              const height = graphView.clientHeight;
+              graph.width(width).height(height);
+          } else {
+              loadPosts(type);  // This will initialize the graph if it doesn't exist
+          }
+      } else {
+          postsContainer.style.display = 'block';
+          graphView.style.display = 'none';
+      }
+  } else {
+      console.error('Required elements for graph view toggle not found');
+  }
 }
 
-function getNodeColor(group) {
-    const colors = {
-        Misc: '#ff7f0e',
-        CS: '#2ca02c',
-        ML: '#d62728',
-        Physics: '#9467bd'
-    };
-    return colors[group] || '#1f77b4';
+function handleGraphViewState(type) {
+  const graphViewToggle = document.getElementById(`${type}GraphViewToggle`);
+  const graphView = document.getElementById(`${type}GraphView`);
+  const graph = type === 'blog' ? blogGraph : notesGraph;
+  
+  if (graphViewToggle && graphView && graph && graphViewToggle.checked) {
+      const width = graphView.clientWidth;
+      const height = graphView.clientHeight;
+      graph.width(width).height(height);
+  }
 }
 
-function updateGraphFilter(category) {
+function updateGraphFilter(category, type) {
+  const graph = type === 'blog' ? blogGraph : notesGraph;
+  if (!graph) return;
+
   const graphData = graph.graphData();
   const nodes = graphData.nodes;
   const links = graphData.links;
 
   if (category === 'all') {
-    // Show all nodes and links
     nodes.forEach(node => node.hidden = false);
     links.forEach(link => link.hidden = false);
   } else {
-    // Hide nodes and links not in the selected category
     nodes.forEach(node => {
       if (node.isCategory) {
         node.hidden = node.id !== category;
@@ -379,8 +527,8 @@ function updateGraphFilter(category) {
     });
   }
 
-  // Update graph with new data
   graph.graphData({ nodes, links });
+
 }
 
 ///////////// AWS //////////////////////
@@ -430,35 +578,94 @@ function initializeMarked() {
     }
 }
 
-
 function parseMarkdown(content) {
-  if (markedInstance) {
-      return markedInstance.parse(content);
-  } else {
-      console.error('Marked not initialized, returning raw content');
+  if (!markedInstance) {
+      console.error('Marked not initialized');
       return content;
+  }
+
+  // Configure marked options
+  markedInstance.setOptions({
+      gfm: true,
+      breaks: true,
+      headerIds: false,
+      smartLists: true
+  });
+
+  // Custom renderer
+  const renderer = new marked.Renderer();
+
+  // Customize heading rendering
+  renderer.heading = (text, level) => {
+      return `<h${level} class="markdown-header">${text}</h${level}>`;
+  };
+
+  // Customize list rendering
+  renderer.list = (body, ordered, start) => {
+      const type = ordered ? 'ol' : 'ul';
+      const className = ordered ? 'markdown-list ordered' : 'markdown-list';
+      return `<${type} class="${className}">${body}</${type}>`;
+  };
+
+  // Customize list item rendering
+  renderer.listitem = (text, task, checked) => {
+      if (typeof text === 'object' && text.text) {
+          text = text.text;
+      }
+
+      if (typeof text !== 'string') {
+          console.error('Unexpected listitem text:', text);
+          return `<li>${String(text)}</li>`;
+      }
+
+      // Check for checkbox syntax
+      const checkboxMatch = text.match(/^\s*\[([ x])\]\s*(.*)$/i);
+      if (checkboxMatch || task) {
+          const isChecked = (checkboxMatch && checkboxMatch[1].toLowerCase() === 'x') || checked;
+          const itemText = checkboxMatch ? checkboxMatch[2] : text;
+          return `
+              <li class="task-list-item">
+                  <input type="checkbox" ${isChecked ? 'checked' : ''} disabled />
+                  <span>${itemText}</span>
+              </li>
+          `;
+      }
+
+      // Check for bold text at the start (for "Goal:" and "Action:")
+      const boldMatch = text.match(/^(\*\*[^*]+:\*\*)(.*)/);
+      if (boldMatch) {
+          return `<li><strong>${boldMatch[1].replace(/\*/g, '')}</strong>${boldMatch[2]}</li>`;
+      }
+
+      return `<li>${text}</li>`;
+  };
+
+  markedInstance.use({ renderer });
+
+  try {
+      return markedInstance.parse(content);
+  } catch (error) {
+      console.error('Error parsing Markdown:', error);
+      return `<p>Error rendering content: ${error.message}</p>`;
   }
 }
 
 function toggleEditMode() {
-  const viewMode = document.getElementById('noteViewMode');
-  const editMode = document.getElementById('noteEditMode');
-  const textarea = document.getElementById('noteTextarea');
-  const content = document.getElementById('noteContent');
-  const password = document.getElementById('password');
+    const viewMode = document.getElementById('postContent');
+    const editMode = document.getElementById('editMode');
+    const editTextarea = document.getElementById('editTextarea');
 
-  if (viewMode.style.display !== 'none') {
-      // Switching to edit mode
-      textarea.value = textarea.value || content.innerText; // Use textarea value if it exists, otherwise use content
-      viewMode.style.display = 'none';
-      editMode.style.display = 'block';
-      password.style.display = 'block';
-  } else {
-      // Switching to view mode
-      content.innerHTML = parseMarkdown(textarea.value);
-      password.style.display = 'none';
-      showViewMode();
-  }
+    if (editMode.style.display === 'none') {
+        // Switching to edit mode
+        editTextarea.value = viewMode.innerText;
+        viewMode.style.display = 'none';
+        editMode.style.display = 'block';
+    } else {
+        // Switching to view mode
+        viewMode.innerHTML = parseMarkdown(editTextarea.value);
+        editMode.style.display = 'none';
+        viewMode.style.display = 'block';
+    }
 }
 
 function showViewMode() {
@@ -572,4 +779,53 @@ async function saveNote() {
       console.error('Error saving note:', error);
       alert(`Failed to save note. Error: ${error.message}\n\nPlease check the console for more details.`);
   }
+}
+
+function saveEdit() {
+  const content = document.getElementById('editTextarea').value;
+  const password = document.getElementById('editPassword').value;
+  const postId = localStorage.getItem('currentPost');
+
+  const params = {
+      FunctionName: LAMBDA_FUNCTION_NAME,
+      InvocationType: "RequestResponse",
+      Payload: JSON.stringify({ content, postId, password }),
+  };
+
+  lambda.invoke(params, (err, data) => {
+      if (err) {
+          console.error('Error saving note:', err);
+          alert('Failed to save note. Please try again.');
+      } else {
+          const result = JSON.parse(data.Payload);
+          if (result.statusCode === 200) {
+              alert('Note saved successfully!');
+              document.getElementById('postContent').innerHTML = parseMarkdown(content);
+              toggleEditMode();
+          } else if (result.statusCode === 401) {
+              alert('Incorrect password. Note not saved.');
+          } else {
+              alert('Failed to save note. Please try again.');
+          }
+      }
+  });
+}
+
+function backToList() {
+  const currentType = localStorage.getItem('currentType') || 'blog';
+  document.getElementById('postView').style.display = 'none';
+  const containerToShow = document.getElementById(currentType === 'blog' ? 'blogPostsContainer' : 'notesContainer');
+  if (containerToShow) {
+      containerToShow.style.display = 'block';
+  } else {
+      console.warn(`Container for ${currentType} not found`);
+  }
+  const toggleContainerId = currentType === 'blog' ? 'blogToggleContainer' : 'notesToggleContainer';
+  const toggleContainer = document.getElementById(toggleContainerId);
+  if (toggleContainer) {
+      toggleContainer.style.display = 'flex';
+  }
+  localStorage.removeItem('currentPost');
+  localStorage.setItem('activeSection', currentType);
+  updateURL(currentType);
 }

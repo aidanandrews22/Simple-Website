@@ -688,7 +688,6 @@ article[class] {
     border: 1px solid #f2f2f2;
     gap: 16px;
     display: flex;
-    flex-direction: row;
     padding: 16px;
     gap: 16px;
     height: 100%
@@ -722,10 +721,6 @@ article[class] {
 
 h3[class] {
     font-weight: 500;
-}
-
-article[class] a[class] {
-    color: #111
 }
 
 article[class] a[pres] a[class]:hover {
@@ -830,198 +825,6 @@ body[main] {
 button[main] {
     color: #4183C4;
     cursor: pointer;
-}
-
-
-/* ------------------------Blog------------------------ */
-
-h1[cite] {
-    word-spacing: 5px;
-    font-size: x-large;
-    margin-bottom: 5%;
-    padding-top: 5%;
-    display: block;
-    margin: auto;
-    width: 500px;
-    text-align: left;
-    color: #444;
-}
-
-article[blog] {
-    border-radius: 8px;
-    border: 1px solid #f2f2f2;
-    gap: 16px;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    gap: 16px;
-    height: 100%
-}
-
-header[blog] {
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: content;
-    position: relative;
-}
-
-article[blog] {
-    margin-bottom: 4px
-}
-
-h3[blog] {
-    font-weight: 500;
-}
-
-article[blog] a[blog] {
-    margin-bottom: 8px;
-    font-weight: 600;
-    line-height: 1.5;
-    font-size: x-large;
-    width: fit-content;
-}
-
-article[blog] a[blog]:hover {
-    color: #4183C4;
-}
-
-p[blog] {
-    font-size: medium;
-    margin-bottom: 5px
-}
-
-article[blog] p[blog] {
-    font-size: medium;
-    margin-bottom: 4px
-}
-
-a[read] {
-    color: #4183C4;
-    font-size: medium;
-    width: fit-content;
-}
-
-#blog-categories nav a {
-    margin-right: 10px;
-    color: #4183C4;
-    cursor: pointer;
-}
-
-.entry p {
-    font-size: large;
-    line-height: 1.6;
-    color: #444;
-}
-
-h2[blog] {
-    font-weight: bolder;
-    font-size: x-large;
-    text-decoration: underline;
-    margin-top: 5%;
-}
-
-h2[template] {
-    margin-top: 2%;
-    font-weight: bolder;
-    font-size: xx-large;
-}
-
-p[topic_date] {
-    margin-top: 2%;
-    font-size: medium;
-    color: #000;
-}
-
-p[template] {
-    font-size: medium;
-    margin-top: 10%;
-    margin-bottom: 5%;
-}
-
-h1[template] {
-    padding-top: 5%;
-    font-size: large;
-    color: #444;
-}
-
-section[template] {
-    max-width: 700px;
-    margin: 0 auto 48px
-}
-
-@media (width <= 700px) {
-    section[template] {
-        margin-bottom: 38px
-    }
-}
-
-nav[blog] {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding: 10px 0;
-}
-
-nav[blog] button {
-    margin-right: 10px;
-    white-space: nowrap;
-}
-
-[blog] button, [topic_date] button {
-    border-radius: 6px;
-    background: #eee;
-    color: #444;
-    font-size: small;
-    font-weight: 500;
-    padding: 0.2rem 0.6rem;
-    text-align: center;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-[blog] button:hover, [topic_date] button:hover,
-[blog] button.active, [topic_date] button.active {
-    transform: scale(1.1);
-}
-
-[blog] button.active, [topic_date] button.active {
-    transform: scale(1.1);
-    background-color: #d8d8d8;
-}
-
-[template] img {
-    padding-top: 5%;
-    width: 500px;
-    display: block;
-    margin: auto;
-}
-
-p[caption] {
-    font-size: medium;
-    margin-bottom: 5%;
-    display: block;
-    margin: auto;
-    width: 500px;
-    text-align: center;
-}
-
-[template] a {
-    color: #4183C4;
-}
-
-[template] hr {
-    display: block;
-    unicode-bidi: isolate;
-    margin-block-start: 0.5em;
-    margin-block-end: 0.5em;
-    margin-inline-start: auto;
-    margin-inline-end: auto;
-    overflow: hidden;
-    border-style: inset;
-    border-width: 1px;
-    margin-bottom: 5%;
 }
 
 /* ------------------------Report------------------------ */
@@ -1158,6 +961,10 @@ hr {
 
 /* ------------------------Graph------------------------ */
 
+#graphContainer {
+    pointer-events: auto;
+    user-select: none;
+}
 
 #graphView {
     width: 100%;
@@ -1215,74 +1022,43 @@ hr {
     width: 24px; /* Adjusted for better fit */
 }
 
-/* ------------------------Notes------------------------ */
+/* Common styles for Blog and Notes sections */
+#blogPostsContainer,
+#notesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-.section-toggle {
-    background: none;
-    border: none;
-    font-size: x-large;
+.content-section {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.content-section h2 {
     font-weight: 700;
-    cursor: pointer;
-    margin-right: 20px;
-    color: #000;
-    transition: color 0.3s ease;
+    font-size: x-large;
+    margin-bottom: 20px;
 }
 
-.section-toggle.active {
-    text-decoration: underline;
+.content-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
-#noteDirectory {
-    width: 30%;
-    float: left;
-    border-right: 1px solid #eee;
-    height: 600px;
-    overflow-y: auto;
-    background-color: #f9f9f9;
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-#noteDirectory div {
-    padding: 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.3s ease;
-}
-
-#noteDirectory summary {
-    padding: 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-}
-
-#noteDirectory summary:hover {
-    background-color: #eee;
-}
-
-#noteDirectory li {
-    padding: 5px;
-    cursor: pointer;
-    font-size: small;
-    border-bottom: 1px solid #eee;
-}
-
-#noteDirectory li:hover {
-    background-color: #eee;
-}
-
-#noteDirectory div:hover {
-    background-color: #f0f0f0;
-}
-
-#noteEditor {
-    width: 70%;
-    float: right;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-#noteEditor button {
-    margin-top: 2%;
-    margin-bottom: 2%;
+.filter-buttons button,
+.edit-button,
+.save-button,
+.back-button {
     border-radius: 6px;
     background: #eee;
     color: #444;
@@ -1290,151 +1066,348 @@ hr {
     font-weight: 500;
     padding: 0.2rem 0.6rem;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
-}
-
-#noteViewMode, #noteEditMode {
-    width: 100%;
-    height: 500px;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    overflow-y: auto;
-}
-
-#noteContent {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    line-height: 1.6;
-    font-size: 16px;
-}
-
-#noteTextarea {
-    width: 100%;
-    height: 450px;
-    padding: 20px;
-    box-sizing: border-box;
     border: none;
-    resize: vertical;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px;
-    line-height: 1.6;
 }
 
-#notePassword {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 3px;
+.filter-buttons button:hover,
+.filter-buttons button.active,
+.edit-button:hover,
+.save-button:hover,
+.back-button:hover {
+    transform: scale(1.1);
+    background-color: #d8d8d8;
 }
 
-/* Markdown Styles */
-#noteContent h1, #noteContent h2, #noteContent h3 {
-    margin-top: 20px;
+.posts-container {
+    display: grid;
+    gap: 20px;
+}
+
+.post-item {
+    border-radius: 8px;
+    border: 1px solid #f2f2f2;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post-item a.post-title {
+    font-weight: 600;
+    font-size: x-large;
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-item a.post-title:hover {
+    color: #4183C4;
+}
+
+.post-date {
+    font-size: medium;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.post-summary {
+    font-size: medium;
+    color: #444;
     margin-bottom: 10px;
 }
 
-#noteContent p {
-    margin-bottom: 15px;
+.read-more {
+    color: #4183C4;
+    font-size: small;
+    text-decoration: none;
+    align-self: flex-start;
 }
 
-#noteContent ul, #noteContent ol {
-    margin-bottom: 15px;
-    padding-left: 30px;
-}
-
-#noteContent code {
-    background-color: #f0f0f0;
-    padding: 2px 4px;
-    border-radius: 3px;
-}
-
-#noteContent pre {
-    background-color: #f0f0f0;
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
-}
-
-#noteContent blockquote {
-    border-left: 4px solid #4183C4;
-    padding-left: 15px;
-    color: #666;
-    font-style: italic;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    #noteDirectory, #noteEditor {
-        width: 100%;
-        float: none;
-    }
-
-    #noteDirectory {
-        height: 200px;
-        border-right: none;
-        border-bottom: 1px solid #eee;
-    }
-
-    #noteViewMode, #noteEditMode, #noteTextarea {
-        height: 400px;
-    }
-}
-
-.category > summary {
-    cursor: pointer;
-    list-style: none;
-}
-
-.category > summary::before {
-    content: '▶';
-    display: inline-block;
-    width: 20px;
-    transition: transform 0.3s;
-}
-
-.category[open] > summary::before {
-    transform: rotate(90deg);
-}
-
-.category ul {
-    list-style: none;
-    padding-left: 20px;
-}
-
-.note-title {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    padding-left: 15px;
-}
-
-.note-title::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-}
-
-.note-title.selected {
-    text-decoration: underline;
-}
-
-.toggle-container {
-    margin: 10px 10px;
-}
-
-.toggle-container h2[main] {
+/* Ensure proper spacing */
+.post-item > * {
     margin: 0;
 }
 
-.section-toggle.active {
-    text-decoration: underline;
+@media (max-width: 700px) {
+    .post-item {
+        padding: 12px;
+    }
+
+    .post-item a.post-title {
+        font-size: large;
+    }
+
+    .post-date,
+    .post-summary {
+        font-size: small;
+    }
 }
 
-.section-toggle:hover:not(.active) {
-    color: #4183C4;
+.graph-view {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ddd;
+    display: none;
+}
+
+/* Toggle container styles */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-container input[type="checkbox"] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.toggle-container label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 50px;
+    height: 24px;
+    background: #eee;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+}
+
+.toggle-container label:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+}
+
+.toggle-container input:checked + label {
+    background: #d8d8d8;
+}
+
+.toggle-container input:checked + label:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+}
+
+/* Post View styles */
+.post-view {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Styles for rendered Markdown content */
+.post-content, .parsed-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.markdown-header {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+h3.markdown-header {
+    font-size: 1.5em;
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+}
+
+h4.markdown-header {
+    font-size: 1.25em;
+}
+
+/* List styles */
+.markdown-list,
+.post-content ul, .post-content ol,
+.parsed-content ul, .parsed-content ol {
+    padding-left: 1.5em;
+    margin-bottom: 1em;
+    list-style-type: disc; /* Default to filled circle */
+}
+
+/* Nested list styles */
+.markdown-list .markdown-list,
+.parsed-content ul ul, 
+.parsed-content ul ol, 
+.parsed-content ol ul, 
+.parsed-content ol ol {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+    list-style-type: circle; /* Second level: hollow circle */
+}
+
+.markdown-list .markdown-list .markdown-list,
+.parsed-content ul ul ul, 
+.parsed-content ul ol ul, 
+.parsed-content ol ul ul, 
+.parsed-content ol ol ul {
+    list-style-type: square; /* Third level: filled square */
+}
+
+.markdown-list li,
+li {
+    margin-bottom: 0.5em;
+}
+
+/* Task list item styles */
+.task-list-item {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin-left: -1.5em; /* Align checkboxes with text */
+}
+
+.task-list-item input[type="checkbox"] {
+    margin-right: 0.5em;
+}
+
+/* Additional styles for better readability */
+p {
+    margin-bottom: 1em;
+}
+
+strong {
+    font-weight: 600;
+}
+
+/* Additional styles for better readability */
+p {
+    margin-bottom: 1em;
+}
+
+.parsed-content li p {
+    margin-bottom: 0.5em;
+}
+
+strong {
+    font-weight: 600;
+}
+
+/* Custom checkbox styles */
+.checkbox-wrapper-4 * {
+    box-sizing: border-box;
+}
+
+.checkbox-wrapper-4 .inp-cbx {
+    position: absolute;
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.checkbox-wrapper-4 .cbx {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.checkbox-wrapper-4 .cbx:hover {
+    background: rgba(0,119,255,0.06);
+}
+
+.checkbox-wrapper-4 .cbx span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid #cccfdb;
+    transition: all 0.2s ease;
+}
+
+.checkbox-wrapper-4 .cbx span:first-child svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+}
+
+.checkbox-wrapper-4 .cbx span:last-child {
+    margin-left: 8px;
+}
+
+.checkbox-wrapper-4 .cbx:hover span:first-child {
+    border-color: #07f;
+}
+
+.checkbox-wrapper-4 .inp-cbx:checked + .cbx span:first-child {
+    background: #07f;
+    border-color: #07f;
+}
+
+.checkbox-wrapper-4 .inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+}
+
+@keyframes wave-4 {
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .checkbox-wrapper-4 .cbx {
+        width: 100%;
+        display: inline-block;
+    }
+}
+
+/* Edit mode styles */
+.edit-mode {
+    display: none;
+    margin-top: 20px;
+}
+
+#editTextarea {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#editPassword {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+    .content-nav {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-buttons {
+        margin-bottom: 10px;
+    }
+
+    .toggle-container {
+        justify-content: flex-start;
+    }
 }
