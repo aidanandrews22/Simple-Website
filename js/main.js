@@ -23,6 +23,7 @@ let currentFilter = 'all';
 let blogGraphVisible = false;
 let notesGraphVisible = false;
 let rawMarkdownContent = '';
+const NOTE_CATEGORIES = ['School', 'Work', 'Misc', 'Personal'];
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeMarked();
@@ -328,7 +329,7 @@ function loadPost(postId, type) {
                       }
 
                       const toggleContainer = document.getElementById(getToggleContainerId(type));
-                      console.log(getToggleContainerId(type));
+                      // console.log(getToggleContainerId(type));
                       if (toggleContainer) {
                           toggleContainer.style.display = 'none';
                       }
@@ -428,7 +429,7 @@ function initGraph(type, posts) {
   
   const categories = type === 'blog' 
       ? ['Misc', 'CS', 'ML', 'Physics']
-      : ['School', 'Work', 'Misc', 'Personal'];
+      : NOTE_CATEGORIES;
   
   // Add category nodes
   categories.forEach(category => {
@@ -815,32 +816,38 @@ function loadNotes() {
       noteDirectory.innerHTML = '';
       
       const categories = {};
+      NOTE_CATEGORIES.forEach(category => categories[category] = []);
+
       notes.forEach(note => {
-        if (!categories[note.category]) {
-          categories[note.category] = [];
+        if (NOTE_CATEGORIES.includes(note.category)) {
+          categories[note.category].push(note);
+        } else {
+          categories['Misc'].push(note);
         }
-        categories[note.category].push(note);
       });
 
-      for (const [category, categoryNotes] of Object.entries(categories)) {
-        const categoryElement = document.createElement('details');
-        categoryElement.className = 'category';
-        categoryElement.innerHTML = `<summary>${category}</summary>`;
-        
-        const notesList = document.createElement('ul');
-        categoryNotes.forEach(note => {
-          const noteElement = document.createElement('li');
-          noteElement.innerHTML = `<span class="note-title">${note.title}</span>`;
-          noteElement.onclick = () => {
-            loadNote(note.id);
-            document.querySelectorAll('.note-title').forEach(el => el.classList.remove('selected'));
-            noteElement.querySelector('.note-title').classList.add('selected');
-          };
-          notesList.appendChild(noteElement);
-        });
-        
-        categoryElement.appendChild(notesList);
-        noteDirectory.appendChild(categoryElement);
+      for (const category of NOTE_CATEGORIES) {
+        const categoryNotes = categories[category];
+        if (categoryNotes.length > 0) {
+          const categoryElement = document.createElement('details');
+          categoryElement.className = 'category';
+          categoryElement.innerHTML = `<summary>${category}</summary>`;
+          
+          const notesList = document.createElement('ul');
+          categoryNotes.forEach(note => {
+            const noteElement = document.createElement('li');
+            noteElement.innerHTML = `<span class="note-title">${note.title}</span>`;
+            noteElement.onclick = () => {
+              loadNote(note.id);
+              document.querySelectorAll('.note-title').forEach(el => el.classList.remove('selected'));
+              noteElement.querySelector('.note-title').classList.add('selected');
+            };
+            notesList.appendChild(noteElement);
+          });
+          
+          categoryElement.appendChild(notesList);
+          noteDirectory.appendChild(categoryElement);
+        }
       }
     })
     .catch(error => console.error('Error loading notes:', error));
@@ -907,13 +914,13 @@ function saveEdit() {
       return;
   }
 
-  const payload = { content, title, category, password, noteId };
+  // const payload = { content, title, category, password, noteId };
 
-    // Add console log to show all information being sent to AWS Lambda
-    console.log('Information being sent to AWS Lambda:', {
-        ...payload,
-        password: '*****' // Mask the password in the console log for security
-  });
+  //   // Add console log to show all information being sent to AWS Lambda
+  //   console.log('Information being sent to AWS Lambda:', {
+  //       ...payload,
+  //       password: '*****' // Mask the password in the console log for security
+  // });
 
   const params = {
       FunctionName: LAMBDA_FUNCTION_NAME,
@@ -951,20 +958,30 @@ function backToList() {
   const isGraphVisible = currentType === 'blog' ? blogGraphVisible : notesGraphVisible;
   
   if (containerToShow && graphView) {
-      if (isGraphVisible) {
-          containerToShow.style.display = 'none';
-          graphView.style.display = 'block';
-          
-          const graph = currentType === 'blog' ? blogGraph : notesGraph;
-          if (graph) {
-              const width = graphView.clientWidth;
-              const height = graphView.clientHeight;
-              graph.width(width).height(height);
-          }
-      } else {
-          containerToShow.style.display = 'block';
-          graphView.style.display = 'none';
+    if (isGraphVisible) {
+      containerToShow.style.display = 'none';
+      graphView.style.display = 'block';
+      
+      const graph = currentType === 'blog' ? blogGraph : notesGraph;
+      if (graph) {
+          const width = graphView.clientWidth;
+          const height = graphView.clientHeight;
+          graph.width(width).height(height);
       }
+      const toggleSwitch = document.getElementById(getGraphViewToggleId(currentType));
+      if (toggleSwitch) {
+          toggleSwitch.checked = true;
+      }
+    } else {
+      containerToShow.style.display = 'block';
+      graphView.style.display = 'none';
+      
+      // Update the toggle switch state
+      const toggleSwitch = document.getElementById(getGraphViewToggleId(currentType));
+      if (toggleSwitch) {
+          toggleSwitch.checked = false;
+      }
+    }
   } else {
       console.warn(`Some elements for ${currentType} not found`);
   }

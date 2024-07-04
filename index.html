@@ -512,10 +512,10 @@
                 <nav class="content-nav" data-type="notes">
                     <div class="filter-buttons">
                         <button onclick="filterPosts('all', 'notes')">All</button>
+                        <button onclick="filterPosts('School', 'notes')">School</button>
+                        <button onclick="filterPosts('Work', 'notes')">Work</button>
                         <button onclick="filterPosts('Misc', 'notes')">Misc</button>
-                        <button onclick="filterPosts('CS', 'notes')">CS</button>
-                        <button onclick="filterPosts('ML', 'notes')">ML</button>
-                        <button onclick="filterPosts('Physics', 'notes')">Physics</button>
+                        <button onclick="filterPosts('Personal', 'notes')">Personal</button>
                     </div>
                     <div id="action-buttons" class="action-buttons">
                         <button onclick="createNewNote()" class="create-note-button">New</button>
@@ -543,9 +543,9 @@
                         <button onclick="togglePreview()" class="preview-button">Toggle Preview</button>
                         <select id="editCategory" class="category-button">
                             <option class="drop-down" value="Misc">Misc</option>
-                            <option class="drop-down" value="CS">CS</option>
-                            <option class="drop-down" value="ML">ML</option>
-                            <option class="drop-down" value="Physics">Physics</option>
+                            <option class="drop-down" value="School">School</option>
+                            <option class="drop-down" value="Work">Work</option>
+                            <option class="drop-down" value="Personal">Personal</option>
                         </select>
                     </div>
                     <textarea id="editTextarea"></textarea>
