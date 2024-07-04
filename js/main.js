@@ -10,6 +10,8 @@ window.loadPost = loadPost;
 window.toggleGraphView = toggleGraphView;
 window.toggleEditMode = toggleEditMode;
 window.backToList = backToList;
+window.togglePreview = togglePreview;
+window.saveEdit = saveEdit;
 
 let blogGraph;
 let notesGraph;
@@ -305,44 +307,49 @@ function loadPost(postId, type) {
           const parsedContent = parseMarkdown(content);
           const postContent = document.getElementById('postContent');
           if (postContent) {
-            postContent.innerHTML = `
-              <h1 class="post-title">${post.title.replace(/^#+\s/, '')}</h1>
-              <p class="post-date">${formatDate(post.date)}</p>
-              <div class="parsed-content">${parsedContent}</div>
-            `;
-            
-            const containerToHide = document.getElementById(getContainerId(type));
-            if (containerToHide) {
-              containerToHide.style.display = 'none';
-            }
-
-            const postView = document.getElementById('postView');
-            if (postView) {
-              postView.style.display = 'block';
-            }
-
-            const editButton = document.getElementById('editButton');
-            if (editButton) {
-              editButton.style.display = type === 'notes' ? 'block' : 'none';
-            }
-
-            const toggleContainer = document.getElementById(getToggleContainerId(type));
-            if (toggleContainer) {
-              toggleContainer.style.display = 'none';
-            }
-
-            if (type === 'blog') {
-              currentBlogPost = postId;
-              localStorage.setItem('currentBlogPost', postId);
-            } else {
-              currentNote = postId;
-              localStorage.setItem('currentNote', postId);
-            }
-            localStorage.setItem('activeSection', 'postView');
-            localStorage.setItem('currentType', type);
-            updateURL(`${type}/${postId}`);
+              postContent.innerHTML = `
+                  <h1 class="post-title">${post.title.replace(/^#+\s/, '')}</h1>
+                  <p class="post-date">${formatDate(post.date)}</p>
+                  <div class="parsed-content">${parsedContent}</div>
+              `;
+              
+              const containerToHide = document.getElementById(getContainerId(type));
+              if (containerToHide) {
+                  containerToHide.style.display = 'none';
+              }
+  
+              const postView = document.getElementById('postView');
+              if (postView) {
+                  postView.style.display = 'block';
+              }
+  
+              const editButton = document.getElementById('editButton');
+              if (editButton) {
+                  editButton.style.display = type === 'notes' ? 'block' : 'none';
+              }
+  
+              const toggleContainer = document.getElementById(getToggleContainerId(type));
+              if (toggleContainer) {
+                  toggleContainer.style.display = 'none';
+              }
+  
+              if (type === 'blog') {
+                  currentBlogPost = postId;
+                  localStorage.setItem('currentBlogPost', postId);
+              } else {
+                  currentNote = postId;
+                  localStorage.setItem('currentNote', postId);
+              }
+              localStorage.setItem('activeSection', 'postView');
+              localStorage.setItem('currentType', type);
+              updateURL(`${type}/${postId}`);
+  
+              // Reset edit mode
+              const editMode = document.getElementById('editMode');
+              editMode.style.display = 'none';
+              document.getElementById('editButton').textContent = 'Edit';
           } else {
-            console.error('Post content container not found');
+              console.error('Post content container not found');
           }
         })
         .catch(error => {
@@ -709,21 +716,42 @@ function parseMarkdown(content) {
 }
 
 function toggleEditMode() {
-    const viewMode = document.getElementById('postContent');
-    const editMode = document.getElementById('editMode');
-    const editTextarea = document.getElementById('editTextarea');
+  const viewMode = document.getElementById('postContent');
+  const editMode = document.getElementById('editMode');
+  const editTextarea = document.getElementById('editTextarea');
+  const editButton = document.getElementById('editButton');
 
-    if (editMode.style.display === 'none') {
-        // Switching to edit mode
-        editTextarea.value = viewMode.innerText;
-        viewMode.style.display = 'none';
-        editMode.style.display = 'block';
-    } else {
-        // Switching to view mode
-        viewMode.innerHTML = parseMarkdown(editTextarea.value);
-        editMode.style.display = 'none';
-        viewMode.style.display = 'block';
-    }
+  if (editMode.style.display === 'none') {
+      // Switching to edit mode
+      editTextarea.value = viewMode.innerText;
+      viewMode.style.display = 'none';
+      editMode.style.display = 'block';
+      editButton.textContent = 'Cancel';
+  } else {
+      // Switching to view mode
+      editMode.style.display = 'none';
+      viewMode.style.display = 'block';
+      editButton.textContent = 'Edit';
+  }
+}
+
+function togglePreview() {
+  const editTextarea = document.getElementById('editTextarea');
+  const previewContent = document.getElementById('previewContent');
+  const previewButton = document.querySelector('.preview-button');
+
+  if (previewContent.style.display === 'none') {
+      // Show preview
+      previewContent.innerHTML = parseMarkdown(editTextarea.value);
+      previewContent.style.display = 'block';
+      editTextarea.style.display = 'none';
+      previewButton.textContent = 'Edit';
+  } else {
+      // Show editor
+      previewContent.style.display = 'none';
+      editTextarea.style.display = 'block';
+      previewButton.textContent = 'Preview';
+  }
 }
 
 function showViewMode() {
@@ -842,7 +870,12 @@ async function saveNote() {
 function saveEdit() {
   const content = document.getElementById('editTextarea').value;
   const password = document.getElementById('editPassword').value;
-  const postId = localStorage.getItem('currentPost');
+  const postId = localStorage.getItem('currentNote');
+
+  if (!password) {
+      alert('Please enter a password to save the note.');
+      return;
+  }
 
   const params = {
       FunctionName: LAMBDA_FUNCTION_NAME,
@@ -860,6 +893,8 @@ function saveEdit() {
               alert('Note saved successfully!');
               document.getElementById('postContent').innerHTML = parseMarkdown(content);
               toggleEditMode();
+              // Refresh the notes list
+              loadPosts('notes');
           } else if (result.statusCode === 401) {
               alert('Incorrect password. Note not saved.');
           } else {
@@ -868,6 +903,7 @@ function saveEdit() {
       }
   });
 }
+
 
 function backToList() {
   const currentType = localStorage.getItem('currentType') || 'blog';
