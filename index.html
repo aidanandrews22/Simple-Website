@@ -488,7 +488,7 @@
                     <div class="filter-buttons">
                         <button onclick="filterPosts('all', 'blog')">All</button>
                         <button onclick="filterPosts('Misc', 'blog')">Misc</button>
-                        <button onclick="filterPosts('CS', 'blog')">Bio</button>
+                        <button onclick="filterPosts('CS', 'blog')">CS</button>
                         <button onclick="filterPosts('ML', 'blog')">ML</button>
                         <button onclick="filterPosts('Physics', 'blog')">Physics</button>
                     </div>
@@ -513,14 +513,17 @@
                     <div class="filter-buttons">
                         <button onclick="filterPosts('all', 'notes')">All</button>
                         <button onclick="filterPosts('Misc', 'notes')">Misc</button>
-                        <button onclick="filterPosts('CS', 'notes')">Bio</button>
+                        <button onclick="filterPosts('CS', 'notes')">CS</button>
                         <button onclick="filterPosts('ML', 'notes')">ML</button>
                         <button onclick="filterPosts('Physics', 'notes')">Physics</button>
                     </div>
-                    <div class="toggle-container" id="notesToggleContainer">
-                        <input type="checkbox" id="notesGraphViewToggle" onchange="toggleGraphView('notes')">
-                        <label for="notesGraphViewToggle">Toggle Graph View</label>
-                        <span class="toggle-label">Graph View</span>
+                    <div id="action-buttons" class="action-buttons">
+                        <button onclick="createNewNote()" class="create-note-button">New</button>
+                        <div class="toggle-container" id="notesToggleContainer">
+                            <input type="checkbox" id="notesGraphViewToggle" onchange="toggleGraphView('notes')">
+                            <label for="notesGraphViewToggle">Toggle Graph View</label>
+                            <span class="toggle-label">Graph View</span>
+                        </div>
                     </div>
                 </nav>
                 <div id="notesContainer" class="posts-container">
@@ -530,18 +533,27 @@
                     <!-- Notes graph will be rendered here -->
                 </div>
             </section>
-            <!-- Individual Post/Note View Section -->
+            
             <section id="postView" class="post-view" style="display: none;">
                 <button onclick="backToList()" class="back-button">Back</button>
                 <div id="postContent" class="post-content"></div>
-                <button id="editButton" onclick="toggleEditMode()" class="edit-button">Edit</button>
                 <div id="editMode" class="edit-mode" style="display: none;">
+                    <div id="top-note" class="top-note">
+                        <textarea type="text" id="editTitle" placeholder="Note Title"></textarea>
+                        <button onclick="togglePreview()" class="preview-button">Toggle Preview</button>
+                        <select id="editCategory" class="category-button">
+                            <option class="drop-down" value="Misc">Misc</option>
+                            <option class="drop-down" value="CS">CS</option>
+                            <option class="drop-down" value="ML">ML</option>
+                            <option class="drop-down" value="Physics">Physics</option>
+                        </select>
+                    </div>
                     <textarea id="editTextarea"></textarea>
                     <div id="previewContent" class="preview-content" style="display: none;"></div>
                     <input type="password" id="editPassword" placeholder="Enter password to save">
-                    <button onclick="togglePreview()" class="preview-button">Toggle Preview</button>
                     <button onclick="saveEdit()" class="save-button">Save</button>
                 </div>
+                <button id="editButton" onclick="toggleEditMode()" class="edit-button">Edit</button>
             </section>
         </main>
 
