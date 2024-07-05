@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPosts('blog');
   loadPosts('notes');
   applyFilter(currentFilter);
+  addTabCapture('editTextarea');
 
   // Set initial states for graph toggles
   document.getElementById('blogGraphViewToggle').checked = blogGraphVisible;
@@ -665,6 +666,13 @@ function parseMarkdown(content) {
   // Custom renderer
   const renderer = new marked.Renderer();
 
+  renderer.link = (href, title, text) => {
+    if (href) {
+        return `<a href="${href}" style="color: #4183C4 !important; text-decoration: none;" title="${title || ''}">${text}</a>`;
+    }
+    return `<a href="${href}" title="${title || ''}">${text}</a>`;
+  };
+
   // Customize heading rendering
   renderer.heading = (text, level) => {
       return `<h${level} class="markdown-header">${text}</h${level}>`;
@@ -1006,4 +1014,31 @@ function backToList() {
   localStorage.setItem('activeSection', currentType);
   updateURL(currentType);
   applyFilter(currentFilter);
+}
+
+// Function to handle tab key in textarea
+function handleTabKey(event) {
+  if (event.key === 'Tab') {
+      event.preventDefault();
+      
+      const textarea = event.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // Insert tab character
+      textarea.value = textarea.value.substring(0, start) + '\t' + textarea.value.substring(end);
+      
+      // Move cursor to correct position
+      textarea.selectionStart = textarea.selectionEnd = start + 1;
+  }
+}
+
+// Function to add tab capture to a textarea
+function addTabCapture(textareaId) {
+  const textarea = document.getElementById(textareaId);
+  if (textarea) {
+      textarea.addEventListener('keydown', handleTabKey);
+  } else {
+      console.error(`Textarea with id ${textareaId} not found`);
+  }
 }
