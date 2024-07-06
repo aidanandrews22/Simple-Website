@@ -35,6 +35,10 @@ main {
     line-height: 60px;
 }
 
+.footer-content p:last-child {
+    margin-bottom: 40px;
+}
+
 .footer-content p {
     margin-bottom: 0;
 }
@@ -982,6 +986,11 @@ hr {
 #blogContainer .post-item,
 #notesContainer .post-item {
   margin-bottom: 20px;
+}
+
+#blogContainer .post-item:last-of-type,
+#notesContainer .post-item:last-of-type {
+  margin-bottom: 0;
 }
 
 #top-note {

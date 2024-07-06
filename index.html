@@ -480,86 +480,83 @@
                     <a href="/assets/PDF/Aidan Andrews Resume.pdf" target="_blank" class="pdfLink mobile-only" work>View Resume</a>
                     <iframe class="desktop-only" src="/assets/PDF/Aidan Andrews Resume.pdf" width="100%" height="1000"></iframe>
                 </section>
-                
-            <!-- Blog Section -->
-            <section id="blog" class="content-section">
-                <h2>Blog Posts</h2>
-                <nav class="content-nav" data-type="blog">
-                    <div class="filter-buttons">
-                        <button onclick="filterPosts('all', 'blog')">All</button>
-                        <button onclick="filterPosts('Misc', 'blog')">Misc</button>
-                        <button onclick="filterPosts('CS', 'blog')">CS</button>
-                        <button onclick="filterPosts('ML', 'blog')">ML</button>
-                        <button onclick="filterPosts('Physics', 'blog')">Physics</button>
-                    </div>
-                    <div class="toggle-container" id="blogToggleContainer">
-                        <input type="checkbox" id="blogGraphViewToggle" onchange="toggleGraphView('blog')">
-                        <label for="blogGraphViewToggle">Toggle Graph View</label>
-                        <span class="toggle-label">Graph View</span>
-                    </div>
-                </nav>
-                <div id="blogContainer" class="posts-container">
-                    <!-- Blog posts will be dynamically loaded here -->
-                </div>
-                <div id="blogGraphView" class="graph-view">
-                    <!-- Blog graph will be rendered here -->
-                </div>
-            </section>
-
-            <!-- Notes Section -->
-            <section id="notes" class="content-section" style="display:none;">
-                <h2>Notes</h2>
-                <nav class="content-nav" data-type="notes">
-                    <div class="filter-buttons">
-                        <button onclick="filterPosts('all', 'notes')">All</button>
-                        <button onclick="filterPosts('School', 'notes')">School</button>
-                        <button onclick="filterPosts('Work', 'notes')">Work</button>
-                        <button onclick="filterPosts('Misc', 'notes')">Misc</button>
-                        <button onclick="filterPosts('Personal', 'notes')">Personal</button>
-                    </div>
-                    <div id="action-buttons" class="action-buttons">
-                        <button onclick="createNewNote()" class="create-note-button">New</button>
-                        <div class="toggle-container" id="notesToggleContainer">
-                            <input type="checkbox" id="notesGraphViewToggle" onchange="toggleGraphView('notes')">
-                            <label for="notesGraphViewToggle">Toggle Graph View</label>
+            
+                <!-- Blog Section -->
+                <section id="blog" class="content-section" main>
+                    <h2>Blog Posts</h2>
+                    <nav class="content-nav" data-type="blog">
+                        <div class="filter-buttons">
+                            <button onclick="filterPosts('all', 'blog')">All</button>
+                            <button onclick="filterPosts('Misc', 'blog')">Misc</button>
+                            <button onclick="filterPosts('CS', 'blog')">CS</button>
+                            <button onclick="filterPosts('ML', 'blog')">ML</button>
+                            <button onclick="filterPosts('Physics', 'blog')">Physics</button>
+                        </div>
+                        <div class="toggle-container" id="blogToggleContainer">
+                            <input type="checkbox" id="blogGraphViewToggle" onchange="toggleGraphView('blog')">
+                            <label for="blogGraphViewToggle">Toggle Graph View</label>
                             <span class="toggle-label">Graph View</span>
                         </div>
+                    </nav>
+                    <div id="blogContainer" class="posts-container">
+                        <!-- Blog posts will be dynamically loaded here -->
                     </div>
-                </nav>
-                <div id="notesContainer" class="posts-container">
-                    <!-- Notes will be dynamically loaded here -->
-                </div>
-                <div id="notesGraphView" class="graph-view">
-                    <!-- Notes graph will be rendered here -->
-                </div>
-            </section>
-            
-            <section id="postView" class="post-view" style="display: none;">
-                <button onclick="backToList()" class="back-button">Back</button>
-                <div id="postContent" class="post-content"></div>
-                <div id="editMode" class="edit-mode" style="display: none;">
-                    <div id="top-note" class="top-note">
-                        <textarea type="text" id="editTitle" placeholder="Note Title"></textarea>
-                        <button onclick="togglePreview()" class="preview-button">Toggle Preview</button>
-                        <select id="editCategory" class="category-button">
-                            <option class="drop-down" value="Misc">Misc</option>
-                            <option class="drop-down" value="School">School</option>
-                            <option class="drop-down" value="Work">Work</option>
-                            <option class="drop-down" value="Personal">Personal</option>
-                        </select>
+                    <div id="blogGraphView" class="graph-view">
+                        <!-- Blog graph will be rendered here -->
                     </div>
-                    <textarea id="editTextarea"></textarea>
-                    <div id="previewContent" class="preview-content" style="display: none;"></div>
-                    <input type="password" id="editPassword" placeholder="Enter password to save">
-                    <button onclick="saveEdit()" class="save-button">Save</button>
-                </div>
-                <button id="editButton" onclick="toggleEditMode()" class="edit-button">Edit</button>
+                </section>
+
+                <!-- Notes Section -->
+                <section id="notes" class="content-section" style="display:none;" main>
+                    <h2>Notes</h2>
+                    <nav class="content-nav" data-type="notes">
+                        <div class="filter-buttons">
+                            <button onclick="filterPosts('all', 'notes')">All</button>
+                            <button onclick="filterPosts('School', 'notes')">School</button>
+                            <button onclick="filterPosts('Work', 'notes')">Work</button>
+                            <button onclick="filterPosts('Misc', 'notes')">Misc</button>
+                            <button onclick="filterPosts('Personal', 'notes')">Personal</button>
+                        </div>
+                        <div id="action-buttons" class="action-buttons">
+                            <button onclick="createNewNote()" class="create-note-button">New</button>
+                            <div class="toggle-container" id="notesToggleContainer">
+                                <input type="checkbox" id="notesGraphViewToggle" onchange="toggleGraphView('notes')">
+                                <label for="notesGraphViewToggle">Toggle Graph View</label>
+                                <span class="toggle-label">Graph View</span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="notesContainer" class="posts-container">
+                        <!-- Notes will be dynamically loaded here -->
+                    </div>
+                    <div id="notesGraphView" class="graph-view">
+                        <!-- Notes graph will be rendered here -->
+                    </div>
+                </section>
+                <section id="postView" class="post-view" style="display: none;" main>
+                    <button onclick="backToList()" class="back-button">Back</button>
+                    <div id="postContent" class="post-content"></div>
+                    <div id="editMode" class="edit-mode" style="display: none;">
+                        <div id="top-note" class="top-note">
+                            <textarea type="text" id="editTitle" placeholder="Note Title"></textarea>
+                            <button onclick="togglePreview()" class="preview-button">Toggle Preview</button>
+                            <select id="editCategory" class="category-button">
+                                <option class="drop-down" value="Misc">Misc</option>
+                                <option class="drop-down" value="School">School</option>
+                                <option class="drop-down" value="Work">Work</option>
+                                <option class="drop-down" value="Personal">Personal</option>
+                            </select>
+                        </div>
+                        <textarea id="editTextarea"></textarea>
+                        <div id="previewContent" class="preview-content" style="display: none;"></div>
+                        <input type="password" id="editPassword" placeholder="Enter password to save">
+                        <button onclick="saveEdit()" class="save-button">Save</button>
+                    </div>
+                    <button id="editButton" onclick="toggleEditMode()" class="edit-button">Edit</button>
+                </section>
             </section>
         </main>
 
-      <footer footer>
-            <h1 footer>If you encounter any issues or bugs please report them <a href="javascript:void(0);" onclick="showSection('report')" footer>here</a></h1>
-        </footer>
         <footer class="site-footer">
             <div class="footer-content">
                 <h2 main>Contact Me</h2>
@@ -568,5 +565,8 @@
                 <p>LinkedIn: <a href="https://linkedin.com/in/aidanandrewss" target="_blank">aidanandrewss</a></p>
             </div>
         </footer>       
+        <footer footer>
+            <h1 footer>If you encounter any issues or bugs please report them <a href="javascript:void(0);" onclick="showSection('report')" footer>here</a></h1>
+        </footer>
     </body>
 </html>
