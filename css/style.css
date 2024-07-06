@@ -2,7 +2,7 @@ html {
     font-family: Menlo,Monaco,Lucida Console,Courier New,Courier,monospace;
     background: #fff;
     letter-spacing: -.025rem;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 body, figure {
