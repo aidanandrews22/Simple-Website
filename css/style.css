@@ -486,7 +486,7 @@ img[project] {
     article[project] {
         border: none;
         box-shadow: 0 1px 1px #f2f2f2;
-        padding: 0 0 16px
+        padding: 10px 10px 16px
     }
     article[class] {
         border: none;
