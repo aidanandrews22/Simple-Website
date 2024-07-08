@@ -1255,28 +1255,94 @@ input[type="checkbox"] {
     appearance: checkbox;
 }
 
-.custom-list {
-    list-style-type: none;
-    padding-left: 0;
+.preview {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1em;
 }
 
-.checkbox-item {
-    display: flex;
-    align-items: center;
+.markdown-alert {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.markdown-alert-title {
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
-.checkbox-item input[type="checkbox"] {
-    margin-right: 10px;
+.markdown-alert-note {
+    background-color: #f6f8fa;
+    border-color: #0969da;
 }
 
-.non-checkbox-item {
-    margin-bottom: 5px;
+.markdown-alert-tip {
+    background-color: #dafbe1;
+    border-color: #1a7f37;
 }
 
-/* Hide bullet points for non-checkbox items */
-.non-checkbox-item::before {
-    content: none;
+.markdown-alert-important {
+    background-color: #fff8c5;
+    border-color: #9a6700;
+}
+
+.markdown-alert-warning {
+    background-color: #ffebe9;
+    border-color: #cf222e;
+}
+
+.markdown-alert-caution {
+    background-color: #fff1e5;
+    border-color: #bc4c00;
+}
+
+.footnotes {
+    border-top: 1px solid #e1e4e8;
+    margin-top: 30px;
+    padding-top: 15px;
+}
+
+.footnotes ol {
+    padding-left: 20px;
+}
+
+.footnotes li {
+    font-size: 0.9em;
+    color: #6a737d;
+}
+
+[data-footnote-ref] {
+    text-decoration: none;
+    color: #0366d6;
+}
+
+[data-footnote-ref]::before {
+    content: '[';
+}
+
+[data-footnote-ref]::after {
+    content: ']';
+}
+
+[data-footnote-backref] {
+    text-decoration: none;
+    color: #0366d6;
+}
+  
+.preview figcaption {
+    background-color: #f0f0f0;
+    padding: 0.5em;
+    font-weight: bold;
+}
+  
+.preview-showcase {
+    padding: 1em;
+}   
+  
+.preview-code {
+    border-top: 1px solid #ddd;
 }
 
 .toggle-container label {

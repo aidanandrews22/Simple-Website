@@ -641,26 +641,38 @@ function toggleSection(section) {
 }
 
 function initializeMarked() {
-    if (typeof marked !== 'undefined') {
-        markedInstance = new marked.Marked();
-        console.log('Marked initialized successfully');
-    } else {
-        console.error('Marked library not found');
-    }
+  if (typeof marked !== 'undefined' && typeof markedCodePreview !== 'undefined' && 
+      typeof markedHighlight !== 'undefined' && typeof markedAlert !== 'undefined' &&
+      typeof markedFootnote !== 'undefined') {
+      markedInstance = new marked.Marked();
+      markedInstance.use(markedCodePreview());
+      markedInstance.use(markedHighlight.markedHighlight({
+          langPrefix: 'hljs language-',
+          highlight(code, lang) {
+              const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+              return hljs.highlight(code, { language }).value;
+          }
+      }));
+      markedInstance.use(markedAlert());
+      markedInstance.use(markedFootnote());
+      console.log('Marked initialized successfully with code preview, syntax highlighting, alerts, and footnotes');
+  } else {
+      console.error('Marked library or extensions not found');
+  }
 }
 
 function parseMarkdown(content) {
   if (!markedInstance) {
-    console.error('Marked not initialized');
-    return content;
+      console.error('Marked not initialized');
+      return content;
   }
 
   // Configure marked options
   markedInstance.setOptions({
-    gfm: true,
-    breaks: true,
-    headerIds: false,
-    smartLists: true
+      gfm: true,
+      breaks: true,
+      headerIds: false,
+      smartLists: true
   });
 
   // Custom renderer
@@ -668,73 +680,50 @@ function parseMarkdown(content) {
 
   renderer.link = (href, title, text) => {
     if (href) {
-      return `<a href="${href}" style="color: #4183C4 !important; text-decoration: none;" title="${title || ''}">${text}</a>`;
+        return `<a href="${href}" style="color: #4183C4 !important; text-decoration: none;" title="${title || ''}">${text}</a>`;
     }
     return `<a href="${href}" title="${title || ''}">${text}</a>`;
   };
 
   // Customize heading rendering
   renderer.heading = (text, level) => {
-    return `<h${level} class="markdown-header">${text}</h${level}>`;
+      return `<h${level} class="markdown-header">${text}</h${level}>`;
   };
 
   // Customize list rendering
-  renderer.list = (body, ordered) => {
-    const type = ordered ? 'ol' : 'ul';
-    const className = 'custom-list'; // We'll style this to remove default bullets
-    return `<${type} class="${className}">${body}</${type}>`;
+  renderer.list = (body, ordered, start) => {
+      const type = ordered ? 'ol' : 'ul';
+      const className = ordered ? 'markdown-list ordered' : 'markdown-list';
+      return `<${type} class="${className}">${body}</${type}>`;
   };
 
   // Customize list item rendering
   renderer.listitem = (text, task, checked) => {
-    // Handle cases where text might be an object
-    if (typeof text === 'object' && text !== null) {
-      if (text.text) {
-        text = text.text;
-      } else {
-        console.error('Unexpected listitem text object:', text);
-        text = JSON.stringify(text);
+      if (typeof text === 'object' && text.text) {
+          text = text.text;
       }
-    }
 
-    // Ensure text is a string
-    text = String(text);
+      if (typeof text !== 'string') {
+          console.error('Unexpected listitem text:', text);
+          return `<li>${String(text)}</li>`;
+      }
 
-    const checkboxRegex = /^\s*\[([ x])\]\s*(.*)$/i;
-    const match = text.match(checkboxRegex);
+      // Check for bold text at the start (for "Goal:" and "Action:")
+      const boldMatch = text.match(/^(\*\*[^*]+:\*\*)(.*)/);
+      if (boldMatch) {
+          return `<li><strong>${boldMatch[1].replace(/\*/g, '')}</strong>${boldMatch[2]}</li>`;
+      }
 
-    if (task) {
-      // If the marked library has already detected this as a task item
-      return `
-        <li class="checkbox-item">
-          <input type="checkbox" ${checked ? 'checked' : ''} disabled>
-          <span>${text}</span>
-        </li>
-      `;
-    } else if (match) {
-      // If we detect the checkbox syntax ourselves
-      const itemChecked = match[1].toLowerCase() === 'x';
-      const itemText = match[2];
-      return `
-        <li class="checkbox-item">
-          <input type="checkbox" ${itemChecked ? 'checked' : ''} disabled>
-          <span>${itemText}</span>
-        </li>
-      `;
-    } else {
-      // For non-checkbox items, we'll hide the bullet in CSS
-      return `<li class="non-checkbox-item">${text}</li>`;
-    }
+      return `<li>${text}</li>`;
   };
 
   markedInstance.use({ renderer });
-  console.log(markedInstance.parse(content));
 
   try {
-    return markedInstance.parse(content);
+      return markedInstance.parse(content);
   } catch (error) {
-    console.error('Error parsing Markdown:', error);
-    return `<p>Error rendering content: ${error.message}</p>`;
+      console.error('Error parsing Markdown:', error);
+      return `<p>Error rendering content: ${error.message}</p>`;
   }
 }
 
