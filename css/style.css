@@ -1241,6 +1241,44 @@ hr {
     visibility: hidden;
 }
 
+input[type="checkbox"] {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    vertical-align: middle;
+    opacity: 1;
+    position: static;
+    visibility: visible;
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+    appearance: checkbox;
+}
+
+.custom-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.non-checkbox-item {
+    margin-bottom: 5px;
+}
+
+/* Hide bullet points for non-checkbox items */
+.non-checkbox-item::before {
+    content: none;
+}
+
 .toggle-container label {
     cursor: pointer;
     text-indent: -9999px;
