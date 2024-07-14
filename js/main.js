@@ -6,10 +6,12 @@ function formSubmit() {
         showSection(savedSection);
     }, 5000);
 }
+
 function topicPosts(category) {
     backToBlog();
     filterPosts(category);
 }
+
 function filterPosts(category) {
     const buttons = document.querySelectorAll('nav[blog] button');
     buttons.forEach(button => {
@@ -101,7 +103,6 @@ function backToBlog() {
     localStorage.setItem('activeSection', 'blog');
     updateURL('blog');
 }
-
 
 function changeTranscript(type) {
     var iframe = document.getElementById('transcriptFrame');
